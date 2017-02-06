@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block custom_css %}
+  <link type="text/css" rel="stylesheet" href="/static/css/company/job.css" media="screen,projection" />
+{% endblock %}
+
+
+{% block body_block %}
+    <div id="content" style="min-height: calc(100vh - 120px);">
+        <div class="container">
+          <div class="row">
+              <div class="col s12 m10 offset-m1">
+                <div class="card z-depth-2">
+                    
+                    <div class="card-content grey-text text-lighten-5 grey darken-2 z-depth-1">
+                        <span class="card-title"> {{ company }} 
+                          <span class="right card-title"> {{ ctc }} LPA </span>
+                        </span>
+                        
+                          <p class="left"> {{ designation }}  </p>
+                          <p class="right"> {{ job_category }} </p>
+                        <br>
+                        <p class="card-title center"> Deadline  </p>
+                        <p class="center"> 8 February, Wednesday </p>
+                    </div>
+
+
+                    {% if about_company %}
+                      <div class="col s12 m12">
+                        <div class="card short-wide hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                            <div class="card-content activator">
+                              <span class="card-title"> About Company 
+                                <i class="material-icons right">expand_more</i>
+                              </span>
+                              <p class="truncate-main"> {{ about_company }} </p>
+                            </div>
+
+                            <div class="my-card-reveal grey-text text-darken-2 grey lighten-5">
+                              <span class="card-title">About Company <i class="material-icons right">close</i></span>
+                              <p>{{ about_company }}</p>
+                            </div>
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {% if job_description %}
+                      <div class="col s12 m12">
+                        <div class="card short-wide hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                            <div class="card-content activator">
+                              <span class="card-title"> Job Description 
+                                <i class="material-icons right">expand_more</i>
+                              </span>
+                              <p class="truncate-main"> {{ job_description }} </p>
+                            </div>
+
+                            <div class="my-card-reveal grey-text text-darken-2 grey lighten-5">
+                              <span class="card-title"> Job Description <i class="material-icons right">close</i></span>
+                              <p>{{ job_description }}</p>
+                            </div>
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {% if job_requirements %}
+                      <div class="col s12 m12">
+                        <div class="card short-wide hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                            <div class="card-content activator">
+                              <span class="card-title"> Job Requirements 
+                                <i class="material-icons right">expand_more</i>
+                              </span>
+                              <p class="truncate-main"> {{ job_requirements }} </p>
+                            </div>
+
+                            <div class="my-card-reveal grey-text text-darken-2 grey lighten-5">
+                              <span class="card-title"> Job Requirements <i class="material-icons right">close</i></span>
+                              <p>{{ job_requirements }}</p>
+                            </div>
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {% if ctc_details %}
+                      <div class="col s12 m12">
+                        <div class="card short-wide hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                            <div class="card-content activator">
+                              <span class="card-title"> CTC Details 
+                                <i class="material-icons right">expand_more</i>
+                              </span>
+                              <p class="truncate-main"> {{ ctc_details }} </p>
+                            </div>
+
+                            <div class="my-card-reveal grey-text text-darken-2 grey lighten-5">
+                              <span class="card-title"> CTC Details <i class="material-icons right">close</i></span>
+                              <p>{{ ctc_details }}</p>
+                            </div>
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {% if eligibility_criteria %}
+                      <div class="col s12 m12">
+                        <div class="card short-wide hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                            <div class="card-content activator">
+                              <span class="card-title"> Eligibility Criteria
+                                <i class="material-icons right">expand_more</i>
+                              </span>
+                              <p class="truncate-main"> {{ eligibility_criteria }} </p>
+                            </div>
+
+                            <div class="my-card-reveal grey-text text-darken-2 grey lighten-5">
+                              <span class="card-title"> Eligibility Criteria <i class="material-icons right">close</i></span>
+                              <p>{{ eligibility_criteria }}</p>
+                            </div>
+                        </div>
+                      </div>
+                    {% endif %}
+
+                    {% if eligible_branches %}
+                          <div class="col s12 m6">
+                            <div class="card medium-narrow hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                                <div class="card-content">
+                                  <span class="card-title"> Eligible Branches </span>
+                                  {% for branch in eligible_branches %}
+                                    <p class="valign-wrapper"> <i class="tiny material-icons valign">check_box</i> &nbsp; {{ branch }} </p>
+                                  {% endfor %}
+                                </div>
+                            </div>
+                          </div>
+                    {% endif %}
+
+                    {% if selection_procedure %}
+                          <div class="col s12 m6">
+                            <div class="card medium-narrow hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                                <div class="card-content">
+                                  <span class="card-title"> Selection Procedure </span>
+                                  {% for procedure in selection_procedure %}
+                                    <p class="valign-wrapper"> <i class="tiny material-icons valign">check_box</i> &nbsp; {{ procedure }} </p>
+                                  {% endfor %}
+                                </div>
+                            </div>
+                          </div>
+                    {% endif %}
+                    
+                    {% if locations %}
+                          <div class="col s12 m6">
+                            <div class="card short-narrow hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                                <div class="card-content">
+                                  <span class="card-title"> Job Location(s) </span>
+                                  {% for location in locations %}
+                                    <p class="valign-wrapper"> <i class="tiny material-icons valign">check_box</i> &nbsp; {{ location }} </p>
+                                  {% endfor %}
+                                </div>
+                            </div>
+                          </div>
+                    {% endif %}
+
+                    {% if attachments %}
+                          <div class="col s12 m6">
+                            <div class="card short-narrow hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                                <div class="card-content">
+                                  <span class="card-title"> Attachments </span>
+                                  {% for file_name, file_location in attachments %}
+                                    <p class="valign-wrapper"> <i class="tiny material-icons valign">attachment</i> &nbsp; <a href="{{ file_location }}" class="truncate"> {{ file_name }} </a> </p>
+                                  {% endfor %}
+                                </div>
+                            </div>
+                          </div>
+                    {% endif %}
+
+                    {% if number_of_selections %}
+                      <div class="col s12 m6">
+                        <div class="card short-narrow hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                            <div class="card-content">
+                              <span class="card-title"> Expected Selections </span>
+                              <span>&nbsp; {{ number_of_selections }} </span>
+                            </div>
+                        </div>
+                      </div>
+                    {%endif %}
+
+
+                  </div>
+
+                  <div class="section"> </div>
+                  <div class="center">
+                    <a class="waves-effect waves-light grey darken-2 grey-text text-lighten-5 btn-large">
+                      <i class="material-icons left">send</i>
+                      Apply Consent
+                    </a>
+                  </div>
+
+                </div>
+          </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block custom_js %}
+  <script type="text/javascript" src="/static/js/company/job.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.succinct.min.js"></script>
+{% endblock %}

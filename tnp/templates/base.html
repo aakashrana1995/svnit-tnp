@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>
+        {% block title %} {% endblock %}
+      </title>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="/static/css/base.css" media="screen,projection" />
+      {% block custom_css %} {% endblock %}
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+
+    <body id="main_body">
+        <nav class="grey lighten-5">
+          <div class="nav-wrapper container">
+            <a href="/" class="waves-effect brand-logo grey-text text-darken-2"> Training and Placement, SVNIT </a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              {% if user.is_authenticated %}
+                  <li><a href="/consent/home" class="waves-effect grey-text text-darken-2">Welcome {{ user.first_name }}</a></li>
+                  <li><a href="/consent/logout" class="waves-effect grey-text text-darken-2">Logout</a></li>
+              {% else %}
+                  <li><a href="#" class="waves-effect grey-text text-darken-2">Welcome</a></li>
+                  <li><a href="/consent/login" class="waves-effect grey-text text-darken-2">Login</a></li>
+              {% endif %}
+              <li><a href="#" class="waves-effect grey-text text-darken-2">About</a></li>
+            </ul>
+          </div>
+        </nav>
+            
+          
+        {% block body_block %}{% endblock %}
+
+
+          <div class="footer-copyright grey-text text-darken-2 grey lighten-3 z-depth-5" style="height: 120px">
+            <div class="container">
+              <p> © 2017 Copyright SVNIT
+                <a class="grey-text text-darken-2 right" href="#!">More Links</a>
+              </p>
+            </div>
+          </div>
+
+
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script type="text/javascript" src="/static/js/materialize.min.js"></script>
+      
+      {% block custom_js %} {% endblock %}
+    </body>
+  </html>

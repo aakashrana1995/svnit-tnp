@@ -1,0 +1,45 @@
+
+.card.sticky-action .my-card-reveal {
+  z-index: 1;
+  padding-bottom: 64px;
+}
+
+.card .my-card-reveal {
+  padding: 24px;
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  overflow-y: auto;
+  left: 0;
+  top: 100%;
+  height: 100%;
+  z-index: 3;
+  display: none;
+}
+
+.card .my-card-reveal .card-title {
+  cursor: pointer;
+  display: block;
+}
+
+.card .card-title.activator {
+  cursor: pointer;
+}
+
+.activator {
+  cursor: pointer;
+}
+
+.short-wide {
+  height: 140px;
+}
+
+.medium-narrow {
+  height: 200px;
+  overflow: auto;
+}
+
+.short-narrow {
+  height: 140px;
+  overflow: auto;
+}
