@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from company.models import Company, Job, JobLocation, CRPDate, Attachment
+from consent.models import UserConsent
 
 import json
 
@@ -22,11 +23,18 @@ def create_branch_map():
 
 
 def job(request, job_slug):
+    job_dict = {}
     branch_map = create_branch_map()
     job = Job.objects.get(slug=job_slug)
+
+    consent = UserConsent.objects.filter(user=request.user, job=job)
+    
+    if(consent and consent[0].is_valid == True):
+        job_dict['button_id'] = 'cancel'
+    else:
+        job_dict['button_id'] = 'apply'
     
     print (job)
-    job_dict = {}
     job_dict['title'] = job.company.name + ', ' + job.designation
     job_dict['company'] = job.company.name
     job_dict['designation'] = job.designation

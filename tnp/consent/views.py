@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
 from company.models import Company, Job, JobLocation, CRPDate, Attachment, Branch, month_list
-from consent.models import PersonalDetail, EducationDetail, CGPA
+from consent.models import PersonalDetail, EducationDetail, CGPA, UserConsent
 
 from datetime import date
 import itertools as it
@@ -84,6 +84,22 @@ def home(request):
     print (companies_list) 
     return render(request, 'consent/home.html', {'companies_list': companies_list})
  
+
+@login_required
+def apply(request):
+    job_slug = request.GET['job']
+    job = Job.objects.get(slug=job_slug)
+    obj, created = UserConsent.objects.update_or_create(user=request.user, job=job, defaults={'is_valid':True})
+    return HttpResponse('{ "message": "success" }')
+
+
+@login_required
+def cancel(request):
+    job_slug = request.GET['job']
+    job = Job.objects.get(slug=job_slug)
+    UserConsent.objects.filter(user=request.user, job=job).update(is_valid=False)
+    return HttpResponse('{ "message": "success" }')
+
 
 @login_required
 def user_logout(request):

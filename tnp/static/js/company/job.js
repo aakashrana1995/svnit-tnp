@@ -1,3 +1,24 @@
+
+// Runs on page load to determine the type of button (Apply or Cancel Consent)
+$(document).ready(function() {
+    var button = document.getElementById('consent');
+    setButtonProperties(button, button.name);
+});
+
+//Takes the button and formats it according to its state
+function setButtonProperties(button, targetName) {
+    if(targetName == 'apply') {
+        button.className = "waves-effect waves-light grey darken-2 grey-text text-lighten-5 btn-large";
+        button.innerHTML = "Apply Consent";
+        button.name = "apply";
+    }
+    else {
+        button.className = "waves-effect waves-light red darken-2 red-text text-lighten-5 btn-large";
+        button.innerHTML = "Cancel Consent";
+        button.name = "cancel";
+    }
+}
+
 // Used for truncating extra text and putting and ellipsis(...) in the end.
 $(function(){
         $('.truncate-main').succinct({
@@ -5,7 +26,16 @@ $(function(){
         });
     });
 
-
+// This function creates the hover effect by clicking on the elements that activates the card-reveal div.
+$(function(e) {
+    $('.card').hover(
+        function() {
+            $(this).children().first().click();
+        }, function() {
+            $(this).find('.my-card-reveal .card-title').click();
+        }
+    );
+});
 
 /* This function listens to the the clicks on the card title and reveals/hides the 
  card-reveal element accordingly. */
@@ -44,15 +74,35 @@ $(document).ready(function() {
  });
 
 
-// This function creates the hover effect by clicking on the elements that activates the card-reveal div.
-$(function(e) {
-    $('.card').hover(
-        function() {
-            $(this).children().first().click();
-        }, function() {
-            $(this).find('.my-card-reveal .card-title').click();
+$("#consent").click(function(e) {
+    e.preventDefault();
+    var curr_url = window.location.pathname;
+    var url_arr = curr_url.split('/');
+    var job = url_arr[url_arr.length-2];
+
+    var divName = e.target.name;
+    var url, toastMsg, targetName;
+    if(divName=='apply') {
+      url = '/consent/apply?job=' + job;
+      toastMsg = 'Consent successfully applied!';
+      targetName = 'cancel';
+    }
+    else {
+      url = '/consent/cancel?job=' + job;
+      toastMsg = 'Consent successfully cancelled!';
+      targetName = 'apply';
+    }
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        contentType: 'application/json; charset=utf-8',
+        success: function(result) {
+            Materialize.toast(toastMsg, 2000, 'rounded');
+            setButtonProperties(e.target, targetName);
+        },
+        error: function(result) {
+            Materialize.toast('Some error has occured. Please try again!', 2000, 'rounded');
         }
-    );
+    });
 });
-
-

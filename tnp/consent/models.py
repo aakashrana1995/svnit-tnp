@@ -118,13 +118,16 @@ class UserConsent(models.Model):
     job = models.ForeignKey('company.Job', related_name='user_consent')
     is_valid = models.BooleanField(default=True)
 
+    class Meta:
+        unique_together = ('user', 'job')
+
     def __str__(self):
-        return "{}, {}, {}, {}".format(user.get_full_name(), job.company.name, job.designation, is_valid)
+        return "{}, {}, {}, {}".format(self.user.get_full_name(), self.job.company.name, self.job.designation, self.is_valid)
 
 
 class UserDataFields(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
+    slug = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return "{}, {}".format(self.name, self.slug)
