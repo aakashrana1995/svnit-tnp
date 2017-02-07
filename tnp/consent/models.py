@@ -1,5 +1,4 @@
 from django.db import models
-from company.models import Branch
 from django.contrib.auth.models import User
 
 
@@ -8,6 +7,10 @@ CASTE_CATEGORIES = (
     ('GEN', 'General/Open'),
     ('SC', 'SC'),
     ('ST', 'ST'),
+    ('OBC-PH', 'OBC Physically Handicapped'),
+    ('General-PH', 'General Physically Handicapped'),
+    ('SC-PH', 'SC Physically Handicapped'),
+    ('ST-PH', 'ST Physically Handicapped'),
 )
 
 RESULT_TYPES = (
@@ -88,7 +91,7 @@ class EducationDetail(models.Model):
     extrance_exam_score = models.IntegerField(blank=True, null=True)
     entrance_exam = models.CharField(max_length=8, choices=ENTRANCE_EXAM_TYPES, default='JEE_MAIN')
     
-    branch = models.ForeignKey(Branch)
+    branch = models.ForeignKey('company.Branch')
 
     current_backlogs = models.IntegerField(default=0)
     total_backlogs = models.IntegerField(default=0)
@@ -107,5 +110,37 @@ class EducationDetail(models.Model):
             self.user.get_full_name(), 
             self.roll_number,
             cgpa_str,
+        )
+
+
+class UserConsent(models.Model):
+    user = models.ForeignKey(User, related_name='user_consent')
+    job = models.ForeignKey('company.Job', related_name='user_consent')
+    is_valid = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "{}, {}, {}, {}".format(user.get_full_name(), job.company.name, job.designation, is_valid)
+
+
+class UserDataFields(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.CharField(max_length=255)
+
+    def __str__(self):
+        return "{}, {}".format(self.name, self.slug)
+
+class ConsentDeadline(models.Model):
+    job = models.OneToOneField('company.Job', related_name='consent_deadline')
+    deadline = models.DateTimeField()
+    strict = models.BooleanField(default=True) #If strict, consent will be automatically sent to TnP Office after deadline
+    slack_time = models.IntegerField(default=0) #After this no of hours, the consent data will be automatically sent
+    
+    def __str__(self):
+        return "{}, {}, {}, {}, {} hours".format(
+            self.job.company.name,
+            self.job.designation,
+            self.deadline,
+            self.strict,
+            self.slack_time,
         )
 
