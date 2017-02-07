@@ -17,8 +17,8 @@
                     <a href=" {{ company.url }}">
                       <div class="card-content grey-text text-lighten-5 grey darken-2 z-depth-1">
                         <span class="card-title"> {{ company.company }} </span>
-                          {% if company.new_badge %}
-                            <span class="new badge grey lighten-5 grey-text text-darken-2" data-badge-caption="NEW"></span>
+                          {% if company.badge %}
+                            <span class="new badge grey lighten-5 grey-text text-darken-2" data-badge-caption="{{ company.badge }}"></span>
                           {% endif %}
                         <p> {{ company.designation }} </p>
                       </div>

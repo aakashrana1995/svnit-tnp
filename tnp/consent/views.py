@@ -61,10 +61,10 @@ def home(request):
         job_dict["designation"] = job.designation
         job_dict["ctc"] = str(job.ctc)
         job_dict["url"] = "/company/"+job.slug
+        if(job.created_at >= request.user.last_login):
+            job_dict["badge"] = 'NEW'
         if(job.updated_at >= request.user.last_login):
-            job_dict["new_badge"] = 1
-        else:
-            job_dict["new_badge"] = 0
+            job_dict["badge"] = 'UPDATED'
         
         crp = job.crpdate
         
