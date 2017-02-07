@@ -9,13 +9,15 @@ $(document).ready(function() {
 function setButtonProperties(button, targetName) {
     if(targetName == 'apply') {
         button.className = "waves-effect waves-light grey darken-2 grey-text text-lighten-5 btn-large";
-        button.innerHTML = "Apply Consent";
         button.name = "apply";
+        document.getElementById("consent").childNodes[2].nodeValue = "Apply Consent";
+        document.getElementById("button_icon").innerHTML = "send";
     }
     else {
         button.className = "waves-effect waves-light red darken-2 red-text text-lighten-5 btn-large";
-        button.innerHTML = "Cancel Consent";
         button.name = "cancel";
+        document.getElementById("consent").childNodes[2].nodeValue = "Cancel Consent";
+        document.getElementById("button_icon").innerHTML = "clear";
     }
 }
 
