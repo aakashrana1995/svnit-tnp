@@ -49,6 +49,7 @@ def grouper(n, iterable):
     return iter(lambda: list(it.islice(iterable, n)), [])
 
 
+@login_required
 def home(request):
     branch = EducationDetail.objects.get(user=request.user).branch
     jobs = Job.objects.filter(eligible_branches=branch).order_by('-updated_at')
@@ -57,10 +58,16 @@ def home(request):
     companies_list = []
     for job in jobs:
         job_dict = {}
+        consent = UserConsent.objects.filter(user=request.user, job=job)
+        if(consent and consent[0].is_valid == True):
+            job_dict['button_type'] = 'cancel'
+        else:
+            job_dict['button_type'] = 'apply'
+        
         job_dict["company"] = job.company.name
         job_dict["designation"] = job.designation
         job_dict["ctc"] = str(job.ctc)
-        job_dict["url"] = "/company/"+job.slug
+        job_dict["url"] = job.slug
         if(job.created_at >= request.user.last_login):
             job_dict["badge"] = 'NEW'
         if(job.updated_at >= request.user.last_login):
