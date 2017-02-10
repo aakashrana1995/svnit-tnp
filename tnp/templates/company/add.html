@@ -18,7 +18,7 @@
             {% csrf_token %}
             {{ company_form.non_field_errors }}
             <form method="post">
-                <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2">
+                <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
                     <div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
                       <span class="card-title">Company Information</span>
                       <p> 
@@ -26,11 +26,11 @@
                     
                     <div class="section"> </div>
                     <div class="row">
-                        <div class="input-field col s12 m4 offset-m1">
+                        <div class="input-field col s8 offset-s2 m4 offset-m1">
                             {{ company_form.name }}
                             <label for="{{ company_form.name.id_for_label }}" data-error="{{ company_form.name.errors }}"> {{ company_form.name.label }}</label>
                         </div>
-                        <div class="input-field col s12 m4 offset-m2">
+                        <div class="input-field col s8 offset-s2 m4 offset-m2">
                             {{ company_form.crpdate }}
                             <label for="{{ company_form.crpdate.id_for_label }}" data-error="{{ company_form.crpdate.errors }}"> {{ company_form.crpdate.label }}</label>
                         </div>
@@ -38,7 +38,7 @@
 
                     <ul class="collapsible popout" data-collapsible="accordion"> 
                         <li>  
-                            <div class="collapsible-header grey lighten-5 grey-text text-darken-2">
+                            <div class="collapsible-header grey lighten-5 grey-text text-darken-2 waves-effect hoverable">
                                 <span class="col offset-m5">
                                     <i class="material-icons right">expand_more</i>
                                     <strong> ADD MORE DETAILS </strong>
@@ -47,24 +47,24 @@
 
                             <div class="collapsible-body z-depth-1"> 
                                 <div class="row">
-                                    <div class="input-field col s12 m4 offset-m1">
+                                    <div class="input-field col s8 offset-s2 m4 offset-m1">
                                         {{ company_form.about }}
                                         <label for="{{ company_form.about.id_for_label }}" data-error="{{ company_form.about.errors }}"> {{ company_form.about.label }}</label>
                                     </div>
 
-                                    <div class="input-field col s12 m4 offset-m2">
+                                    <div class="input-field col s8 offset-s2 m4 offset-m2">
                                         {{ company_form.infra_req }}
                                         <label for="{{ company_form.infra_req.id_for_label }}" data-error="{{ company_form.infra_req.errors }}"> {{ company_form.infra_req.label }}</label>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-field col s12 m4 offset-m1" id="down_left">
+                                    <div class="input-field col s8 offset-s2 m4 offset-m1" id="down_left">
                                         {{ company_form.website }}
                                         <label for="{{ company_form.website.id_for_label }}" data-error="{{ company_form.website.errors }}"> {{ company_form.website.label }}</label>
                                     </div>
 
-                                    <div class="input-field col s12 m4 offset-m2">
+                                    <div class="input-field col s8 offset-s2 m4 offset-m2">
                                         {{ company_form.other }}
                                         <label for="{{ company_form.other.id_for_label }}" data-error="{{ company_form.other.errors }}"> {{ company_form.other.label }}</label>
                                     </div>
@@ -76,30 +76,30 @@
 
                 <div class="section"> </div>
 
-                <div class="card grey lighten-5 z-depth-2">
+                <div class="card grey lighten-5 z-depth-2 hoverable">
                     <div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
                       <span class="card-title">Job Information</span>
                     </div>
                     <div class="section"> </div>
                     <div class="row">
-                        <div class="input-field col s12 m4 offset-m1">
+                        <div class="input-field col s8 offset-s2 m4 offset-m1">
                             {{ job_form.designation }}
                             <label for="{{ job_form.designation.id_for_label }}" data-error="{{ job_form.designation.errors }}"> {{ job_form.designation.label }}</label>
                         </div>
 
-                        <div class="input-field col s12 m4 offset-m2">
+                        <div class="input-field col s8 offset-s2 m4 offset-m2">
                             {{ job_form.ctc }}
                             <label for="{{ job_form.ctc.id_for_label }}" data-error="{{ job_form.ctc.errors }}"> {{ job_form.ctc.label }}</label>
                         </div>
                     </div>
 
                      <div class="row">
-                        <div class="input-field col s12 m4 offset-m1">
+                        <div class="input-field col s8 offset-s2 m4 offset-m1">
                             {{ job_form.job_type }}
                             <label for="{{ job_form.job_type.id_for_label }}" data-error="{{ job_form.job_type.errors }}"> {{ job_form.job_type.label }}</label>
                         </div>
 
-                        <div class="input-field col s12 m4 offset-m2">
+                        <div class="input-field col s8 offset-s2 m4 offset-m2">
                             {{ job_form.category }}
                             <label for="{{ job_form.category.id_for_label }}" data-error="{{ job_form.category.errors }}"> {{ job_form.category.label }}</label>
                         </div>
@@ -107,7 +107,7 @@
                     
                     <ul class="collapsible popout" data-collapsible="accordion"> 
                         <li>  
-                            <div class="collapsible-header grey lighten-5 grey-text text-darken-2">
+                            <div class="collapsible-header grey lighten-5 grey-text text-darken-2 waves-effect hoverable">
                                 <span class="col offset-m5">
                                     <i class="material-icons right">expand_more</i>
                                     <strong> ADD MORE DETAILS </strong>
@@ -115,23 +115,23 @@
                             </div>
                             <div class="collapsible-body"> 
                                 <div class="row">
-                                    <div class="input-field col s12 m4 offset-m1">
+                                    <div class="input-field col s8 offset-s2 m4 offset-m1">
                                         {{ job_form.description }}
                                         <label for="{{ job_form.description.id_for_label }}" data-error="{{ job_form.description.errors }}"> {{ job_form.description.label }}</label>
                                     </div>
 
-                                    <div class="input-field col s12 m4 offset-m2">
+                                    <div class="input-field col s8 offset-s2 m4 offset-m2">
                                         {{ job_form.requirements }}
                                         <label for="{{ job_form.requirements.id_for_label }}" data-error="{{ job_form.requirements.errors }}"> {{ job_form.requirements.label }}</label>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="input-field col s12 m4 offset-m1">
+                                    <div class="input-field col s8 offset-s2 m4 offset-m1">
                                         {{ job_form.perks }}
                                         <label for="{{ job_form.perks.id_for_label }}" data-error="{{ job_form.perks.errors }}"> {{ job_form.perks.label }}</label>
                                     </div>
-                                    <div class="input-field col s12 m4 offset-m2">
+                                    <div class="input-field col s8 offset-s2 m4 offset-m2">
                                         {{ job_form.ctc_details }}
                                         <label for="{{ job_form.ctc_details.id_for_label }}" data-error="{{ job_form.ctc_details.errors }}"> {{ job_form.ctc_details.label }}</label>
                                     </div>
@@ -142,43 +142,43 @@
 
 
                     <div class="row">
-                        <div class="input-field col s12 m4 offset-m1">
+                        <div class="input-field col s8 offset-s2 m4 offset-m1">
                             {{ job_form.eligibility_criteria }}
                             <label for="{{ job_form.eligibility_criteria.id_for_label }}" data-error="{{ job_form.eligibility_criteria.errors }}"> {{ job_form.eligibility_criteria.label }}</label>
                         </div>
 
-                        <div class="input-field col s12 m4 offset-m2">
+                        <div class="input-field col s8 offset-s2 m4 offset-m2">
                             {{ job_form.other }}
                             <label for="{{ job_form.other.id_for_label }}" data-error="{{ job_form.other.errors }}"> {{ job_form.other.label }}</label>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="input-field col s12 m4 offset-m1">
+                        <div class="input-field col s8 offset-s2 m4 offset-m1">
                             {{ job_form.eligible_branches }}
                             <label for="{{ job_form.eligible_branches.id_for_label }}" data-error="{{ job_form.eligible_branches.errors }}"> {{ job_form.eligible_branches.label }}</label>
                         </div>
 
-                        <div class="input-field col s12 m4 offset-m2">
+                        <div class="input-field col s8 offset-s2 m4 offset-m2">
                             {{ job_form.selection_procedure }}
                             <label for="{{ job_form.selection_procedure.id_for_label }}" data-error="{{ job_form.selection_procedure.errors }}"> {{ job_form.selection_procedure.label }}</label>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="input-field col s12 m4 offset-m1">
+                        <div class="input-field col s8 offset-s2 m4 offset-m1">
                             {{ job_form.bond_details }}
                             <label for="{{ job_form.bond_details.id_for_label }}" data-error="{{ job_form.bond_details.errors }}"> {{ job_form.bond_details.label }}</label>
                         </div>
 
-                        <div class="input-field col s12 m4 offset-m2">
+                        <div class="input-field col s8 offset-s2 m4 offset-m2">
                             {{ job_form.number_of_selections }}
                             <label for="{{ job_form.number_of_selections.id_for_label }}" data-error="{{ job_form.number_of_selections.errors }}"> {{ job_form.number_of_selections.label }}</label>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col s12 m4 offset-m1">
+                        <div class="col s8 offset-s2 m4 offset-m1">
                             <div class="row" id="job_location_formset">
                                 {{ job_location_formset.management_form }}
                                     {% for form in job_location_formset %}
@@ -208,10 +208,25 @@
                                     <i class="material-icons">add</i>
                                 </a>
                             </span>
+                            <div class="row">
+                              <div class="col s8 offset-s2 m4 offset-m1">
+                                  <div class="row">
+                                      <div class="col s12">
+                                      </div>
+                                  </div>
+                              </div>
+                              
+                              <div class="col s8 offset-s2 m4 offset-m2">
+                                  <div class="row">
+                                      <div class="col s12">
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
 
 
-                        <div class="col s12 m4 offset-m2">
+                        <div class="col s8 offset-s2 m4 offset-m2">
                             <div class="row" id="attachment_formset">
                                 {{ attachment_formset.management_form }}
                                     {% for form in attachment_formset %}
@@ -247,14 +262,14 @@
                             </span>
 
                             <div class="row">
-                              <div class="col s12 m4 offset-m1">
+                              <div class="col s8 offset-s2 m4 offset-m1">
                                   <div class="row">
                                       <div class="col s12">
                                       </div>
                                   </div>
                               </div>
                               
-                              <div class="col s12 m4 offset-m2">
+                              <div class="col s8 offset-s2 m4 offset-m2">
                                   <div class="row">
                                       <div class="col s12">
                                       </div>
@@ -267,26 +282,26 @@
 
                 <div class="section"> </div>
 
-                <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2">
+                <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
                     <div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
                       <span class="card-title">Consent Information</span>
                     </div>
                     <div class="section"> </div>
                     <div class="row">
-                        <div class="input-field col s12 m4 offset-m1" id="deadline">
+                        <div class="input-field col s8 offset-s2 m4 offset-m1" id="deadline">
                             {{ consent_deadline_form.deadline }}
                             <label for="{{ consent_deadline_form.deadline.id_for_label }}" data-error="{{ consent_deadline_form.deadline.errors }}"> 
                             {{ consent_deadline_form.deadline.label }}</label>
                         </div>
                         
-                        <div class="input-field col s12 m4 offset-m1">
+                        <div class="input-field col s8 offset-s2 m4 offset-m1">
                             <label for="timepicker">Time</label>
                             <input id="timepicker" class="timepicker" type="time">
                         </div>
                     </div>
                     
                     <div class="row">
-                        <div class="col s12 m4 offset-m1">
+                        <div class="col s8 offset-s2 m4 offset-m1">
                             <div class="row">
                                 <div class="col s12">
                                     <ul class="collection activator" id="A" style="text-align: center;">
@@ -301,7 +316,7 @@
                             </div>
                         </div>
                         
-                        <div class="col s12 m5 offset-m1">
+                        <div class="col s8 offset-s2 m5 offset-m1">
                             <div class="row">
                                 <center><h5>Available Fields</h5></center>
                                 <div class="col s6">
@@ -326,7 +341,9 @@
                         </div>
                     </div>
                 </div>
-                <center> <input type="submit" value="Submit" /> </center>
+                <center>
+                    <input class="waves-effect waves-light btn-large grey darken-2 grey-text text-lighten-5" type="submit" value="Add Company">
+                </center>
             </form>
         </div>
     </div>
