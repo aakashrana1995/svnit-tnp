@@ -128,9 +128,19 @@ class UserConsent(models.Model):
 class UserDataFields(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.CharField(max_length=255, unique=True)
+    default_position = models.IntegerField(default=0);
 
     def __str__(self):
         return "{}, {}".format(self.name, self.slug)
+
+
+class FieldOrder(models.Model):
+    job = models.ForeignKey('company.Job', related_name='field_order')
+    field = models.ForeignKey('UserDataFields', related_name='field_order')
+    position = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return "{}, {}, {}, {}".format(self.job.company.name, self.job.designation, self.field, self.position)
 
 class ConsentDeadline(models.Model):
     job = models.OneToOneField('company.Job', related_name='consent_deadline')
