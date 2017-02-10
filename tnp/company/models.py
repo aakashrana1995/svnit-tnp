@@ -31,12 +31,6 @@ DEGREES = (
     ('MSC', 'MSc'),
 )
 
-CRP_DATATYPE = (
-    ('MON', 'Month'),
-    ('WOM', 'Week of Month'),
-    ('DAT', 'Date'),
-)
-
 WEEK_NUMBER = (
     ('F', 'First'),
     ('S', 'Second'),
@@ -75,9 +69,9 @@ class Company(models.Model):
     name = models.CharField(max_length=255, unique=True)
     website = models.URLField(max_length=255, blank=True, null=True)
     about = models.TextField(max_length=5000, blank=True, null=True)
-    perks = models.TextField(max_length=5000, blank=True, null=True)
     infra_req =  models.TextField(max_length=5000, blank=True, null=True)
     other = models.TextField(max_length=5000, blank=True, null=True)
+    crpdate = models.DateField(blank=True, null=True)
     created_at = models.DateTimeField('date created', auto_now_add=True)
     updated_at = models.DateTimeField('date updated', auto_now=True)
 
@@ -149,6 +143,7 @@ class Job(models.Model):
     designation = models.CharField(max_length=255, unique=True)
     description = models.TextField(max_length=5000, blank=True, null=True)
     requirements = models.TextField(max_length=5000, blank=True, null=True)
+    perks = models.TextField(max_length=5000, blank=True, null=True)
     category = models.ForeignKey('PlacementCategory', related_name='job') #Super Dream, A,B C
     job_type = models.ForeignKey('JobType', related_name='job') #Core (Dev, PSU, Automobile), Non-Core (BA, Sales, Operations)
     eligible_branches = models.ManyToManyField('Branch')
@@ -173,22 +168,3 @@ class Job(models.Model):
 
     def __str__(self):
         return "{}, {}, {} LPA".format(self.company, self.designation, self.ctc)
-
-
-class CRPDate(models.Model):
-    job = models.OneToOneField('Job', related_name='crpdate')
-    datatype = models.CharField(max_length=3, choices=CRP_DATATYPE)
-    month = models.IntegerField(blank=True, null=True)
-    date = models.DateField(blank=True, null=True)
-    week_number = models.CharField(max_length=1, choices=WEEK_NUMBER, blank=True, null=True)
-    created_at = models.DateTimeField('date created', auto_now_add=True)
-    updated_at = models.DateTimeField('date updated', auto_now=True)
-
-    def __str__(self):
-        if(self.datatype == 'DAT'):
-            return "{}, {} {} {}".format(self.job.company, self.date.day, month_list[self.date.month-1], self.date.year)
-        elif (self.datatype == 'MON'):
-            return "{}, {}".format(self.job.company, self.month)
-        elif (self.datatype == 'WOM'):
-            return "{}, {} week of {}".format(self.job.company, self.week_number, month_list[self.month])
-
