@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.models import User
-from company.models import Company, Job, JobLocation, CRPDate, Attachment, Branch, month_list
+from company.models import Company, Job, JobLocation, Attachment, Branch, month_list
 from consent.models import PersonalDetail, EducationDetail, CGPA, UserConsent
 
 from datetime import date
@@ -73,18 +73,6 @@ def home(request):
         if(job.updated_at >= request.user.last_login):
             job_dict["badge"] = 'UPDATED'
         
-        crp = job.crpdate
-        
-        if (crp.datatype == 'DAT'):
-            crpdate_str = str(crp.date)
-        elif (crp.datatype == 'MON'):
-            crpdate_str = month_list[crp.month]
-        elif (crp.datatype == 'WOM'):
-            crpdate_str = crp + ' week of ' + crp.month
-        else:
-            crpdate_str = 'Not Available'
-
-        job_dict["date"] = crpdate_str
         companies_list.append(job_dict)
 
     companies_list = list(grouper(3,companies_list))
