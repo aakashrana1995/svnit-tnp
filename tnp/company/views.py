@@ -1,11 +1,45 @@
 from django.shortcuts import render
-
 from django.http import HttpResponse
+from django.forms import formset_factory
 
-from company.models import Company, Job, JobLocation, CRPDate, Attachment
-from consent.models import UserConsent
+from company.models import Company, Job, JobLocation, Attachment
+from consent.models import UserConsent, UserDataFields
+from company.forms import CompanyForm, JobForm, ConsentDeadlineForm, JobLocationForm, AttachmentForm
 
 import json
+
+
+def add(request):
+    if (request.method == 'POST'):
+        return HttpResponse("Aakash says hello world!")
+    else:
+        company_form = CompanyForm(prefix='company_form', label_suffix='')
+        job_form = JobForm(prefix='job_form', label_suffix='')
+        JobLocationFormSet = formset_factory(JobLocationForm, can_delete=True)
+        consent_deadline_form = ConsentDeadlineForm(prefix='consent_deadline_form')
+        AttachmentFormSet = formset_factory(AttachmentForm, can_delete=True)
+        
+        job_location_formset = JobLocationFormSet(prefix='job_location')
+        attachment_formset = AttachmentFormSet(prefix='attachment')
+
+        default_fields = UserDataFields.objects.filter(default_position__gte=1).order_by(
+            'default_position').values_list('slug', 'name')
+        optional_fields = UserDataFields.objects.filter(default_position=0).values_list('slug', 'name')
+        half = int(len(optional_fields)/2)
+        optional_fields_1 = optional_fields[:half]
+        optional_fields_2 = optional_fields[half:]
+
+        return render(request, 'company/add.html', {
+                'company_form': company_form,
+                'job_form': job_form,
+                'job_location_formset': job_location_formset,
+                'consent_deadline_form': consent_deadline_form,
+                'attachment_formset': attachment_formset,
+                'default_fields': default_fields,
+                'optional_fields_1': optional_fields_1,
+                'optional_fields_2': optional_fields_2,
+            })
+
 
 def create_branch_map():
     branch_map = {}
@@ -129,3 +163,4 @@ def job(request, job_slug):
     print (job_dict)
     #return HttpResponse(json.dumps(job_dict))
     return render(request, 'company/job.html', job_dict)
+
