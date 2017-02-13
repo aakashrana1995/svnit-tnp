@@ -140,21 +140,20 @@ class SelectionProcedure(models.Model):
 class Job(models.Model):
     company = models.ForeignKey('Company', related_name='job')
     slug = models.SlugField(null=True, blank=True)
-    designation = models.CharField(max_length=255, unique=True)
+    designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(max_length=5000, blank=True, null=True)
     requirements = models.TextField(max_length=5000, blank=True, null=True)
     perks = models.TextField(max_length=5000, blank=True, null=True)
-    category = models.ForeignKey('PlacementCategory', related_name='job') #Super Dream, A,B C
-    job_type = models.ForeignKey('JobType', related_name='job') #Core (Dev, PSU, Automobile), Non-Core (BA, Sales, Operations)
+    category = models.ForeignKey('PlacementCategory', related_name='job', blank=True, null=True) #Super Dream, A,B C
+    job_type = models.ForeignKey('JobType', related_name='job', blank=True, null=True) #Core (Dev, PSU, Automobile), Non-Core (BA, Sales, Operations)
     eligible_branches = models.ManyToManyField('Branch')
     eligibility_criteria = models.TextField(max_length=5000, blank=True, null=True)
-    ctc = models.DecimalField(max_digits=4, decimal_places=2, blank=True)
+    ctc = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     ctc_details = models.TextField(max_length=5000, blank=True, null=True) 
     bond_details = models.CharField(max_length=255, blank=True, null=True)
-    selection_procedure = models.ManyToManyField('SelectionProcedure')
+    selection_procedure = models.ManyToManyField('SelectionProcedure', blank=True)
     number_of_selections = models.IntegerField(blank=True, null=True)
     other = models.TextField(max_length=5000, blank=True, null=True)
-    required_data_fields = models.ManyToManyField('consent.UserDataFields')
     created_at = models.DateTimeField('date created', auto_now_add=True)
     updated_at = models.DateTimeField('date updated', auto_now=True)
 

@@ -51,6 +51,7 @@ class PersonalDetail(models.Model):
     caste_category = models.CharField(max_length=3, choices=CASTE_CATEGORIES, default='GEN')
     phone_number = models.CharField(max_length=10, unique=True)
     current_address = models.TextField(max_length=5000, blank=True, null=True)
+    hometown = models.CharField(max_length=255, blank=True, null=True)
     current_residence_city = models.CharField(max_length=255, blank=True, null=True)
     current_residence_state = models.CharField(max_length=255, blank=True, null=True)
     premanent_address = models.TextField(max_length=5000, blank=True, null=True)
@@ -137,6 +138,7 @@ class UserDataFields(models.Model):
 class FieldOrder(models.Model):
     job = models.ForeignKey('company.Job', related_name='field_order')
     field = models.ForeignKey('UserDataFields', related_name='field_order')
+    optional = models.IntegerField(blank=True, null=True)
     position = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
