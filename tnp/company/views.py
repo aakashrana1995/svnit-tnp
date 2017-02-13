@@ -3,24 +3,77 @@ from django.http import HttpResponse
 from django.forms import formset_factory
 
 from company.models import Company, Job, JobLocation, Attachment
-from consent.models import UserConsent, UserDataFields
-from company.forms import CompanyForm, JobForm, ConsentDeadlineForm, JobLocationForm, AttachmentForm
+from consent.models import UserConsent, UserDataFields, ConsentDeadline, FieldOrder
+from company.forms import CompanyForm, JobForm, AttachmentForm, ConsentDeadlineForm 
 
 import json
+from datetime import datetime
 
 
 def add(request):
     if (request.method == 'POST'):
+        company_form = CompanyForm(prefix="company_form", data=request.POST)
+        job_form = JobForm(prefix="job_form", data=request.POST)
+        attachment_form = AttachmentForm(prefix='attachment_form', files=request.FILES)
+        consent_deadline_form = ConsentDeadlineForm(prefix='consent_deadline_form', data=request.POST)
+        
+        print (company_form.errors.as_data())
+        print (job_form.errors.as_data())
+        print (attachment_form.errors.as_data())
+        print (consent_deadline_form.errors.as_data())
+
+
+        if company_form.is_valid() and job_form.is_valid() and attachment_form.is_valid() and consent_deadline_form.is_valid():
+            #print ('valid')
+            company = company_form.save()
+            #company = Company.objects.latest('id')
+            job = job_form.save(commit=False)
+            job.company = company
+            job.save()
+            job_form.save_m2m()
+            
+            locations = request.POST.getlist('location');
+            for loc in locations:
+                print (loc)
+                if(len(loc)>0):
+                    JobLocation.objects.create(job=job, location=loc)
+            
+            files = request.FILES.getlist('attachment_form-file')
+            for f in files:
+                instance = Attachment(file=f)
+                instance.job = job
+                instance.save()
+            
+            deadline_date = consent_deadline_form.cleaned_data['deadline_date']
+            deadline_time = consent_deadline_form.cleaned_data['deadline_time']
+            slack_time = consent_deadline_form.cleaned_data['slack_time']
+            
+            deadline = datetime.combine(deadline_date, deadline_time)
+            ConsentDeadline.objects.create(job=job, deadline=deadline, slack_time=slack_time)
+            
+            consent_format = request.POST.getlist('A');
+            cgpa_type = 'cgpa_upto_semester'
+            
+            position = 1
+            for slug in consent_format:
+                print (slug)
+                if (slug in ['cgpa_of_semester', 'cgpa_upto_semester']):
+                    cgpa_type = slug
+                else:
+                    if (len(slug)<=2):
+                        field = UserDataFields.objects.get(slug=cgpa_type)
+                        FieldOrder.objects.create(job=job, field=field, optional=int(slug), position=position)
+                    else:
+                        field = UserDataFields.objects.get(slug=slug)
+                        FieldOrder.objects.create(job=job, field=field, position=position)
+                    position += 1
+
         return HttpResponse("Aakash says hello world!")
     else:
         company_form = CompanyForm(prefix='company_form', label_suffix='')
         job_form = JobForm(prefix='job_form', label_suffix='')
-        JobLocationFormSet = formset_factory(JobLocationForm, can_delete=True)
-        consent_deadline_form = ConsentDeadlineForm(prefix='consent_deadline_form')
-        AttachmentFormSet = formset_factory(AttachmentForm, can_delete=True)
-        
-        job_location_formset = JobLocationFormSet(prefix='job_location')
-        attachment_formset = AttachmentFormSet(prefix='attachment')
+        attachment_form = AttachmentForm(prefix='attachment_form', label_suffix='')
+        consent_deadline_form = ConsentDeadlineForm(prefix='consent_deadline_form', label_suffix='')
 
         default_fields = UserDataFields.objects.filter(default_position__gte=1).order_by(
             'default_position').values_list('slug', 'name')
@@ -32,9 +85,8 @@ def add(request):
         return render(request, 'company/add.html', {
                 'company_form': company_form,
                 'job_form': job_form,
-                'job_location_formset': job_location_formset,
+                'attachment_form': attachment_form,
                 'consent_deadline_form': consent_deadline_form,
-                'attachment_formset': attachment_formset,
                 'default_fields': default_fields,
                 'optional_fields_1': optional_fields_1,
                 'optional_fields_2': optional_fields_2,
