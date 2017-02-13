@@ -137,3 +137,20 @@ MEDIA_URL = '/media/'
 
 
 LOGIN_URL = '/consent/login'
+
+DATE_INPUT_FORMATS =   [
+    '%b %d %Y',      # 'Oct 25 2006'
+    '%b %d, %Y',     # 'Oct 25, 2006'
+    '%d %b %Y',      # '25 Oct 2006'
+    '%d %b, %Y',     # '25 Oct, 2006'
+    '%B %d %Y',      # 'October 25 2006'
+    '%B %d, %Y',     # 'October 25, 2006'
+    '%d %B %Y',      # '25 October 2006'
+    '%d %B, %Y',     # '25 October, 2006'
+]
+
+TIME_INPUT_FORMATS = [
+    '%H:%M:%S',     # '14:30:59'
+    '%H:%M',        # '14:30'
+    '%I:%M%p'       # '14:30PM'
+]
