@@ -18,12 +18,8 @@ def index(request):
 
 def login_user(request):
     if request.method == 'POST':
-        email = request.POST.get('email')
+        username = request.POST.get('username').upper()
         password = request.POST.get('password')
-        if (email):
-        	username = User.objects.get(email=email).username
-        else:
-        	username = None
 
         user = authenticate(username=username, password=password)
 
