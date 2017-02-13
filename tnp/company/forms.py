@@ -1,17 +1,18 @@
-from django.forms import ModelForm, Textarea
+from django import forms
 
 from django.utils.translation import ugettext_lazy as _
 
+from tnp.settings import TIME_INPUT_FORMATS, DATE_INPUT_FORMATS
 
 from company.models import Company, Job, JobLocation, Attachment 
 from consent.models import ConsentDeadline
 
 
-class CompanyForm(ModelForm):
+class CompanyForm(forms.ModelForm):
+    crpdate = forms.DateField(input_formats=DATE_INPUT_FORMATS, required=False)
     class Meta:
         model = Company
         exclude = ['created_at', 'updated_at']
-
         labels = {
             'name': _('Company Name'),
             'website': _('Website (start with "http://")'),
@@ -21,11 +22,11 @@ class CompanyForm(ModelForm):
             'crpdate': _('Campus Recruitment Date'),
         }
         widgets = {
-            'infra_req': Textarea(),
+            'infra_req': forms.Textarea(),
         }
         
 
-class JobForm(ModelForm):
+class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         exclude = ['company', 'slug', 'created_at', 'updated_at']
@@ -47,8 +48,26 @@ class JobForm(ModelForm):
             'other': _('Other details (if any)'),
         }
 
+
+class AttachmentForm(forms.Form):
+    file = forms.FileField(required=False, widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+
+class ConsentDeadlineForm(forms.Form):
+    deadline_date = forms.DateField(input_formats=DATE_INPUT_FORMATS)
+    deadline_time = forms.TimeField(input_formats=TIME_INPUT_FORMATS)
+    slack_time = forms.IntegerField(initial='0')
+
+    labels = {
+        'deadline_date': _('Consent Deadline'),
+        'deadline_time': _('Time'),
+        'slack_time': _('Slack Time (in hours)'),
+    }
+
+
+"""
 # Need to be a formset
-class JobLocationForm(ModelForm):
+class JobLocationForm(forms.ModelForm):
     class Meta:
         model = JobLocation
         fields = ['location']
@@ -58,19 +77,9 @@ class JobLocationForm(ModelForm):
         }
 
 
-
-class ConsentDeadlineForm(ModelForm):
-    class Meta:
-        model = ConsentDeadline
-        fields = ['deadline', 'slack_time']
-
-        labels = {
-            'deadline': _('Consent Deadline'),
-            'slack_time': _('Slack Time'),
-        }
-
-
-class AttachmentForm(ModelForm):
+class AttachmentForm(forms.ModelForm):
     class Meta:
         model = Attachment
         fields = ['file']
+
+"""
