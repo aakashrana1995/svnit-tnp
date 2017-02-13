@@ -15,9 +15,9 @@
     <div class="container">
         <div class="section"> </div>
         <div class="row">
-            {% csrf_token %}
-            {{ company_form.non_field_errors }}
-            <form method="post">
+            <h4> {{ company_form.non_field_errors }} </h4>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
                     <div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
                       <span class="card-title">Company Information</span>
@@ -27,8 +27,8 @@
                     <div class="section"> </div>
                     <div class="row">
                         <div class="input-field col s8 offset-s2 m4 offset-m1">
+                            <label for="{{ company_form.name.id_for_label }}""> {{ company_form.name.label }}</label>
                             {{ company_form.name }}
-                            <label for="{{ company_form.name.id_for_label }}" data-error="{{ company_form.name.errors }}"> {{ company_form.name.label }}</label>
                         </div>
                         <div class="input-field col s8 offset-s2 m4 offset-m2">
                             {{ company_form.crpdate }}
@@ -154,7 +154,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="input-field col s8 offset-s2 m4 offset-m1">
+                        <div class="input-field col s8 offset-s2 m4 offset-m1" id="eligible_branches">
                             {{ job_form.eligible_branches }}
                             <label for="{{ job_form.eligible_branches.id_for_label }}" data-error="{{ job_form.eligible_branches.errors }}"> {{ job_form.eligible_branches.label }}</label>
                         </div>
@@ -180,24 +180,22 @@
                     <div class="row">
                         <div class="col s8 offset-s2 m4 offset-m1">
                             <div class="row" id="job_location_formset">
-                                {{ job_location_formset.management_form }}
-                                    {% for form in job_location_formset %}
                                     <div class="col s12 element">
                                         <i class="material-icons grey-text text-darken-2" href="javascript:void(0)" style="margin-top: 35px;">place</i>
                                         <div class="input-field right">
-                                          {{ form.location }}
-                                          <label for="{{ form.location.id_for_label }}" data-error="{{ form.location.errors }}"> {{ form.location.label }}</label>
+                                          <input type="text" id="id_job_location_form-0-location" name="location">
+                                          <label for="id_job_location_form-0-location"> Location </label>
                                         </div>
                                     </div>
-                                {% endfor %}
                             </div>
 
                             <div class="row" id="empty_form" style="display: none;">
+                                <input type="hidden" id="id_job_location-TOTAL_FORMS" value="1">
                                 <div class="col s12 element">
                                     <i class="material-icons red-text remove activator" href="javascript:void(0)" style="margin-top: 35px;">clear</i>
                                     <div class="input-field right">
-                                      {{ job_location_formset.empty_form.location }}
-                                      <label for="{{ job_location_formset.empty_form.location.id_for_label }}" data-error="{{ job_location_formset.empty_form.location.errors }}"> {{ job_location_formset.empty_form.location.label }}</label>
+                                        <input type="text" id="id_job_location-__prefix__-location"" name="location">
+                                        <label for="id_job_location-__prefix__-location""> Location </label>
                                     </div>
                                 </div>
                             </div>
@@ -228,38 +226,19 @@
 
                         <div class="col s8 offset-s2 m4 offset-m2">
                             <div class="row" id="attachment_formset">
-                                {{ attachment_formset.management_form }}
-                                    {% for form in attachment_formset %}
+                                <input type="hidden" id="id_attachment-TOTAL_FORMS" name="id_attachment-TOTAL_FORMS" value="1">
                                     <div class="col s12 element">
                                         <i class="material-icons grey-text text-darken-2 left" style="margin-top: 25px;">attach_file</i>
                                         <div class="file-field input-field">
-                                            <div class="waves-effect waves-light btn grey darken-2 grey-text text-lighten-5">
-                                                File <span class="filename"> {{ form.file }} </span>
+                                             <div class="waves-effect waves-light btn grey darken-2 grey-text text-lighten-5">
+                                                Attach Fields <span class="filename">
+                                                {{ attachment_form.file }}
+                                           </span>
                                             </div>
-                                              <span class="col s6 truncate" style="padding-top: 12px;"> No file chosen </span>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <div class="row" id="empty_form_attachment" style="display: none;">
-                                    <div class="col s12 element">
-                                        <i class="material-icons activator red-text delete_file left" style="margin-top: 25px;">clear</i>
-                                        <div class="file-field input-field">
-                                            <div class="waves-effect waves-light btn grey darken-2 grey-text text-lighten-5">
-                                                File <span class="filename"> 
-                                                {{ attachment_formset.empty_form.file }} </span>
-                                            </div>
-                                            <span class="col s6 truncate" style="padding-top: 12px;"> No file chosen </span>
+                                            <span class="col s10 offset-s1" class="truncate" style="padding-top: 12px;"> No file chosen </span>
                                         </div>
                                     </div>
                             </div>
-
-                            <span class="right">
-                                <span style="font-size: 12px;"> Add more attachments &nbsp; &nbsp;</span>
-                                <a id="add_more_files" class="btn-floating btn waves-effect waves-light grey darken-2">
-                                    <i class="material-icons">add</i>
-                                </a>
-                            </span>
 
                             <div class="row">
                               <div class="col s8 offset-s2 m4 offset-m1">
@@ -288,15 +267,19 @@
                     </div>
                     <div class="section"> </div>
                     <div class="row">
-                        <div class="input-field col s8 offset-s2 m4 offset-m1" id="deadline">
-                            {{ consent_deadline_form.deadline }}
-                            <label for="{{ consent_deadline_form.deadline.id_for_label }}" data-error="{{ consent_deadline_form.deadline.errors }}"> 
-                            {{ consent_deadline_form.deadline.label }}</label>
+                        <div class="input-field col s4 offset-s2 m3 offset-m1">
+                            <label for="{{ consent_deadline_form.deadline_date.id_for_label }}">Consent Deadline</label>
+                            {{ consent_deadline_form.deadline_date }}
                         </div>
                         
-                        <div class="input-field col s8 offset-s2 m4 offset-m1">
-                            <label for="timepicker">Time</label>
-                            <input id="timepicker" class="timepicker" type="time">
+                        <div class="input-field col s4 offset-s1 m2 offset-m1">
+                            <label for="{{ consent_deadline_form.deadline_time.id_for_label }}">{{ consent_deadline_form.deadline_time.label }}</label>
+                            {{ consent_deadline_form.deadline_time }}
+                        </div>
+
+                        <div class="input-field col s4 offset-s2 m2 offset-m1">
+                            <label for="{{ consent_deadline_form.slack_time.id_for_label }}">{{ consent_deadline_form.slack_time.label }} </label>
+                            {{ consent_deadline_form.slack_time }}
                         </div>
                     </div>
                     
@@ -305,10 +288,10 @@
                             <div class="row">
                                 <div class="col s12">
                                     <ul class="collection activator" id="A" style="text-align: center;">
-                                        <li class="collection-header"><h5>Consent Format</h5></li>
+                                        <center><h5>Consent Format</h5></center>
                                         {% for slug, name in default_fields %}
                                           <li class="collection-item" id="{{ slug }}">
-                                            {{ name }} <input type="hidden" value="{{ name }}" id="hidden_{{ slug }}">
+                                            {{ name }} <input type="hidden" name="A" value="{{ slug }}" id="hidden_{{ slug }}">
                                           </li>
                                         {% endfor %}
                                     </ul>
@@ -323,7 +306,7 @@
                                     <ul class="collection activator" id="B" style="text-align: center;">
                                         {% for slug, name in optional_fields_1 %}
                                             <li class="collection-item" id="{{ slug }}">
-                                                {{ name }} <input type="hidden" value="{{ name }}" id="hidden_{{ slug }}">
+                                                {{ name }} <input type="hidden" name="B" value="{{ slug }}" id="hidden_{{ slug }}">
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -332,7 +315,7 @@
                                     <ul class="collection activator" id="C" style="text-align: center;">
                                         {% for slug, name in optional_fields_2 %}
                                             <li class="collection-item" id="{{ slug }}">
-                                                {{ name }} <input type="hidden" value="{{ name }}" id="hidden_{{ slug }}">
+                                                {{ name }} <input type="hidden" name="C" value="{{ slug }}" id="hidden_{{ slug }}">
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -342,7 +325,7 @@
                     </div>
                 </div>
                 <center>
-                    <input class="waves-effect waves-light btn-large grey darken-2 grey-text text-lighten-5" type="submit" value="Add Company">
+                    <button class="waves-effect waves-light btn-large grey darken-2 grey-text text-lighten-5" type="submit"> Add Company </button>
                 </center>
             </form>
         </div>
