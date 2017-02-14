@@ -54,7 +54,7 @@ class PersonalDetail(models.Model):
     hometown = models.CharField(max_length=255, blank=True, null=True)
     current_residence_city = models.CharField(max_length=255, blank=True, null=True)
     current_residence_state = models.CharField(max_length=255, blank=True, null=True)
-    premanent_address = models.TextField(max_length=5000, blank=True, null=True)
+    permanent_address = models.TextField(max_length=5000, blank=True, null=True)
     permanent_residence_city = models.CharField(max_length=255, blank=True, null=True)
     permanent_residence_state = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField('date created', auto_now_add=True)
@@ -89,7 +89,7 @@ class EducationDetail(models.Model):
     hsc_result_type = models.CharField(max_length=10, choices=RESULT_TYPES, default='PERCENTAGE')
     hsc_passing_year = models.CharField(max_length=4, blank=True, null=True)
 
-    extrance_exam_score = models.IntegerField(blank=True, null=True)
+    entrance_exam_score = models.IntegerField(blank=True, null=True)
     entrance_exam = models.CharField(max_length=8, choices=ENTRANCE_EXAM_TYPES, default='JEE_MAIN')
     
     branch = models.ForeignKey('company.Branch')
