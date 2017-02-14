@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+
 
 def index(request):
-	return render(request, 'base.html')
-    #return HttpResponse("Aakash says hello world!")
+	if(request.user.is_authenticated):
+		return HttpResponseRedirect('/consent/home')
+	else:
+		return HttpResponseRedirect('/consent/login')

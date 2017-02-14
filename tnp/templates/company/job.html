@@ -17,14 +17,16 @@
                     
                     <div class="card-content grey-text text-lighten-5 grey darken-2 z-depth-1">
                         <span class="card-title"> {{ company }} 
-                          <span class="right card-title"> {{ ctc }} LPA </span>
+                          {% if ctc %}
+                              <span class="right card-title"> {{ ctc }} LPA </span>
+                          {% endif %}
                         </span>
                         
                           <p class="left"> {{ designation }}  </p>
                           <p class="right"> {{ job_category }} </p>
                         <br>
                         <p class="card-title center"> Deadline  </p>
-                        <p class="center"> 8 February, Wednesday </p>
+                        <p class="center"> <strong>{{ deadline|date:'g:i A, D'}} {{ deadline|date:'j M'}} </strong> </p>
                     </div>
 
 
@@ -181,12 +183,18 @@
                       </div>
                     {%endif %}
 
-                    
+                  {% load consent_extras %}
                   <div class="card-action center col s12 m12">
-                      <a id="consent" name="{{ button_id }}" class="btn-large white">
+                      <a id="consent" name="{{ button_id }}" class="btn-large transparent">
                         <i id="button_icon" class="material-icons left">send</i>
                         Apply Consent
                       </a>
+                      {% if request.user|is_coordinator %}
+                          <a id="export" name="export" href="/consent/export?job={{company_slug}}&branch_name={{request.session.branch_name}}&branch_degree={{request.session.branch_degree}}" class="btn-large grey darken-2 grey-text text-lighten-5">
+                            <i id="button_icon" class="material-icons left">exit_to_app</i>
+                            Export Consent
+                          </a>
+                        {% endif %}
                   </div>
                 </div>
               </div>

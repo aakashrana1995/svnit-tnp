@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^home', views.home, name='home'),
     url(r'^apply', views.apply, name='apply'),
     url(r'^cancel', views.cancel, name='cancel'),
+    url(r'^export', views.export_consent, name='export'),
     url(r'^logout/$', views.user_logout, name='logout'),
 ]
