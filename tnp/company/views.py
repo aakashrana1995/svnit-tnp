@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.forms import formset_factory
 
 from company.models import Company, Job, JobLocation, Attachment
@@ -8,6 +8,7 @@ from company.forms import CompanyForm, JobForm, AttachmentForm, ConsentDeadlineF
 
 import json
 from datetime import datetime
+
 
 
 def add(request):
@@ -70,27 +71,30 @@ def add(request):
 
         return HttpResponse("Aakash says hello world!")
     else:
-        company_form = CompanyForm(prefix='company_form', label_suffix='')
-        job_form = JobForm(prefix='job_form', label_suffix='')
-        attachment_form = AttachmentForm(prefix='attachment_form', label_suffix='')
-        consent_deadline_form = ConsentDeadlineForm(prefix='consent_deadline_form', label_suffix='')
+        if request.user.groups.filter(name='Coordinator').exists():
+            company_form = CompanyForm(prefix='company_form', label_suffix='')
+            job_form = JobForm(prefix='job_form', label_suffix='')
+            attachment_form = AttachmentForm(prefix='attachment_form', label_suffix='')
+            consent_deadline_form = ConsentDeadlineForm(prefix='consent_deadline_form', label_suffix='')
 
-        default_fields = UserDataFields.objects.filter(default_position__gte=1).order_by(
-            'default_position').values_list('slug', 'name')
-        optional_fields = UserDataFields.objects.filter(default_position=0).values_list('slug', 'name')
-        half = int(len(optional_fields)/2)
-        optional_fields_1 = optional_fields[:half]
-        optional_fields_2 = optional_fields[half:]
+            default_fields = UserDataFields.objects.filter(default_position__gte=1).order_by(
+                'default_position').values_list('slug', 'name')
+            optional_fields = UserDataFields.objects.filter(default_position=0).values_list('slug', 'name')
+            half = int(len(optional_fields)/2)
+            optional_fields_1 = optional_fields[:half]
+            optional_fields_2 = optional_fields[half:]
 
-        return render(request, 'company/add.html', {
-                'company_form': company_form,
-                'job_form': job_form,
-                'attachment_form': attachment_form,
-                'consent_deadline_form': consent_deadline_form,
-                'default_fields': default_fields,
-                'optional_fields_1': optional_fields_1,
-                'optional_fields_2': optional_fields_2,
-            })
+            return render(request, 'company/add.html', {
+                    'company_form': company_form,
+                    'job_form': job_form,
+                    'attachment_form': attachment_form,
+                    'consent_deadline_form': consent_deadline_form,
+                    'default_fields': default_fields,
+                    'optional_fields_1': optional_fields_1,
+                    'optional_fields_2': optional_fields_2,
+                })
+        else:
+            return HttpResponseRedirect('/consent/home')
 
 
 def create_branch_map():
@@ -114,7 +118,7 @@ def job(request, job_slug):
     job = Job.objects.get(slug=job_slug)
 
     consent = UserConsent.objects.filter(user=request.user, job=job)
-    
+
     if(consent and consent[0].is_valid == True):
         job_dict['button_id'] = 'cancel'
     else:
@@ -123,13 +127,13 @@ def job(request, job_slug):
     print (job)
     job_dict['title'] = job.company.name + ', ' + job.designation
     job_dict['company'] = job.company.name
+    job_dict['company_slug'] = job_slug
     job_dict['designation'] = job.designation
     if(job.company.website):
         job_dict['website'] = job.company.website
     
     if(job.category):
         job_dict['job_category'] = job.category.name + ' Category'
-    #job_dict["consent_deadline"]
     if(job.company.about):
         job_dict['about_company'] = job.company.about
     if(job.description):
@@ -140,57 +144,37 @@ def job(request, job_slug):
         job_dict['ctc'] = str(job.ctc)
     if(job.ctc_details):
         job_dict['ctc_details'] = job.ctc_details
-    
+
     if(job.eligibility_criteria):
         job_dict['eligibility_criteria'] = job.eligibility_criteria
-        #all_details.append((len(eligibility_criteria), eligibility_criteria))
  
-    #all_details = []
 
     eligible_branches = []
     eb = job.eligible_branches.values_list('name', 'degree')
-    #eb_cnt = 0
     for branch in eb:
         if(branch[1] == 'BTECH'):
             eligible_branches.append('BTech, ' + branch_map[branch[0]])
             #eb_cnt += 1
         elif(branch[1] == 'MTECH'):
             eligible_branches.append('MTech, ' + branch_map[branch[0]])
-            #eb_cnt += 1
         elif(branch[1] == 'MSC'):
             eligible_branches.append('MSc, ' + branch_map[branch[0]])
-            #eb_cnt += 1
     eligible_branches.sort()
     job_dict['eligible_branches'] = eligible_branches
 
-    #eb_dict = {}
-    #eb_dict['arr'] = eligible_branches
-    #eb_dict['name'] = 'Eligible Branches'
-    #all_details.append((int(eb_cnt), eb_dict))
 
     locations = list(job.job_location.values_list('location', flat=True))
     
     if(len(locations)>0):
         job_dict['locations'] = locations
-        #locs_dict = {}
-        #locs_dict['arr'] = locs
-        #locs_dict['name'] = 'Job Location(s)'
-        #all_details.append((len(locs), locs_dict))
     
     if(job.number_of_selections):
         job_dict['number_of_selections'] = str(job.number_of_selections)
-        #tmp['arr'] = str(job.number_of_selections)
-        #tmp['name'] = 'Expected Number of Selections'
-        #all_details.append((int(1), tmp))
 
     selection_procedure = list(job.selection_procedure.values_list('procedure', flat=True))
     if(len(selection_procedure)>0):
         job_dict['selection_procedure'] = selection_procedure
-        #sel_dict = {}
-        #sel_dict['arr'] = selection_procedure
-        #sel_dict['name'] = 'Selection Procedure'
-        #all_details.append((len(selection_procedure), sel_dict))
-    
+        
     atch_list = Attachment.objects.filter(job=job)
     attachments = []
 
@@ -203,16 +187,15 @@ def job(request, job_slug):
 
     if(len(attachments)>0):
         job_dict['attachments'] = attachments
-        #atch_dict = {}
-        #atch_dict['arr'] = attachments
-        #atch_dict['name'] = 'Attachments'
-        #all_details.append((len(attachments), atch_dict))
 
-    #all_details.sort(key=lambda x: x[0])
-    #all_details.reverse()
-    
-    #job_dict['all_details'] = all_details
+    consent_deadline_obj = ConsentDeadline.objects.filter(job=job)
+    if(len(consent_deadline_obj)>0):
+        deadline = consent_deadline_obj[0].deadline
+    else:
+        deadline = ''
+    job_dict['deadline'] = deadline
+
     print (job_dict)
-    #return HttpResponse(json.dumps(job_dict))
+    
     return render(request, 'company/job.html', job_dict)
 

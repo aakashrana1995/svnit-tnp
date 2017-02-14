@@ -29,12 +29,16 @@
                       <table class="bordered centered responsive-table grey lighten-5">
                         <tr> 
                           <td> <strong> CTC </strong> </td>
-                          <td> {{ company.ctc }} LPA </td>
+                          {% if company.ctc %} 
+                              <td> {{ company.ctc }} LPA </td>
+                          {% else %}
+                              <td> NA </td>
+                          {% endif%}
                         </tr>
 
                         <tr> 
-                          <td> <strong> Date </strong> </td>
-                          <td> {{ company.date }} </td>
+                          <td> <strong> Deadline </strong> </td>
+                          <td> {{ company.deadline|date:'g:i A, j M, D' }} </td>
                         </tr>
                       </table>
 
