@@ -33,6 +33,10 @@
           </div>
         </nav>
             
+        {% load consent_extras %}
+        {% if request.user|is_coordinator %}
+            {% include 'coordinator_tabs.html' %} 
+        {% endif %}
           
         {% block body_block %}{% endblock %}
 
