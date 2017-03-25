@@ -1,17 +1,19 @@
+from datetime import date, datetime
+import itertools as it
+import csv
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+
 from company.models import Company, Job, JobLocation, Attachment, Branch, month_list
 from consent.models import PersonalDetail, EducationDetail, CGPA, UserConsent, ConsentDeadline, FieldOrder
 from company.views import create_branch_map
 
-from datetime import date
-import itertools as it
-import csv
+from consent.forms import UserForm, PersonalDetailForm, EducationDetailForm
 
 branch_map = create_branch_map()
 
@@ -47,13 +49,103 @@ def login_user(request):
             else:
                 return HttpResponse("Your TnP account is disabled.")
         else:
-            #print "Invalid login details: {0}, {1}".format(username, password)
             return HttpResponse("Invalid login details supplied.")
     else:
         if (request.user.is_authenticated):
             return HttpResponseRedirect('/consent/home')
         else:
             return render(request, 'consent/login_user.html', {})
+
+
+def create_account(request):
+    if (request.method == 'POST'):
+        user_form = UserForm(prefix="user_form", data=request.POST)
+        user_creation_form = UserCreationForm(prefix="user_creation_form", data=request.POST)
+        personal_detail_form = PersonalDetailForm(prefix='personal_detail_form', data=request.POST)
+        education_detail_form = EducationDetailForm(prefix='education_detail_form', data=request.POST, files=request.FILES)
+
+        #print (user_form.errors.as_data())
+        #print (user_creation_form.errors.as_data())
+        #print (personal_detail_form.errors.as_data())
+        #print (education_detail_form.errors.as_data())
+
+        if (user_form.is_valid() and user_creation_form.is_valid() and personal_detail_form.is_valid() and education_detail_form.is_valid()):
+            user = user_creation_form.save()
+            user_form_obj = user_form.save(commit=False)
+            user.email = user_form_obj.email
+            user.first_name = user_form_obj.first_name
+            user.last_name = user_form_obj.last_name
+            user.username = user.username.upper()
+            user.save()
+
+            personal_detail = personal_detail_form.save(commit=False)
+            personal_detail.user = user
+            personal_detail.save()
+            
+            education_detail = education_detail_form.save(commit=False)
+            education_detail.user = user
+            education_detail.roll_number = user.username
+            education_detail.save()
+            
+            cgpas = request.POST.getlist('cgpa') 
+            for cgpa in cgpas:
+                if(cgpa):
+                    CGPA.objects.create(person=education_detail, semester=sem, cgpa=cgpa)
+                    sem += 1
+            
+        else:
+            error_list = []
+            print (user_form.errors.as_data())
+            errors_dict = user_form.errors.as_data()
+            for key, value in errors_dict.items():
+                print (key, value)
+                error_list.append(value)
+
+            errors_dict = user_creation_form.errors.as_data()
+            print (user_creation_form.errors.as_data())
+            for key, value in errors_dict.items():
+                for item in value:
+                    print (item)
+                    error_list.extend(item)
+            
+            errors_dict = personal_detail_form.errors.as_data()
+            print (personal_detail_form.errors.as_data())
+            for key, value in errors_dict.items():
+                for item in value:
+                    print (item)
+                    error_list.extend(item)
+
+            errors_dict = education_detail_form.errors.as_data()
+            print (education_detail_form.errors.as_data())
+            for key, value in errors_dict.items():
+                for item in value:
+                    print (item)
+                    error_list.extend(item)
+
+            print ('\n')
+            print (error_list)
+            return render(request, 'consent/create_account.html', {
+            'user_form': user_form,
+            'user_creation_form': user_creation_form,
+            'personal_detail_form': personal_detail_form,
+            'education_detail_form': education_detail_form,
+            'error_list': error_list,
+        })
+
+        return HttpResponse('Form successfully submitted.')
+
+    else:
+        user_form = UserForm(prefix='user_form', label_suffix='')
+        user_creation_form = UserCreationForm(prefix='user_creation_form', label_suffix='')
+        personal_detail_form = PersonalDetailForm(prefix='personal_detail_form', label_suffix='')
+        education_detail_form = EducationDetailForm(prefix='education_detail_form', label_suffix='')
+
+        return render(request, 'consent/create_account.html', {
+            'user_form': user_form,
+            'user_creation_form': user_creation_form,
+            'personal_detail_form': personal_detail_form,
+            'education_detail_form': education_detail_form,
+        })    
 
 
 def grouper(n, iterable):
@@ -184,9 +276,7 @@ def export_consent(request):
     consents = UserConsent.objects.filter(job=job, is_valid=True)
 
     for consent in consents:
-        education_detail = EducationDetail.objects.get(user=consent.user)
-        if(education_detail.branch!=branch):
-            continue
+        education_detail = EducationDetail.objects.get(user=consent.user, branch=branch)
 
         personal_detail = PersonalDetail.objects.get(user=consent.user)
         consent_dict = make_consent_dictionary(personal_detail, education_detail)

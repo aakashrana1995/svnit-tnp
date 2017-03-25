@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -77,15 +79,28 @@ class CGPA(models.Model):
             )
 
 
+def resume_file_path(instance, filename):
+    dir_path = os.path.join('uploads', 'resumes', instance.college_passout_year, instance.branch.degree + '_' + instance.branch.name)
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+
+    extension = filename.split('.')[-1]    
+    filename = '_'.join([instance.user.first_name, instance.user.last_name, 'NITSurat', 'Resume']) + '.' + extension
+    file_path = os.path.join(dir_path, filename)
+    return file_path
+
+
 class EducationDetail(models.Model):
     user = models.OneToOneField(User, related_name='education_detail')
     roll_number = models.CharField(max_length=31, unique=True)
 
     ssc = models.DecimalField(max_digits=4, decimal_places=2)
+    ssc_board_name = models.CharField(max_length=255, blank=True, null=True)
     ssc_result_type = models.CharField(max_length=10, choices=RESULT_TYPES, default='PERCENTAGE')
     ssc_passing_year = models.CharField(max_length=4, blank=True, null=True)
 
     hsc = models.DecimalField(max_digits=4, decimal_places=2)
+    hsc_board_name = models.CharField(max_length=255, blank=True, null=True)
     hsc_result_type = models.CharField(max_length=10, choices=RESULT_TYPES, default='PERCENTAGE')
     hsc_passing_year = models.CharField(max_length=4, blank=True, null=True)
 
@@ -93,6 +108,8 @@ class EducationDetail(models.Model):
     entrance_exam = models.CharField(max_length=8, choices=ENTRANCE_EXAM_TYPES, default='JEE_MAIN')
     
     branch = models.ForeignKey('company.Branch')
+    college_passout_year = models.CharField(max_length=4)
+    resume = models.FileField(upload_to=resume_file_path, blank=True, null=True)
 
     current_backlogs = models.IntegerField(default=0)
     total_backlogs = models.IntegerField(default=0)
