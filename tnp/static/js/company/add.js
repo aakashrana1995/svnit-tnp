@@ -1,12 +1,12 @@
 $(document).ready(function() {
-	$('textarea').addClass('materialize-textarea');
-	$('#down_left').css('margin-top', '75px');
+	  $('textarea').addClass('materialize-textarea');
+	  $('#down_left').css('margin-top', '75px');
 	
     $('select[required]').removeAttr('required');
 
-	crpdate = $('#id_company_form-crpdate')[0];
-	crpdate.type = "date";
-	crpdate.className = "datepicker";
+  	crpdate = $('#id_company_form-crpdate')[0];
+	  crpdate.type = "date";
+	  crpdate.className = "datepicker";
   
     deadline_date = $('#id_consent_deadline_form-deadline_date')[0];
     deadline_date.type = "date";
