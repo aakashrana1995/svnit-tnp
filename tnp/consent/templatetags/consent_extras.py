@@ -7,4 +7,3 @@ register = template.Library()
 @register.filter 
 def is_coordinator(user):
 	return user.groups.filter(name='Coordinator').exists()
-
