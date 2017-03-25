@@ -18,7 +18,7 @@ BRANCHES = (
     ('CE', 'Civil Engineering'),
     ('EE', 'Electrical Engineering'),
     ('CH', 'Chemical Engineering'),
-    ('EC', 'Electronics and Communication Engineering'),
+    ('EC', 'Electronics Engineering'),
     ('PHY', 'Physics'),
     ('CHEM', 'Chemistry'),
     ('MATH', 'Mathematics'),
@@ -57,12 +57,13 @@ month_list = [
 class Branch(models.Model):
     name = models.CharField(max_length=4, choices=BRANCHES)
     degree = models.CharField(max_length=5, choices=DEGREES, default='BTECH')
-    
+
     class Meta:
         unique_together = ('name', 'degree')
+        ordering = ['degree']
 
     def __str__(self):
-        return "{}, {}".format(self.name, self.degree)
+        return "{}, {}".format(self.get_degree_display(), self.get_name_display())
 
 
 class Company(models.Model):
