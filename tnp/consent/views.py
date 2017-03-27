@@ -73,8 +73,8 @@ def create_account(request):
             user = user_creation_form.save()
             user_form_obj = user_form.save(commit=False)
             user.email = user_form_obj.email
-            user.first_name = user_form_obj.first_name
-            user.last_name = user_form_obj.last_name
+            user.first_name = user_form_obj.first_name.title()
+            user.last_name = user_form_obj.last_name.title()
             user.username = user.username.upper()
             user.save()
 
@@ -87,11 +87,14 @@ def create_account(request):
             education_detail.roll_number = user.username
             education_detail.save()
             
-            cgpas = request.POST.getlist('cgpa') 
+            cgpas = request.POST.getlist('cgpa')
+            sem = 1 
             for cgpa in cgpas:
                 if(cgpa):
                     CGPA.objects.create(person=education_detail, semester=sem, cgpa=cgpa)
                     sem += 1
+                else:
+                    break
             
         else:
             error_list = []
