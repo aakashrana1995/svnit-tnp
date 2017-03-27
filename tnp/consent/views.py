@@ -11,11 +11,9 @@ from django.contrib.auth.models import User
 
 from company.models import Company, Job, JobLocation, Attachment, Branch, month_list
 from consent.models import PersonalDetail, EducationDetail, CGPA, UserConsent, ConsentDeadline, FieldOrder
-from company.views import create_branch_map
+from company.views import create_branch_map, job as job_view
 
 from consent.forms import UserForm, PersonalDetailForm, EducationDetailForm
-
-branch_map = create_branch_map()
 
 def create_branch_map():
     branch_map = {}
@@ -28,12 +26,24 @@ def create_branch_map():
     branch_map['PHY'] = 'Physics'
     branch_map['CHEM'] = 'Chemistry'
     branch_map['MATH'] = 'Mathematics'
-
     return branch_map
+
+
+def create_degree_map():
+    degree_map = {}
+    degree_map['BTECH'] = 'BTech'
+    degree_map['MTECH'] = 'MTech'
+    degree_map['MSC'] = 'MSc'
+    return degree_map
+
+branch_map = create_branch_map()
+degree_map = create_degree_map()
+
 
 def index(request):
 	#return render(request, 'base.html')
     return HttpResponse("Aakash says hello world!")
+
 
 def login_user(request):
     if request.method == 'POST':
@@ -135,7 +145,8 @@ def create_account(request):
             'error_list': error_list,
         })
 
-        return HttpResponse('Form successfully submitted.')
+        return HttpResponseRedirect('/consent/home')
+        #return HttpResponse('Form successfully submitted.')
 
     else:
         user_form = UserForm(prefix='user_form', label_suffix='')
@@ -261,13 +272,7 @@ def export_consent(request):
         else:
             header.append(field.field.name)
 
-    if(branch_degree=='BTECH'):
-        degree = 'BTech'
-    elif(branch_degree=='MTECH'):
-        degree = 'MTech'
-    else:
-        degree = 'MSc'
-
+    degree = degree_map[branch_degree]
     filename = job.company.name + '-' + job.designation + '-' + degree + ' ' + branch_map[branch_name] + '.csv'
 
     response = HttpResponse(content_type='text/csv')
@@ -276,11 +281,12 @@ def export_consent(request):
     writer = csv.writer(response)
     writer.writerow(header)
 
-    consents = UserConsent.objects.filter(job=job, is_valid=True)
+    
+    branch_students = EducationDetail.objects.filter(branch=branch).values_list('user', flat=True)
+    consents = UserConsent.objects.filter(job=job, user__in=branch_students, is_valid=True)
 
     for consent in consents:
         education_detail = EducationDetail.objects.get(user=consent.user, branch=branch)
-
         personal_detail = PersonalDetail.objects.get(user=consent.user)
         consent_dict = make_consent_dictionary(personal_detail, education_detail)
 
@@ -298,7 +304,6 @@ def export_consent(request):
                 row.append(consent_dict[field.field.slug])
 
         writer.writerow(row)
-
     return response
 
 
