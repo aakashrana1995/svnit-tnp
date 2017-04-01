@@ -68,7 +68,7 @@ def add(request):
                         FieldOrder.objects.create(job=job, field=field, position=position)
                     position += 1
 
-        return HttpResponse("Aakash says hello world!")
+        return HttpResponseRedirect('/consent/home')
     else:
         if request.user.groups.filter(name='Coordinator').exists():
             company_form = CompanyForm(prefix='company_form', label_suffix='')
