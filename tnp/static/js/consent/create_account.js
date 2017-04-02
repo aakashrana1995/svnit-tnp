@@ -15,17 +15,71 @@ $(document).ready(function() {
     $('select').material_select();
 
     //Code for Form Validation
-    //console.log($('#id_user_creation_form-username'));
-
     $('#id_user_creation_form-username').attr("pattern", "[A-z][0-9]{2}[A-z]{2}[0-9]{3}");
     $('#id_education_detail_form-college_passout_year').attr("pattern", "20[0-9]{2}");
 
+    var board_dict = {
+            "Central Board of Secondary Education (CBSE)": null,
+            "Indian Certificate for Secondary Education (ICSE)": null,
+            "Board of Higher Secondary Education, Delhi":null,
+            "Andhra Pradesh Board of Secondary Education": null,
+            "Board of Secondary Education, Assam": null,
+            "Assam Higher Secondary Education Council": null,
+            "Bihar School Examination Board (BSEB)": null,
+            "Board of Secondary Education Kant Shahjahanpur Uttar Pradesh": null,
+            "Board of High School and Intermediate Education Uttar Pradesh (UPMSP)": null,
+            "Madhya Pradesh Board of Secondary Education (MPBSE)": null,
+            "Board of Secondary Education, Rajasthan": null,
+            "Chhattisgarh Board of Secondary Education (CGBSE)": null,
+            "Central Board of Education Ajmer New Delhi": null,
+            "Central Board of Secondary Education": null,
+            "Goa Board of Secondary & Higher Secondary Education": null,
+            "Gujarat Secondary Education Board (GSEB)": null,
+            "Haryana Board of School Education": null,
+            "Himachal Pradesh Board of School Education": null,
+            "Jharkhand Academic Council": null,
+            "Jammu and Kashmir State Board of School Education": null,
+            "Karnataka Secondary Education Examination Board (KSEEB)": null,
+            "Kerala Higher Secondary Examination Board (KHSEB)": null,
+            "Maharashtra State Board of Secondary and Higher Secondary Education": null,
+            "Meghalaya Board of School Education": null,
+            "Mizoram Board of School Education": null,
+            "Nagaland Board of School Education": null,
+            "National Institute of Open Schooling": null,
+            "Orissa Board of Secondary Education": null,
+            "Orissa Council of Higher Secondary Education": null,
+            "Punjab School Education Board (PSEB)": null,
+            "Tamil Nadu Board of Secondary Education (TNBSE)": null,
+            "Tripura Board of Secondary Education": null,
+            "Telangana Board of Intermediate Education": null,
+            "Telangana Board of Secondary Education": null,
+            "Uttarakhand Board of School Education": null,
+            "West Bengal Board of Secondary Education (WBBSE)": null,
+            "West Bengal Council of Higher Secondary Education (WBCHSE)": null,
+        }
+
+    $('#id_education_detail_form-ssc_board_name').addClass('autocomplete');
+    $('#id_education_detail_form-ssc_board_name').attr('autocomplete', 'off');
+
+    $('#id_education_detail_form-hsc_board_name').addClass('autocomplete');
+    $('#id_education_detail_form-hsc_board_name').attr('autocomplete', 'off');
+
+    $('input.autocomplete').autocomplete({    
+        data: board_dict,
+        limit: 5, // The max amount of results that can be shown at once. Default: Infinity.
+        minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
+    });
+
+
     $('#sem_1').attr("required", true);
     $('#sem_2').attr("required", true);
-    $('#sem_3').attr("required", true);
-    $('#sem_4').attr("required", true);
+    //$('#sem_3').attr("required", true);
+    //$('#sem_4').attr("required", true);
 
 });
+
+
+
 
 $('#create_account_form').submit(function(event) {
     console.log('hi');
