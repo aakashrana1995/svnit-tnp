@@ -6,7 +6,6 @@ from django.template.defaultfilters import slugify
 from django.utils.timezone import now
 
 
-
 JOB_DOMAINS = (
         ('C', 'Core'),
         ('N', 'Non-Core'),
@@ -100,9 +99,12 @@ class JobType(models.Model):
 
 
 def company_file_path(instance, filename):
-    dir_path = os.path.join('uploads', instance.job.slug)
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
+    dir_path = '/'.join(['uploads', 'jobs', instance.job.slug])
+    path = '/'.join(['media', dir_path])
+    
+    if not os.path.exists(path):
+        os.makedirs(path)
+    
     file_path = os.path.join(dir_path, filename)
     return file_path
 
