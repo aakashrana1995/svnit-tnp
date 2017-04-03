@@ -13,11 +13,17 @@ function setButtonProperties(button, targetName) {
         document.getElementById("consent").childNodes[2].nodeValue = "Apply Consent";
         document.getElementById("button_icon").innerHTML = "send";
     }
-    else {
+    else if(targetName == 'cancel'){
         button.className = "waves-effect waves-light red darken-2 red-text text-lighten-5 btn-large";
         button.name = "cancel";
         document.getElementById("consent").childNodes[2].nodeValue = "Cancel Consent";
         document.getElementById("button_icon").innerHTML = "clear";
+    }
+    else {
+        button.className = "btn-large disabled";
+        button.name = "disabled";
+        document.getElementById("consent").childNodes[2].nodeValue = "Consent Deadline Over";
+        document.getElementById("button_icon").innerHTML = "timer_off"; 
     }
 }
 

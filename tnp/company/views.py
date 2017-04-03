@@ -1,14 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-
+from django.utils import timezone
 
 from company.models import Company, Job, JobLocation, Attachment
 from consent.models import UserConsent, UserDataFields, ConsentDeadline, FieldOrder
 from company.forms import CompanyForm, JobForm, AttachmentForm, ConsentDeadlineForm 
 
 import json
-from datetime import datetime
-
+from datetime import datetime, timedelta
 
 
 def add(request):
@@ -120,14 +119,7 @@ def job(request, job_slug):
         job = Job.objects.get(slug=job_slug)
     except Job.DoesNotExist:
         raise Http404("This company page doesn't exist!")
-    
-    consent = UserConsent.objects.filter(user=request.user, job=job)
 
-    if(consent and consent[0].is_valid == True):
-        job_dict['button_id'] = 'cancel'
-    else:
-        job_dict['button_id'] = 'apply'
-    
     print (job)
     job_dict['title'] = job.company.name + ', ' + job.designation
     job_dict['company'] = job.company.name
@@ -193,11 +185,24 @@ def job(request, job_slug):
         job_dict['attachments'] = attachments
 
     consent_deadline_obj = ConsentDeadline.objects.filter(job=job)
+    curr_time = timezone.now()
+
     if(len(consent_deadline_obj)>0):
-        deadline = consent_deadline_obj[0].deadline
+        display_deadline = consent_deadline_obj[0].deadline
+        real_deadline = display_deadline + timedelta(hours=consent_deadline_obj[0].slack_time)
+
+        if (curr_time <= real_deadline):
+            consent = UserConsent.objects.filter(user=request.user, job=job)    
+            if(consent and consent[0].is_valid == True):
+                job_dict['button_id'] = 'cancel'
+            else:
+                job_dict['button_id'] = 'apply'
+        else:
+            job_dict['button_id'] = 'disabled'
     else:
-        deadline = ''
-    job_dict['deadline'] = deadline
+        display_deadline = ''
+    
+    job_dict['display_deadline'] = display_deadline
 
     print (job_dict)
     
