@@ -135,7 +135,9 @@ class UserConsent(models.Model):
     user = models.ForeignKey(User, related_name='user_consent')
     job = models.ForeignKey('company.Job', related_name='user_consent')
     is_valid = models.BooleanField(default=True)
-
+    created_at = models.DateTimeField('date created', auto_now_add=True)
+    updated_at = models.DateTimeField('date updated', auto_now=True)
+    
     class Meta:
         unique_together = ('user', 'job')
 
