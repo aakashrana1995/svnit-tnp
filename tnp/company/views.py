@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+
 
 from company.models import Company, Job, JobLocation, Attachment
 from consent.models import UserConsent, UserDataFields, ConsentDeadline, FieldOrder
@@ -114,8 +115,12 @@ def create_branch_map():
 def job(request, job_slug):
     job_dict = {}
     branch_map = create_branch_map()
-    job = Job.objects.get(slug=job_slug)
 
+    try:
+        job = Job.objects.get(slug=job_slug)
+    except Job.DoesNotExist:
+        raise Http404("This company page doesn't exist!")
+    
     consent = UserConsent.objects.filter(user=request.user, job=job)
 
     if(consent and consent[0].is_valid == True):
