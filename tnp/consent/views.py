@@ -41,8 +41,7 @@ degree_map = create_degree_map()
 
 
 def index(request):
-	#return render(request, 'base.html')
-    return HttpResponse("Aakash says hello world!")
+    return HttpResponseRedirect('/consent/home')
 
 
 def login_user(request):
