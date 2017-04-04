@@ -1,5 +1,5 @@
 
-// Runs on page load to determine the type of button (Apply or Cancel Consent)
+// Runs on page load to determine the type of button (Apply or Cancel or Disabled)
 $(document).ready(function() {
     var button = document.getElementById('consent');
     setButtonProperties(button, button.name);
@@ -19,15 +19,21 @@ function setButtonProperties(button, targetName) {
         document.getElementById("consent").childNodes[2].nodeValue = "Cancel Consent";
         document.getElementById("button_icon").innerHTML = "clear";
     }
+    else if(targetName == 'disabled_applied') {
+        button.className = "btn-large green darken-2 disabled";
+        button.name = "disabled_applied";
+        document.getElementById("consent").childNodes[2].nodeValue = "Consent Applied";
+        document.getElementById("button_icon").innerHTML = "timer_off"; 
+    }
     else {
-        button.className = "btn-large disabled";
-        button.name = "disabled";
-        document.getElementById("consent").childNodes[2].nodeValue = "Consent Deadline Over";
+        button.className = "btn-large red darken-2 disabled";
+        button.name = "disabled_not_applied";
+        document.getElementById("consent").childNodes[2].nodeValue = "Consent Not Applied";
         document.getElementById("button_icon").innerHTML = "timer_off"; 
     }
 }
 
-// Used for truncating extra text and putting and ellipsis(...) in the end.
+// Used for truncating extra text and putting an ellipsis(...) in the end.
 $(function(){
         $('.truncate-main').succinct({
             size: 240,

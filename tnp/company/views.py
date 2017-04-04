@@ -186,21 +186,30 @@ def job(request, job_slug):
 
     consent_deadline_obj = ConsentDeadline.objects.filter(job=job)
     curr_time = timezone.now()
+    consent = UserConsent.objects.filter(user=request.user, job=job)
 
     if(len(consent_deadline_obj)>0):
         display_deadline = consent_deadline_obj[0].deadline
         real_deadline = display_deadline + timedelta(hours=consent_deadline_obj[0].slack_time)
 
         if (curr_time <= real_deadline):
-            consent = UserConsent.objects.filter(user=request.user, job=job)    
             if(consent and consent[0].is_valid == True):
                 job_dict['button_id'] = 'cancel'
             else:
                 job_dict['button_id'] = 'apply'
+        
         else:
-            job_dict['button_id'] = 'disabled'
+            if(consent and consent[0].is_valid == True):
+                job_dict['button_id'] = 'disabled_applied'
+            else:
+                job_dict['button_id'] = 'disabled_not_applied'
+            
     else:
         display_deadline = ''
+        if(consent and consent[0].is_valid == True):
+            job_dict['button_id'] = 'disabled_applied'
+        else:
+            job_dict['button_id'] = 'disabled_not_applied'
     
     job_dict['display_deadline'] = display_deadline
 
