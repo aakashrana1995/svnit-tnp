@@ -17,6 +17,8 @@ $(document).ready(function() {
     //Code for Form Validation
     $('#id_user_creation_form-username').attr("pattern", "[A-z][0-9]{2}[A-z]{2}[0-9]{3}");
     $('#id_education_detail_form-college_passout_year').attr("pattern", "20[0-9]{2}");
+    $('#id_education_detail_form-ssc_passing_year').attr("pattern", "20[0-9]{2}");
+    $('#id_education_detail_form-hsc_passing_year').attr("pattern", "20[0-9]{2}");
 
     var board_dict = {
             "Central Board of Secondary Education (CBSE)": null,
@@ -70,6 +72,11 @@ $(document).ready(function() {
         minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
     });
 
+    $('#id_education_detail_form-ssc').attr("min", "0");
+    $('#id_education_detail_form-ssc').attr("max", "100");
+
+    $('#id_education_detail_form-hsc').attr("min", "0");
+    $('#id_education_detail_form-hsc').attr("max", "100");
 
     $('#sem_1').attr("required", true);
     $('#sem_2').attr("required", true);
@@ -152,7 +159,6 @@ $('#id_education_detail_form-resume').on("change", function(e) {
         var parent = e.target.closest('.file-field'); 
         elem = parent.getElementsByTagName('span')[1];
         elem.className += " truncate";
-        elem.innerHTML = val.split(/(\\|\/)/g).pop()
-;
+        elem.innerHTML = val.split(/(\\|\/)/g).pop();
     }
 });
