@@ -56,9 +56,12 @@ def login_user(request):
                 login(request, user)
                 return HttpResponseRedirect('/consent/home')
             else:
-                return HttpResponse("Your TnP account is disabled.")
+                message = "Your TnP account is disabled!"
         else:
-            return HttpResponse("Invalid login details supplied.")
+            message = "Invalid login details supplied!"
+            
+        return render(request, 'consent/login_user.html', {'message': message})
+    
     else:
         if (request.user.is_authenticated):
             return HttpResponseRedirect('/consent/home')
