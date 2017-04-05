@@ -254,15 +254,27 @@ def export_consent(request):
     branch = Branch.objects.get(name=branch_name, degree=branch_degree)    
 
     field_order = FieldOrder.objects.filter(job=job).order_by('position')
-    cgpa_field = field_order.get(optional__gte=0)
-    cgpa_type = cgpa_field.field.slug
-    optional = cgpa_field.optional
-
+    cgpa_field = field_order.filter(optional__lt=0)
+    
     cgpa_header = []
-    if(cgpa_type == 'cgpa_upto_semester'):
-        cgpa_header = [('Sem '+ str(i)) for i in range(1, optional+1)]
-    elif(cgpa_type == 'cgpa_of_semester'):
-        cgpa_header = 'Sem ' + str(optional)
+    cgpa_type = ''   
+    
+    if cgpa_field:
+        cgpa_field = cgpa_field[0]
+        cgpa_type = cgpa_field.field.slug
+        optional = cgpa_field.optional
+
+        if (branch_degree == 'BTECH'):
+            optional += 9
+        elif (branch_degree == 'MTECH'):
+            optional += 5
+        elif (branch_degree == 'MSC'):
+            optional += 11
+
+        if(cgpa_type == 'cgpa_upto_semester'):
+            cgpa_header = [('Sem '+ str(i)) for i in range(1, optional+1)]
+        elif(cgpa_type == 'cgpa_of_semester'):
+            cgpa_header = 'Sem ' + str(optional)
 
     header = []
     for field in field_order:
@@ -272,7 +284,7 @@ def export_consent(request):
             header.append(field.field.name)
 
     degree = degree_map[branch_degree]
-    filename = job.company.name + '-' + job.designation + '-' + degree + ' ' + branch_map[branch_name] + '.csv'
+    filename = job.company.name + ' - ' + job.designation + ' - ' + degree + ' ' + branch_map[branch_name] + '.csv'
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
@@ -290,9 +302,9 @@ def export_consent(request):
         consent_dict = make_consent_dictionary(personal_detail, education_detail)
 
         cgpa_list = []
-        if(cgpa_type=='cgpa_upto_semester'):
+        if (cgpa_type == 'cgpa_upto_semester'):
             cgpa_list = [str(obj.cgpa) for obj in education_detail.cgpa.order_by('semester')][:optional]
-        else:
+        elif (cgpa_type == 'cgpa_of_semester'):
             cgpa_list = education_detail.cgpa.filter(semester=optional)
 
         row = []

@@ -36,8 +36,8 @@ $(document).ready(function() {
 	
     $('select').material_select();
 
-    $('#cgpa_upto_semester')[0].innerHTML = 'CGPA Upto Semester <input type="hidden" value="cgpa_upto_semester" name="A"> <div class="input-field inline"> <input type="number" min="-10" max="0" value="-3" name="A" style="width: 30px; text-align: center;"> </div>';
-    $('#cgpa_of_semester')[0].innerHTML = 'CGPA Of Semester <input type="hidden" value="cgpa_of_semester" name="C"> <div class="input-field inline"> <input type="number" min="-10" max="0" value="-3" name="C" style="width: 30px; text-align: center;"> </div>';
+    $('#cgpa_upto_semester')[0].innerHTML = 'CGPA Upto Semester <input type="hidden" value="cgpa_upto_semester" name="A"> <div class="input-field inline"> <input type="number" min="-10" max="-1" value="-3" name="A" style="width: 30px; text-align: center;"> </div>';
+    $('#cgpa_of_semester')[0].innerHTML = 'CGPA Of Semester <input type="hidden" value="cgpa_of_semester" name="C"> <div class="input-field inline"> <input type="number" min="-10" max="-1" value="-3" name="C" style="width: 30px; text-align: center;"> </div>';
 });
 
 
