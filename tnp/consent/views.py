@@ -217,14 +217,15 @@ def make_consent_dictionary(personal_detail, education_detail):
     consent_dict = {}
     consent_dict['roll_number'] = education_detail.roll_number
     consent_dict['name'] = personal_detail.user.get_full_name()
-    consent_dict['date_of_birth'] = personal_detail.date_of_birth
-    consent_dict['caste_category'] = personal_detail.caste_category
+    dob = personal_detail.date_of_birth
+    consent_dict['date_of_birth'] = '/'.join([str(dob.day).zfill(2), str(dob.month).zfill(2), str(dob.year)])
+    consent_dict['caste_category'] = personal_detail.get_caste_category_display()
     consent_dict['hometown'] = personal_detail.hometown
     consent_dict['ssc'] = education_detail.ssc
     consent_dict['ssc_passing_year'] = education_detail.ssc_passing_year
     consent_dict['hsc'] = education_detail.hsc
     consent_dict['hsc_passing_year'] = education_detail.hsc_passing_year
-    consent_dict['entrance_exam'] = education_detail.entrance_exam
+    consent_dict['entrance_exam'] = education_detail.get_entrance_exam_display()
     consent_dict['entrance_exam_score'] = education_detail.entrance_exam_score
     
     consent_dict['branch'] = branch_map[education_detail.branch.name]
@@ -311,6 +312,23 @@ def export_consent(request):
         for field in field_order:
             if (field.field.slug==cgpa_type):
                 row.extend(cgpa_list)
+            
+            elif (field.field.slug == 'ssc'):
+                value = str(consent_dict[field.field.slug])
+                if (education_detail.ssc_result_type == 'PERCENTAGE'):
+                    value += ' %'
+                elif (education_detail.ssc_result_type == 'CGPA'):
+                    value += ' CGPA'
+                row.append(value)
+            
+            elif (field.field.slug == 'hsc'):
+                value = str(consent_dict[field.field.slug])
+                if (education_detail.hsc_result_type == 'PERCENTAGE'):
+                    value += ' %'
+                elif (education_detail.hsc_result_type == 'CGPA'):
+                    value += ' CGPA'
+                row.append(value)
+            
             else:
                 row.append(consent_dict[field.field.slug])
 
