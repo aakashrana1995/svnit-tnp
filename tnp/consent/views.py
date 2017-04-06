@@ -1,6 +1,9 @@
 from datetime import date, datetime
 import itertools as it
 import csv
+import os
+import zipfile
+from io import BytesIO
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -255,7 +258,7 @@ def export_consent(request):
     branch_degree = request.GET['branch_degree']
 
     job = Job.objects.get(slug=job_slug)
-    branch = Branch.objects.get(name=branch_name, degree=branch_degree)    
+    branch = Branch.objects.get(name=branch_name, degree=branch_degree)
 
     field_order = FieldOrder.objects.filter(job=job).order_by('position')
     cgpa_field = field_order.filter(optional__lt=0)
@@ -337,6 +340,46 @@ def export_consent(request):
 
         writer.writerow(row)
     return response
+
+
+def export_resumes(request):
+    job_slug = request.GET['job']
+    branch_name = request.GET['branch_name']
+    branch_degree = request.GET['branch_degree']
+
+    job = Job.objects.get(slug=job_slug)
+    branch = Branch.objects.get(name=branch_name, degree=branch_degree)
+
+    branch_students = EducationDetail.objects.filter(branch=branch).values_list('user', flat=True)
+    consents = UserConsent.objects.filter(job=job, user__in=branch_students, is_valid=True)
+
+    degree = degree_map[branch_degree]
+    zip_subdir = job.company.name + ' - ' + job.designation + ' - ' + degree + ' ' + branch_map[branch_name]
+    zipname = zip_subdir + '.zip'
+
+    resume_dir_path = os.path.join('media', 'uploads', 'resumes')
+    
+    filepaths = []
+    for consent in consents:
+        education_detail = EducationDetail.objects.get(user=consent.user, branch=branch)
+        resume_fp = os.path.join('media', education_detail.resume.name)        
+        if (os.path.isfile(resume_fp)):
+            filepaths.append(resume_fp)
+
+    s = BytesIO()
+    zf = zipfile.ZipFile(s, "w")
+
+    for fpath in filepaths:
+        fdir, fname = os.path.split(fpath)
+        zip_path = os.path.join(zip_subdir, fname)
+        zf.write(fpath, zip_path)    
+
+    zf.close()
+    
+    response = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
+    response['Content-Disposition'] = 'attachment; filename=' + zipname
+    return response
+
 
 
 @login_required
