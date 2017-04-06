@@ -95,7 +95,7 @@ class JobType(models.Model):
         unique_together = ('job_domain', 'job_type')
 
     def __str__(self):
-        return "{}, {}".format(self.job_domain, self.job_type)
+        return "{}, {}".format(self.get_job_domain_display(), self.job_type)
 
 
 def company_file_path(instance, filename):
