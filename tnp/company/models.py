@@ -142,7 +142,7 @@ class SelectionProcedure(models.Model):
 
 class Job(models.Model):
     company = models.ForeignKey('Company', related_name='job')
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(max_length=255, null=True, blank=True)
     designation = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(max_length=5000, blank=True, null=True)
     requirements = models.TextField(max_length=5000, blank=True, null=True)
