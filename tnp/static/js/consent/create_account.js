@@ -20,6 +20,9 @@ $(document).ready(function() {
     $('#id_education_detail_form-ssc_passing_year').attr("pattern", "20[0-9]{2}");
     $('#id_education_detail_form-hsc_passing_year').attr("pattern", "20[0-9]{2}");
 
+    $('#id_personal_detail_form-current_pincode').attr("pattern", "[0-9]{6}");
+    $('#id_personal_detail_form-permanent_pincode').attr("pattern", "[0-9]{6}");
+
     var board_dict = {
             "Central Board of Secondary Education (CBSE)": null,
             "Indian Certificate for Secondary Education (ICSE)": null,
