@@ -189,12 +189,20 @@
                         <i id="button_icon" class="material-icons left">send</i>
                         Apply Consent
                       </a>
+                  </div>
+                  
+                  <div class="card-action center col s12 m12">
                       {% if request.user|is_coordinator %}
                           <a id="export" name="export" href="/consent/export?job={{company_slug}}&branch_name={{request.session.branch_name}}&branch_degree={{request.session.branch_degree}}" class="btn-large grey darken-2 grey-text text-lighten-5">
                             <i id="button_icon" class="material-icons left">exit_to_app</i>
                             Export Consent
                           </a>
-                        {% endif %}
+
+                          <a id="export_resumes" name="export_resumes" href="/consent/export_resumes?job={{company_slug}}&branch_name={{request.session.branch_name}}&branch_degree={{request.session.branch_degree}}" class="btn-large grey darken-2 grey-text text-lighten-5">
+                            <i id="button_icon" class="material-icons left">archive</i>
+                            Export Resumes
+                          </a>
+                      {% endif %}
                   </div>
                 </div>
               </div>

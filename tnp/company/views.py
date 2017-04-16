@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils import timezone
 
-from company.models import Company, Job, JobLocation, Attachment
+from company.models import Company, Job, JobLocation, Attachment, Branch
 from consent.models import UserConsent, UserDataFields, ConsentDeadline, FieldOrder
 from company.forms import CompanyForm, JobForm, AttachmentForm, ConsentDeadlineForm 
 
@@ -24,14 +24,20 @@ def add(request):
 
 
         if company_form.is_valid() and job_form.is_valid() and attachment_form.is_valid() and consent_deadline_form.is_valid():
-            #print ('valid')
             company = company_form.save()
-            #company = Company.objects.latest('id')
+            #company = Company.objects.all().order_by('-created_at')[0]
             job = job_form.save(commit=False)
             job.company = company
             job.save()
             job_form.save_m2m()
             
+            eb = job.eligible_branches.filter(name='ALL')
+            for all_type_branch in eb:
+                all_branches = Branch.objects.filter(degree=all_type_branch.degree).exclude(name='ALL')
+                for branch in all_branches:
+                    job.eligible_branches.add(branch)
+                job.eligible_branches.remove(all_type_branch)
+
             locations = request.POST.getlist('location');
             for loc in locations:
                 print (loc)
