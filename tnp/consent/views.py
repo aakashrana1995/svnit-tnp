@@ -262,7 +262,8 @@ def export_consent(request):
 
     field_order = FieldOrder.objects.filter(job=job).order_by('position')
     cgpa_field = field_order.filter(optional__lt=0)
-    
+        
+    index = {}
     cgpa_header = []
     cgpa_type = ''   
     
@@ -281,14 +282,23 @@ def export_consent(request):
         if(cgpa_type == 'cgpa_upto_semester'):
             cgpa_header = [('Sem '+ str(i)) for i in range(1, optional+1)]
         elif(cgpa_type == 'cgpa_of_semester'):
-            cgpa_header = 'Sem ' + str(optional)
+            cgpa_header = ['Sem ' + str(optional)]
 
     header = []
+
+    i = 0
     for field in field_order:
         if (field.field.slug==cgpa_type):
             header.extend(cgpa_header)
+            i += len(cgpa_header)
+            index['cgpa'] = i-1
         else:
             header.append(field.field.name)
+            i += 1
+            if (field.field.slug == 'name'):
+                index['name'] = i-1
+            elif (field.field.slug == 'roll_number'):
+                index['roll_number'] = i-1
 
     degree = degree_map[branch_degree]
     filename = job.company.name + ' - ' + job.designation + ' - ' + degree + ' ' + branch_map[branch_name] + '.csv'
@@ -298,11 +308,12 @@ def export_consent(request):
 
     writer = csv.writer(response)
     writer.writerow(header)
-
     
     branch_students = EducationDetail.objects.filter(branch=branch).values_list('user', flat=True)
     consents = UserConsent.objects.filter(job=job, user__in=branch_students, is_valid=True)
 
+    consent_sheet = []
+    
     for consent in consents:
         education_detail = EducationDetail.objects.get(user=consent.user, branch=branch)
         personal_detail = PersonalDetail.objects.get(user=consent.user)
@@ -312,7 +323,7 @@ def export_consent(request):
         if (cgpa_type == 'cgpa_upto_semester'):
             cgpa_list = [str(obj.cgpa) for obj in education_detail.cgpa.order_by('semester')][:optional]
         elif (cgpa_type == 'cgpa_of_semester'):
-            cgpa_list = education_detail.cgpa.filter(semester=optional)
+            cgpa_list = [str(education_detail.cgpa.filter(semester=optional)[0].cgpa)]
 
         row = []
         for field in field_order:
@@ -338,7 +349,26 @@ def export_consent(request):
             else:
                 row.append(consent_dict[field.field.slug])
 
+        consent_sheet.append(row)
+        #writer.writerow(row)
+    
+    #Sorting the consent sheet: Priority order (highest first) -> cgpa, name, roll_number
+    sort_index = 0
+    reverse_flag = False
+
+    if ('cgpa' in index):
+        sort_index = index['cgpa']
+        reverse_flag = True
+    elif ('name' in index):
+        sort_index = index['name']
+    elif ('roll_number' in index):
+        sort_index = index['roll_number']
+
+    consent_sheet.sort(key = lambda x: x[sort_index].lower(), reverse=reverse_flag)
+    
+    for row in consent_sheet:
         writer.writerow(row)
+    
     return response
 
 
