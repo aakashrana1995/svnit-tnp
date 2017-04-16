@@ -12,4 +12,8 @@ urlpatterns = [
     url(r'^export_resumes', views.export_resumes, name='export_resumes'),
     url(r'^export', views.export_consent, name='export'),
     url(r'^logout/$', views.user_logout, name='logout'),
+    # my work from here @abhishek981996
+    url(r'^profile/$', views.view_profile, name='profile'),
+    url(r'^profile/edit_profile$', views.edit_profile, name='edit_profile'),
+    url(r'^password/$', views.change_password, name='change_password'),
 ]
