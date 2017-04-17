@@ -40,9 +40,11 @@ class PersonalDetailForm(forms.ModelForm):
             'phone_number': _('Mobile Number'),
             'current_address': _('Current Address'),
             'current_residence_city': _('Current City'),
+            'current_pincode': _('Pincode'),
             'current_residence_state': _('Current State'),
             'permanent_address': _('Permanent Address'),
             'permanent_residence_city': _('Permanent City'),
+            'permanent_pincode': _('Pincode'),
             'permanent_residence_state': _('Permanent State'),
         }
 

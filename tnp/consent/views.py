@@ -254,6 +254,8 @@ def make_consent_dictionary(personal_detail, education_detail):
     consent_dict['permanent_address'] = personal_detail.permanent_address
     consent_dict['permanent_residence_city'] = personal_detail.permanent_residence_city
     consent_dict['permanent_residence_state'] = personal_detail.permanent_residence_state
+    consent_dict['current_pincode'] = personal_detail.current_pincode
+    consent_dict['permanent_pincode'] = personal_detail.permanent_pincode
     consent_dict['email'] = personal_detail.user.email
     consent_dict['phone_number'] = personal_detail.phone_number
 
@@ -293,7 +295,7 @@ def export_consent(request):
         elif(cgpa_type == 'cgpa_of_semester'):
             cgpa_header = ['Sem ' + str(optional)]
 
-    header = []
+    header = ['Sr No']
 
     i = 0
     for field in field_order:
@@ -381,10 +383,12 @@ def export_consent(request):
     elif ('roll_number' in index):
         sort_index = index['roll_number']
 
-    consent_sheet.sort(
-        key=lambda x: x[sort_index].lower(), reverse=reverse_flag)
 
-    for row in consent_sheet:
+    consent_sheet.sort(key = lambda x: x[sort_index].lower(), reverse=reverse_flag)
+    
+    for sr_no, row in enumerate(consent_sheet):
+        row.insert(0,str(sr_no+1))
+
         writer.writerow(row)
 
     return response

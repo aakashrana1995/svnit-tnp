@@ -29,7 +29,6 @@ GENDER_CHOICES = (
 ENTRANCE_EXAM_TYPES = (
     ('JEE_MAIN', 'JEE Mains'),
     ('SAT', 'SAT'),
-    ('JEE_ADV', 'JEE Advanced'),
 )
 
 SEMESTERS = (
@@ -55,9 +54,11 @@ class PersonalDetail(models.Model):
     current_address = models.TextField(max_length=5000, blank=True, null=True)
     hometown = models.CharField(max_length=255, blank=True, null=True)
     current_residence_city = models.CharField(max_length=255, blank=True, null=True)
+    current_pincode = models.CharField(max_length=6, blank=True, null=True, default='395007')
     current_residence_state = models.CharField(max_length=255, blank=True, null=True)
     permanent_address = models.TextField(max_length=5000, blank=True, null=True)
     permanent_residence_city = models.CharField(max_length=255, blank=True, null=True)
+    permanent_pincode = models.CharField(max_length=6, blank=True, null=True)
     permanent_residence_state = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField('date created', auto_now_add=True)
     updated_at = models.DateTimeField('date updated', auto_now=True)
@@ -177,4 +178,3 @@ class ConsentDeadline(models.Model):
             self.strict,
             self.slack_time,
         )
-

@@ -138,16 +138,29 @@
 		                    </div>
 
 		                    <div class="row">
-		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
+		                        <div class="input-field col s5 offset-s2 m3 offset-m1">
 		                        	{{ personal_detail_form.current_residence_city }}
 		                            <label for="{{ personal_detail_form.current_residence_city.id_for_label }}"> 
 		                            	{{ personal_detail_form.current_residence_city.label }}
 		                            </label>
 		                        </div>
-		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
+		                        <div class="input-field col s3 m1">
+		                        	{{ personal_detail_form.current_pincode }}
+		                            <label for="{{ personal_detail_form.current_pincode.id_for_label }}"> 
+		                            	{{ personal_detail_form.current_pincode.label }}
+		                            </label>
+		                        </div>
+
+		                        <div class="input-field col s5 offset-s2 m3 offset-m2">
 		                            {{ personal_detail_form.permanent_residence_city }}
 		                            <label for="{{ personal_detail_form.permanent_residence_city.id_for_label }}"> 
 		                            	{{ personal_detail_form.permanent_residence_city.label }}
+		                            </label>
+		                        </div>
+		                        <div class="input-field col s3 m1">
+		                        	{{ personal_detail_form.permanent_pincode }}
+		                            <label for="{{ personal_detail_form.permanent_pincode.id_for_label }}"> 
+		                            	{{ personal_detail_form.permanent_pincode.label }}
 		                            </label>
 		                        </div>
 		                    </div>
