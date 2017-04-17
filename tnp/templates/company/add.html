@@ -254,7 +254,20 @@
                                       </div>
                                   </div>
                               </div>
-                          </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6 offset-s1 m6 offset-m1">
+                                <label for="{{ job_form.other.id_for_label }}"> Company Specific Notification </label>
+                                {{ job_form.other }}
+                            </div>
+
+                            <div class="input-field col s4 m4">
+                                {{ job_form.resumes_required }}
+                                <label for="{{ job_form.resumes_required.id_for_label }}"> 
+                                    Resumes Required?
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -333,6 +346,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <center>
                     <button class="waves-effect waves-light btn-large grey darken-2 grey-text text-lighten-5" type="submit"> Add Company </button>

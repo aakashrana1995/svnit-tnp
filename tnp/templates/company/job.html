@@ -183,6 +183,17 @@
                       </div>
                     {%endif %}
 
+
+                    {% if notifications %}
+                      <div class="card-action center col s12 m12">
+                        <ul class="collection red-text">
+                          {% for notif in notifications %}
+                            <li class="collection-item"> {{notif}} </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                    {% endif %}
+
                   {% load consent_extras %}
                   <div class="card-action center col s12 m12">
                       <a id="consent" name="{{ button_id }}" class="btn-large transparent">

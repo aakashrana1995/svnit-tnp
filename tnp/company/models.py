@@ -157,6 +157,7 @@ class Job(models.Model):
     selection_procedure = models.ManyToManyField('SelectionProcedure', blank=True)
     number_of_selections = models.IntegerField(blank=True, null=True)
     other = models.TextField(max_length=5000, blank=True, null=True)
+    resumes_required = models.BooleanField(default=False)
     created_at = models.DateTimeField('date created', auto_now_add=True)
     updated_at = models.DateTimeField('date updated', auto_now=True)
 

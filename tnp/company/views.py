@@ -149,7 +149,14 @@ def job(request, job_slug):
 
     if(job.eligibility_criteria):
         job_dict['eligibility_criteria'] = job.eligibility_criteria
- 
+    
+    notifications = []
+    if (job.resumes_required):
+        notifications.append('This company has asked for resumes. Please add/update your resumes before applying!')
+    if (job.other):
+        notifications.append(job.other)
+    job_dict['notifications'] = notifications
+
 
     eligible_branches = []
     eb = job.eligible_branches.values_list('name', 'degree')
