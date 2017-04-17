@@ -6,6 +6,7 @@ from tnp.settings import DATE_INPUT_FORMATS
 
 from django.contrib.auth.models import User
 from consent.models import PersonalDetail, EducationDetail, CGPA
+from company.models import Branch
 
 
 class UserForm(forms.ModelForm):
@@ -55,6 +56,7 @@ class EducationDetailForm(forms.ModelForm):
         super(EducationDetailForm, self).__init__(*args, **kwargs)
         self.fields['branch'].required = False
         self.fields['college_passout_year'].required = True
+        self.fields['branch'].queryset = Branch.objects.exclude(name='ALL')
 
     class Meta:
         model = EducationDetail
