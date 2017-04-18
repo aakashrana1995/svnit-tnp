@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^export', views.export_consent, name='export'),
     url(r'^logout/$', views.user_logout, name='logout'),
     # my work from here @abhishek981996
-    url(r'^profile/$', views.view_profile, name='profile'),
-    url(r'^profile/edit_profile$', views.edit_profile, name='edit_profile'),
-    url(r'^password/$', views.change_password, name='change_password'),
+    url(r'^profile/view$', views.view_profile, name='profile'),
+    url(r'^profile/edit$', views.edit_profile, name='edit_profile'),
+    url(r'^profile/change-password$', views.change_password, name='change_password'),
 ]
