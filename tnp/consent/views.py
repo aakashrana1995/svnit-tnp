@@ -17,6 +17,10 @@ from consent.models import PersonalDetail, EducationDetail, CGPA, UserConsent, C
 from company.views import create_branch_map, job as job_view
 
 from consent.forms import UserForm, PersonalDetailForm, EducationDetailForm
+# my import @abhishek981996
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 
 def create_branch_map():
     branch_map = {}
@@ -62,9 +66,9 @@ def login_user(request):
                 message = "Your TnP account is disabled!"
         else:
             message = "Invalid login details supplied!"
-            
+
         return render(request, 'consent/login_user.html', {'message': message})
-    
+
     else:
         if (request.user.is_authenticated):
             return HttpResponseRedirect('/consent/home')
@@ -96,21 +100,21 @@ def create_account(request):
             personal_detail = personal_detail_form.save(commit=False)
             personal_detail.user = user
             personal_detail.save()
-            
+
             education_detail = education_detail_form.save(commit=False)
             education_detail.user = user
             education_detail.roll_number = user.username
             education_detail.save()
-            
+
             cgpas = request.POST.getlist('cgpa')
-            sem = 1 
+            sem = 1
             for cgpa in cgpas:
                 if(cgpa):
                     CGPA.objects.create(person=education_detail, semester=sem, cgpa=cgpa)
                     sem += 1
                 else:
                     break
-            
+
         else:
             error_list = []
             print (user_form.errors.as_data())
@@ -125,7 +129,7 @@ def create_account(request):
                 for item in value:
                     print (item)
                     error_list.extend(item)
-            
+
             errors_dict = personal_detail_form.errors.as_data()
             print (personal_detail_form.errors.as_data())
             for key, value in errors_dict.items():
@@ -164,7 +168,7 @@ def create_account(request):
             'user_creation_form': user_creation_form,
             'personal_detail_form': personal_detail_form,
             'education_detail_form': education_detail_form,
-        })    
+        })
 
 
 def grouper(n, iterable):
@@ -199,7 +203,7 @@ def home(request):
             job_dict['button_type'] = 'cancel'
         else:
             job_dict['button_type'] = 'apply'
-        
+
         job_dict['company'] = job.company.name
         job_dict['designation'] = job.designation
         job_dict['ctc'] = job.ctc
@@ -209,15 +213,15 @@ def home(request):
             job_dict['badge'] = 'NEW'
         if(job.updated_at >= request.user.last_login):
             job_dict['badge'] = 'UPDATED'
-        
+
         companies_list.append(job_dict)
 
     companies_list = list(grouper(3,companies_list))
-    print (companies_list) 
+    print (companies_list)
     return render(request, 'consent/home.html', {
         'companies_list': companies_list,
     })
- 
+
 
 def make_consent_dictionary(personal_detail, education_detail):
     consent_dict = {}
@@ -233,7 +237,7 @@ def make_consent_dictionary(personal_detail, education_detail):
     consent_dict['hsc_passing_year'] = education_detail.hsc_passing_year
     consent_dict['entrance_exam'] = education_detail.get_entrance_exam_display()
     consent_dict['entrance_exam_score'] = education_detail.entrance_exam_score
-    
+
     consent_dict['branch'] = branch_map[education_detail.branch.name]
 
     consent_dict['current_backlogs'] = education_detail.current_backlogs
@@ -262,11 +266,11 @@ def export_consent(request):
 
     field_order = FieldOrder.objects.filter(job=job).order_by('position')
     cgpa_field = field_order.filter(optional__lt=0)
-        
+
     index = {}
     cgpa_header = []
-    cgpa_type = ''   
-    
+    cgpa_type = ''
+
     if cgpa_field:
         cgpa_field = cgpa_field[0]
         cgpa_type = cgpa_field.field.slug
@@ -308,12 +312,12 @@ def export_consent(request):
 
     writer = csv.writer(response)
     writer.writerow(header)
-    
+
     branch_students = EducationDetail.objects.filter(branch=branch).values_list('user', flat=True)
     consents = UserConsent.objects.filter(job=job, user__in=branch_students, is_valid=True)
 
     consent_sheet = []
-    
+
     for consent in consents:
         education_detail = EducationDetail.objects.get(user=consent.user, branch=branch)
         personal_detail = PersonalDetail.objects.get(user=consent.user)
@@ -329,7 +333,7 @@ def export_consent(request):
         for field in field_order:
             if (field.field.slug==cgpa_type):
                 row.extend(cgpa_list)
-            
+
             elif (field.field.slug == 'ssc'):
                 value = str(consent_dict[field.field.slug])
                 if (education_detail.ssc_result_type == 'PERCENTAGE'):
@@ -337,7 +341,7 @@ def export_consent(request):
                 elif (education_detail.ssc_result_type == 'CGPA'):
                     value += ' CGPA'
                 row.append(value)
-            
+
             elif (field.field.slug == 'hsc'):
                 value = str(consent_dict[field.field.slug])
                 if (education_detail.hsc_result_type == 'PERCENTAGE'):
@@ -345,13 +349,13 @@ def export_consent(request):
                 elif (education_detail.hsc_result_type == 'CGPA'):
                     value += ' CGPA'
                 row.append(value)
-            
+
             else:
                 row.append(consent_dict[field.field.slug])
 
         consent_sheet.append(row)
         #writer.writerow(row)
-    
+
     #Sorting the consent sheet: Priority order (highest first) -> cgpa, name, roll_number
     sort_index = 0
     reverse_flag = False
@@ -365,10 +369,10 @@ def export_consent(request):
         sort_index = index['roll_number']
 
     consent_sheet.sort(key = lambda x: x[sort_index].lower(), reverse=reverse_flag)
-    
+
     for row in consent_sheet:
         writer.writerow(row)
-    
+
     return response
 
 
@@ -388,11 +392,11 @@ def export_resumes(request):
     zipname = zip_subdir + '.zip'
 
     resume_dir_path = os.path.join('media', 'uploads', 'resumes')
-    
+
     filepaths = []
     for consent in consents:
         education_detail = EducationDetail.objects.get(user=consent.user, branch=branch)
-        resume_fp = os.path.join('media', education_detail.resume.name)        
+        resume_fp = os.path.join('media', education_detail.resume.name)
         if (os.path.isfile(resume_fp)):
             filepaths.append(resume_fp)
 
@@ -402,10 +406,10 @@ def export_resumes(request):
     for fpath in filepaths:
         fdir, fname = os.path.split(fpath)
         zip_path = os.path.join(zip_subdir, fname)
-        zf.write(fpath, zip_path)    
+        zf.write(fpath, zip_path)
 
     zf.close()
-    
+
     response = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
     response['Content-Disposition'] = 'attachment; filename=' + zipname
     return response
