@@ -485,9 +485,12 @@ def view_profile(request):
 
 @login_required
 def edit_profile(request):
-    if (request.method == 'POST'):
-        personal_detail = PersonalDetail.objects.get(user=request.user)
+    user = User.objects.get(username=request.user)
+    personal_detail = PersonalDetail.objects.get(user=request.user)
+    education_detail = EducationDetail.objects.get(user=request.user)
+    cgpa = CGPA.objects.filter(person=education_detail)
 
+    if (request.method == 'POST'):
         personal_detail_form = PersonalDetailForm(
             prefix='personal_detail_form', data=request.POST, instance=personal_detail)
         education_detail_form = EducationDetailForm(
@@ -497,10 +500,6 @@ def edit_profile(request):
         print (education_detail_form.errors.as_data())
 
         if (personal_detail_form.is_valid() and education_detail_form.is_valid()):
-            user = User.objects.get(username=request.user)
-            education_detail = EducationDetail.objects.get(user=request.user)
-            cgpa = CGPA.objects.filter(person=education_detail)
-
             personal_detail_form = PersonalDetailForm(
                 prefix='personal_detail_form', data=request.POST, instance=personal_detail)
             education_detail_form = EducationDetailForm(
@@ -550,16 +549,13 @@ def edit_profile(request):
 
             print ('\n')
             print (error_list)
-            education_detail = EducationDetail.objects.get(user=request.user)
-            cgpa = CGPA.objects.filter(person=education_detail)
             semester_var = {}
             for semesters in cgpa:
                 semester_var[semesters.semester] = semesters.cgpa
 
-            usercreation = User.objects.get(username=request.user)
-            user_form = UserForm(prefix='user_form', instance=usercreation)
+            user_form = UserForm(prefix='user_form', instance=user)
             user_creation_form = UserCreationForm(
-                prefix='user_creation_form', instance=usercreation)
+                prefix='user_creation_form', instance=user)
 
             return render(request, 'consent/edit_profile.html', {
                 'user_form': user_form,
@@ -574,14 +570,9 @@ def edit_profile(request):
         return HttpResponseRedirect('/consent/home')
 
     else:
-        usercreation = User.objects.get(username=request.user)
-        personal_detail = PersonalDetail.objects.get(user=request.user)
-        education_detail = EducationDetail.objects.get(user=request.user)
-        cgpa = CGPA.objects.filter(person=education_detail)
-
-        user_form = UserForm(prefix='user_form', instance=usercreation)
+        user_form = UserForm(prefix='user_form', instance=user)
         user_creation_form = UserCreationForm(
-            prefix='user_creation_form', instance=usercreation)
+            prefix='user_creation_form', instance=user)
         personal_detail_form = PersonalDetailForm(
             prefix='personal_detail_form', instance=personal_detail)
         education_detail_form = EducationDetailForm(
@@ -590,9 +581,6 @@ def edit_profile(request):
 
         for semesters in cgpa:
             semester_var[semesters.semester] = semesters.cgpa
-
-        print(semester_var['1'])
-        print(semester_var['2'])
 
         return render(request, 'consent/edit_profile.html', {
             'user_form': usercreation,
