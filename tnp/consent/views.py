@@ -22,6 +22,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 
+
 def create_branch_map():
     branch_map = {}
     branch_map['CO'] = 'Computer'
@@ -42,6 +43,7 @@ def create_degree_map():
     degree_map['MTECH'] = 'MTech'
     degree_map['MSC'] = 'MSc'
     return degree_map
+
 
 branch_map = create_branch_map()
 degree_map = create_degree_map()
@@ -79,9 +81,12 @@ def login_user(request):
 def create_account(request):
     if (request.method == 'POST'):
         user_form = UserForm(prefix="user_form", data=request.POST)
-        user_creation_form = UserCreationForm(prefix="user_creation_form", data=request.POST)
-        personal_detail_form = PersonalDetailForm(prefix='personal_detail_form', data=request.POST)
-        education_detail_form = EducationDetailForm(prefix='education_detail_form', data=request.POST, files=request.FILES)
+        user_creation_form = UserCreationForm(
+            prefix="user_creation_form", data=request.POST)
+        personal_detail_form = PersonalDetailForm(
+            prefix='personal_detail_form', data=request.POST)
+        education_detail_form = EducationDetailForm(
+            prefix='education_detail_form', data=request.POST, files=request.FILES)
 
         #print (user_form.errors.as_data())
         #print (user_creation_form.errors.as_data())
@@ -110,7 +115,8 @@ def create_account(request):
             sem = 1
             for cgpa in cgpas:
                 if(cgpa):
-                    CGPA.objects.create(person=education_detail, semester=sem, cgpa=cgpa)
+                    CGPA.objects.create(
+                        person=education_detail, semester=sem, cgpa=cgpa)
                     sem += 1
                 else:
                     break
@@ -147,21 +153,24 @@ def create_account(request):
             print ('\n')
             print (error_list)
             return render(request, 'consent/create_account.html', {
-            'user_form': user_form,
-            'user_creation_form': user_creation_form,
-            'personal_detail_form': personal_detail_form,
-            'education_detail_form': education_detail_form,
-            'error_list': error_list,
-        })
+                'user_form': user_form,
+                'user_creation_form': user_creation_form,
+                'personal_detail_form': personal_detail_form,
+                'education_detail_form': education_detail_form,
+                'error_list': error_list,
+            })
 
         return HttpResponseRedirect('/consent/home')
-        #return HttpResponse('Form successfully submitted.')
+        # return HttpResponse('Form successfully submitted.')
 
     else:
         user_form = UserForm(prefix='user_form', label_suffix='')
-        user_creation_form = UserCreationForm(prefix='user_creation_form', label_suffix='')
-        personal_detail_form = PersonalDetailForm(prefix='personal_detail_form', label_suffix='')
-        education_detail_form = EducationDetailForm(prefix='education_detail_form', label_suffix='')
+        user_creation_form = UserCreationForm(
+            prefix='user_creation_form', label_suffix='')
+        personal_detail_form = PersonalDetailForm(
+            prefix='personal_detail_form', label_suffix='')
+        education_detail_form = EducationDetailForm(
+            prefix='education_detail_form', label_suffix='')
 
         return render(request, 'consent/create_account.html', {
             'user_form': user_form,
@@ -194,7 +203,7 @@ def home(request):
         job_dict = {}
         consent = UserConsent.objects.filter(user=request.user, job=job)
         consent_deadline_objs = ConsentDeadline.objects.filter(job=job)
-        if(len(consent_deadline_objs)>0):
+        if(len(consent_deadline_objs) > 0):
             deadline = consent_deadline_objs[0].deadline
         else:
             deadline = ""
@@ -216,7 +225,7 @@ def home(request):
 
         companies_list.append(job_dict)
 
-    companies_list = list(grouper(3,companies_list))
+    companies_list = list(grouper(3, companies_list))
     print (companies_list)
     return render(request, 'consent/home.html', {
         'companies_list': companies_list,
@@ -228,7 +237,8 @@ def make_consent_dictionary(personal_detail, education_detail):
     consent_dict['roll_number'] = education_detail.roll_number
     consent_dict['name'] = personal_detail.user.get_full_name()
     dob = personal_detail.date_of_birth
-    consent_dict['date_of_birth'] = '/'.join([str(dob.day).zfill(2), str(dob.month).zfill(2), str(dob.year)])
+    consent_dict['date_of_birth'] = '/'.join(
+        [str(dob.day).zfill(2), str(dob.month).zfill(2), str(dob.year)])
     consent_dict['caste_category'] = personal_detail.get_caste_category_display()
     consent_dict['hometown'] = personal_detail.hometown
     consent_dict['ssc'] = education_detail.ssc
@@ -252,7 +262,6 @@ def make_consent_dictionary(personal_detail, education_detail):
     consent_dict['phone_number'] = personal_detail.phone_number
 
     return consent_dict
-
 
 
 @login_required
@@ -284,7 +293,7 @@ def export_consent(request):
             optional += 11
 
         if(cgpa_type == 'cgpa_upto_semester'):
-            cgpa_header = [('Sem '+ str(i)) for i in range(1, optional+1)]
+            cgpa_header = [('Sem ' + str(i)) for i in range(1, optional + 1)]
         elif(cgpa_type == 'cgpa_of_semester'):
             cgpa_header = ['Sem ' + str(optional)]
 
@@ -292,20 +301,21 @@ def export_consent(request):
 
     i = 0
     for field in field_order:
-        if (field.field.slug==cgpa_type):
+        if (field.field.slug == cgpa_type):
             header.extend(cgpa_header)
             i += len(cgpa_header)
-            index['cgpa'] = i-1
+            index['cgpa'] = i - 1
         else:
             header.append(field.field.name)
             i += 1
             if (field.field.slug == 'name'):
-                index['name'] = i-1
+                index['name'] = i - 1
             elif (field.field.slug == 'roll_number'):
-                index['roll_number'] = i-1
+                index['roll_number'] = i - 1
 
     degree = degree_map[branch_degree]
-    filename = job.company.name + ' - ' + job.designation + ' - ' + degree + ' ' + branch_map[branch_name] + '.csv'
+    filename = job.company.name + ' - ' + job.designation + \
+        ' - ' + degree + ' ' + branch_map[branch_name] + '.csv'
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
@@ -313,25 +323,31 @@ def export_consent(request):
     writer = csv.writer(response)
     writer.writerow(header)
 
-    branch_students = EducationDetail.objects.filter(branch=branch).values_list('user', flat=True)
-    consents = UserConsent.objects.filter(job=job, user__in=branch_students, is_valid=True)
+    branch_students = EducationDetail.objects.filter(
+        branch=branch).values_list('user', flat=True)
+    consents = UserConsent.objects.filter(
+        job=job, user__in=branch_students, is_valid=True)
 
     consent_sheet = []
 
     for consent in consents:
-        education_detail = EducationDetail.objects.get(user=consent.user, branch=branch)
+        education_detail = EducationDetail.objects.get(
+            user=consent.user, branch=branch)
         personal_detail = PersonalDetail.objects.get(user=consent.user)
-        consent_dict = make_consent_dictionary(personal_detail, education_detail)
+        consent_dict = make_consent_dictionary(
+            personal_detail, education_detail)
 
         cgpa_list = []
         if (cgpa_type == 'cgpa_upto_semester'):
-            cgpa_list = [str(obj.cgpa) for obj in education_detail.cgpa.order_by('semester')][:optional]
+            cgpa_list = [str(obj.cgpa) for obj in education_detail.cgpa.order_by(
+                'semester')][:optional]
         elif (cgpa_type == 'cgpa_of_semester'):
-            cgpa_list = [str(education_detail.cgpa.filter(semester=optional)[0].cgpa)]
+            cgpa_list = [
+                str(education_detail.cgpa.filter(semester=optional)[0].cgpa)]
 
         row = []
         for field in field_order:
-            if (field.field.slug==cgpa_type):
+            if (field.field.slug == cgpa_type):
                 row.extend(cgpa_list)
 
             elif (field.field.slug == 'ssc'):
@@ -354,9 +370,10 @@ def export_consent(request):
                 row.append(consent_dict[field.field.slug])
 
         consent_sheet.append(row)
-        #writer.writerow(row)
+        # writer.writerow(row)
 
-    #Sorting the consent sheet: Priority order (highest first) -> cgpa, name, roll_number
+    # Sorting the consent sheet: Priority order (highest first) -> cgpa, name,
+    # roll_number
     sort_index = 0
     reverse_flag = False
 
@@ -368,7 +385,8 @@ def export_consent(request):
     elif ('roll_number' in index):
         sort_index = index['roll_number']
 
-    consent_sheet.sort(key = lambda x: x[sort_index].lower(), reverse=reverse_flag)
+    consent_sheet.sort(
+        key=lambda x: x[sort_index].lower(), reverse=reverse_flag)
 
     for row in consent_sheet:
         writer.writerow(row)
@@ -384,18 +402,22 @@ def export_resumes(request):
     job = Job.objects.get(slug=job_slug)
     branch = Branch.objects.get(name=branch_name, degree=branch_degree)
 
-    branch_students = EducationDetail.objects.filter(branch=branch).values_list('user', flat=True)
-    consents = UserConsent.objects.filter(job=job, user__in=branch_students, is_valid=True)
+    branch_students = EducationDetail.objects.filter(
+        branch=branch).values_list('user', flat=True)
+    consents = UserConsent.objects.filter(
+        job=job, user__in=branch_students, is_valid=True)
 
     degree = degree_map[branch_degree]
-    zip_subdir = job.company.name + ' - ' + job.designation + ' - ' + degree + ' ' + branch_map[branch_name]
+    zip_subdir = job.company.name + ' - ' + job.designation + \
+        ' - ' + degree + ' ' + branch_map[branch_name]
     zipname = zip_subdir + '.zip'
 
     resume_dir_path = os.path.join('media', 'uploads', 'resumes')
 
     filepaths = []
     for consent in consents:
-        education_detail = EducationDetail.objects.get(user=consent.user, branch=branch)
+        education_detail = EducationDetail.objects.get(
+            user=consent.user, branch=branch)
         resume_fp = os.path.join('media', education_detail.resume.name)
         if (os.path.isfile(resume_fp)):
             filepaths.append(resume_fp)
@@ -410,17 +432,18 @@ def export_resumes(request):
 
     zf.close()
 
-    response = HttpResponse(s.getvalue(), content_type = "application/x-zip-compressed")
+    response = HttpResponse(
+        s.getvalue(), content_type="application/x-zip-compressed")
     response['Content-Disposition'] = 'attachment; filename=' + zipname
     return response
-
 
 
 @login_required
 def apply(request):
     job_slug = request.GET['job']
     job = Job.objects.get(slug=job_slug)
-    obj, created = UserConsent.objects.update_or_create(user=request.user, job=job, defaults={'is_valid':True})
+    obj, created = UserConsent.objects.update_or_create(
+        user=request.user, job=job, defaults={'is_valid': True})
     return HttpResponse('{ "message": "success" }')
 
 
@@ -428,7 +451,8 @@ def apply(request):
 def cancel(request):
     job_slug = request.GET['job']
     job = Job.objects.get(slug=job_slug)
-    UserConsent.objects.filter(user=request.user, job=job).update(is_valid=False)
+    UserConsent.objects.filter(
+        user=request.user, job=job).update(is_valid=False)
     return HttpResponse('{ "message": "success" }')
 
 
@@ -436,3 +460,167 @@ def cancel(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+
+# my work @abhishek981996
+
+@login_required
+def view_profile(request):
+    usercreation = User.objects.get(username=request.user)
+    personal_detail = PersonalDetail.objects.get(user=request.user)
+    education_detail = EducationDetail.objects.get(user=request.user)
+    cgpa = CGPA.objects.filter(person=education_detail)
+
+    education_detail = EducationDetail.objects.get(user=request.user)
+    cgpa = CGPA.objects.filter(person=education_detail)
+    semester_var = {}
+    for semesters in cgpa:
+        semester_var[semesters.semester] = semesters.cgpa
+
+    return render(request, 'consent/profile.html', {
+        'usercreation': usercreation,
+        'personaldetail': personal_detail,
+        'education_detail': education_detail,
+        'semester_var': semester_var,
+    })
+
+
+@login_required
+def edit_profile(request):
+    if (request.method == 'POST'):
+        personal_detail = PersonalDetail.objects.get(user=request.user)
+
+        personal_detail_form = PersonalDetailForm(
+            prefix='personal_detail_form', data=request.POST, instance=personal_detail)
+        education_detail_form = EducationDetailForm(
+            prefix='education_detail_form', data=request.POST, files=request.FILES)
+
+        print (personal_detail_form.errors.as_data())
+        print (education_detail_form.errors.as_data())
+
+        if (personal_detail_form.is_valid() and education_detail_form.is_valid()):
+            user = User.objects.get(username=request.user)
+            personal_detail = PersonalDetail.objects.get(user=request.user)
+            education_detail = EducationDetail.objects.get(user=request.user)
+            cgpa = CGPA.objects.filter(person=education_detail)
+
+            personal_detail_form = PersonalDetailForm(
+                prefix='personal_detail_form', data=request.POST, instance=personal_detail)
+            education_detail_form = EducationDetailForm(
+                prefix='education_detail_form', data=request.POST, instance=education_detail)
+
+            personal_detail = personal_detail_form.save(commit=False)
+            personal_detail.save()
+
+            education_detail = education_detail_form.save(commit=False)
+            education_detail.save()
+
+            cgpas = request.POST.getlist('cgpa')
+            sem = 1
+            for cgpa in cgpas:
+                if(cgpa):
+                    print(sem)
+                    try:
+                        cgpa_edit = CGPA.objects.get(
+                            person=education_detail, semester=sem)
+                        cgpa_edit.cgpa = cgpa
+                        cgpa_edit.save()
+                        sem += 1
+                    except Exception, e:
+                        CGPA.objects.create(
+                            person=education_detail, semester=sem, cgpa=cgpa)
+                        sem += 1
+                    print('cgpa')
+                else:
+                    break
+
+        else:
+            error_list = []
+
+            errors_dict = personal_detail_form.errors.as_data()
+            print (personal_detail_form.errors.as_data())
+            for key, value in errors_dict.items():
+                for item in value:
+                    print (item)
+                    error_list.extend(item)
+
+            errors_dict = education_detail_form.errors.as_data()
+            print (education_detail_form.errors.as_data())
+            for key, value in errors_dict.items():
+                for item in value:
+                    print (item)
+                    error_list.extend(item)
+
+            print ('\n')
+            print (error_list)
+            education_detail = EducationDetail.objects.get(user=request.user)
+            cgpa = CGPA.objects.filter(person=education_detail)
+            semester_var = {}
+            for semesters in cgpa:
+                semester_var[semesters.semester] = semesters.cgpa
+
+            usercreation = User.objects.get(username=request.user)
+            user_form = UserForm(prefix='user_form', instance=usercreation)
+            user_creation_form = UserCreationForm(
+                prefix='user_creation_form', instance=usercreation)
+
+            return render(request, 'consent/edit_profile.html', {
+                'user_form': user_form,
+                'user_creation_form': user_creation_form,
+                'personal_detail_form': personal_detail_form,
+                'education_detail_form': education_detail_form,
+                'error_list': error_list,
+                'semester_var': semester_var,
+
+            })
+
+        return HttpResponseRedirect('/consent/home')
+
+    else:
+        usercreation = User.objects.get(username=request.user)
+        personal_detail = PersonalDetail.objects.get(user=request.user)
+        education_detail = EducationDetail.objects.get(user=request.user)
+        cgpa = CGPA.objects.filter(person=education_detail)
+
+        user_form = UserForm(prefix='user_form', instance=usercreation)
+        user_creation_form = UserCreationForm(
+            prefix='user_creation_form', instance=usercreation)
+        personal_detail_form = PersonalDetailForm(
+            prefix='personal_detail_form', instance=personal_detail)
+        education_detail_form = EducationDetailForm(
+            prefix='education_detail_form', instance=education_detail)
+        semester_var = {}
+
+        for semesters in cgpa:
+            semester_var[semesters.semester] = semesters.cgpa
+
+        print(semester_var['1'])
+        print(semester_var['2'])
+
+        return render(request, 'consent/edit_profile.html', {
+            'user_form': usercreation,
+            'user_creation_form': user_creation_form,
+            'personal_detail_form': personal_detail_form,
+            'education_detail_form': education_detail_form,
+            'cgpa': cgpa,
+            'semester_var': semester_var,
+        })
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(
+                request, 'Your password was successfully updated!')
+            return HttpResponseRedirect('/consent/home')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'consent/change_password.html', {
+        'form': form
+    })
