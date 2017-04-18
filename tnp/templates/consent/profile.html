@@ -10,10 +10,10 @@
 
 
 
-{% block body_block %} 
+{% block body_block %}
 	<div id="content" style="min-height: calc(100vh - 120px);">
 		<div class="container">
-			<div class="section" id="form_errors"> 
+			<div class="section" id="form_errors">
 				{% if error_list %}
 					<ul class="collection red-text">
 						{% for error in error_list %}
@@ -32,29 +32,29 @@
 	                    	<div class="section"> </div>
 							<div class="row">
 		                        <div class="input-field col s6 offset-s1 m5 offset-m1">
-		                            
+
 		                            	<h6><b>Username (same as Admission Number)</b> </h6>
-		                            
+
 		                            {{ usercreation.username}}
 		                        </div>
 		                        <div class="input-field col s4 offset-s1 m5 offset-m1">
-		                            
+
 		                            	<h6><b><a href="{% url 'change_password'%}">Change Password</a></b> </h6>
-		                            
-		                            
+
+
 		                        </div>
 		                    </div>
 
 	                    	<div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
-		                           
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>First_name</b>
 		                            </h6>
 		                            {{ usercreation.first_name }}
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
-		                            <h6> 
+		                            <h6>
 		                            	<b>Last_name</b>
 		                            </h6>
 		                           {{ usercreation.last_name }}
@@ -64,14 +64,14 @@
 
 		                    <div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
-		                            <h6> 
+		                            <h6>
 		                            	<b>Email</b>
 		                            </h6>
 		                           {{ usercreation.email }}
 
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
-		                            
+
 		                            <h6>
 		                            	<b>Phone_number</b>
 
@@ -91,16 +91,16 @@
 
 	                    	<div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
-		                        	
+
 		                            <h6>
-		                            <b> 
+		                            <b>
 		                            Gender
 		                            </b>
 		                            </h6>
 		                            {{ personaldetail.gender }}
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
-		                            
+
 		                            <h6><b>Date of Birth</b> </h6>
 		                            {{ personaldetail.date_of_birth }}
 		                        </div>
@@ -114,8 +114,8 @@
 
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
-		                            
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Hometown</b>
 		                            </h6>
 		                            {{ personaldetail.hometown }}
@@ -124,15 +124,15 @@
 		                    </div>
 		                    <div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
-		                        	
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Current address</b>
 		                            </h6>
 		                            {{ personaldetail.current_address }}
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
-		                            
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Permanent Address</b>
 		                            </h6>
 		                            {{ personaldetail.permanent_address }}
@@ -141,14 +141,14 @@
 
 		                    <div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
-		                        	
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Current Residence City</b>
 		                            </h6>
 		                            {{ personaldetail.current_residence_city }}
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
-		                            
+
 		                            <h6>
 		                            	<b>Permanent Residence City</b>
 		                            </h6>
@@ -158,15 +158,15 @@
 
 		                    <div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
-		                        	
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Current Residence State</b>
 		                            </h6>
 		                            {{ personaldetail.current_residence_state }}
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
-		                            
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Permanent Residence State</b>
 		                            </h6>
 		                            {{ personaldetail.permanent_residence_state }}
@@ -182,7 +182,7 @@
 
 	                    	<div class="row">
 		                        <div class="input-field col s6 offset-s2 m3 offset-m1">
-		                        	
+
 		                            <h6><b>
 		                            	SSC
 		                            </b>
@@ -190,8 +190,8 @@
 		                            {{ education_detail.ssc }}
 		                        </div>
 		                        <div class="input-field col s2 offset-s1 m1">
-		                            
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Ssc Result Type</b>
 		                            </h6>
 		                            {{ education_detail.ssc_result_type }}
@@ -199,15 +199,15 @@
 
 
 		                        <div class="input-field col s6 offset-s2 m3 offset-m2">
-		                        	
+
 		                            <h6>
 		                            	<B>HSC</B>
 		                            </h6>
 		                            {{ education_detail.hsc }}
 		                        </div>
 		                        <div class="input-field col s2 offset-s1 m1">
-		                            
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Hsc Result Type</b>
 		                            </h6>
 		                            {{ education_detail.hsc_result_type }}
@@ -215,15 +215,15 @@
 		                    </div>
 		                    <div class="row">
 		                        <div class="input-field col s6 offset-s2 m3 offset-m1">
-		                        	
-		                            <h6> 
+
+		                            <h6>
 		                            	<B>ssc_board_name</B>
 		                            </h6>
 		                            {{ education_detail.ssc_board_name }}
 		                        </div>
 		                        <div class="input-field col s2 offset-s1 m1">
-		                            
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Ssc Passing Year</b>
 		                            </h6>
 		                            {{ education_detail.ssc_passing_year }}
@@ -231,15 +231,15 @@
 
 
 		                        <div class="input-field col s6 offset-s2 m3 offset-m2">
-		                        	
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>HSC BOARD NAME</b>
 		                            </h6>
 		                            {{education_detail.hsc_board_name }}
 		                        </div>
 		                        <div class="input-field col s2 offset-s1 m1">
-		                            
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>hsc_passing_year</b>
 		                            </h6>
 		                            {{ education_detail.hsc_passing_year }}
@@ -247,23 +247,23 @@
 		                    </div>
 		                    <div class="row">
 		                        <div class="input-field col s5 offset-s2 m4 offset-m1">
-		                        	
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Entrance Exam Score</b>
 		                            </h6>
 		                            {{ education_detail.entrance_exam_score }}
 		                        </div>
 		                        <div class="input-field col s4 offset-s1 m1">
-		                            
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Entrance Exam</b>
 		                            </h6>
 		                            {{ education_detail.entrance_exam }}
 		                        </div>
 
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
-		                            
-		                            <h6> 
+
+		                            <h6>
 		                            	<b>Branch</b>
 		                            </h6>
 		                            {{ education_detail.branch }}
@@ -279,27 +279,27 @@
 
 		                    <div class="row">
 		                    	<div class="input-field col s5 m2 offset-s1 offset-m1">
-		                    		
+
 		                    		<p><b>CGPA Semester 1 </b></p>
 		                    		{{semester_var.1}}
 		                    	</div>
 		                    	<div class="input-field col s5 m2">
-		                    		
+
 		                    		<p><b> CGPA Semester 2 </b></p>
 		                    		{{semester_var.2}}
 		                    	</div>
 		                    	<div class="input-field col s5 m2 offset-s1">
-		                    		
+
 		                    		<p><b> CGPA Semester 3 </b></p>
 		                    		{{semester_var.3}}
 		                    	</div>
 		                    	<div class="input-field col s5 m2">
-		                    		
+
 		                    		<p><b> CGPA Semester 4 </b></p>
 		                    		{{semester_var.4}}
 		                    	</div>
 		                    	<div class="input-field col s5 m2 offset-s1">
-		                    		
+
 		                    		<p><b> CGPA Semester 5 </b></p>
 		                    		{{semester_var.5}}
 		                    	</div>
@@ -307,27 +307,27 @@
 
 		                    <div class="row">
 		                    	<div class="input-field col s5 m2 offset-s1 offset-m1">
-		                    		
+
 		                    		<p><b> CGPA Semester 6 </b></p>
 		                    		{{semester_var.6}}
 		                    	</div>
 		                    	<div class="input-field col s5 m2">
-		                    		
+
 		                    		<p><b> CGPA Semester 7 </b></p>
 		                    		{{semester_var.7}}
 		                    	</div>
 		                    	<div class="input-field col s5 m2 offset-s1">
-		                    		
+
 		                    		<p><b> CGPA Semester 8 </b></p>
 		                    		{{semester_var.8}}
 		                    	</div>
 		                    	<div class="input-field col s5 m2">
-		                    		
+
 		                    		<p><b> CGPA Semester 9 </b></p>
 		                    		{{semester_var.9}}
 		                    	</div>
 		                    	<div class="input-field col s5 m2 offset-s1">
-		                    		
+
 		                    		<p><b> CGPA Semester 10 </b></p>
 		                    		{{semester_var.10}}
 		                    	</div>
@@ -335,7 +335,7 @@
 		                       <div class="row">
 		                    	<div class="input-field col s2 offset-s1">
 		                    		{{ education_detail_form.current_backlogs }}
-		                            <p><b> 
+		                            <p><b>
 		                            Currentbacklogs
 		                            </b></p>
 		                            {%if education_details.current_backlogs%}
@@ -345,7 +345,7 @@
 		                            {%endif%}
 		                    	</div>
 		                    	<div class="input-field col s2">
-		                            <p><b> 
+		                            <p><b>
 		                            	Totalbacklogs
 		                            </b></p>
 		                            {%if education_details.total_backlogs%}
@@ -353,35 +353,35 @@
 		                            {%else%}
 		                            0
 		                            {%endif%}
-		                            
+
 		                    	</div>
 		                    <div class="row">
 		                    	<div class="input-field col s4 ">
-		                    		
-		                            <p><b> 
+
+		                            <p><b>
 		                            	CollegePassoutYear
 		                            </b></p>
 		                            {{ education_detail.college_passout_year }}
 		                    	</div>
 
-		                    	
+
 
 		                    </div>
 	                    </div>
 	                </div>
 
-		                   
-		               
+
+
 
 	                     <center>
-	                     	<a href="/consent/profile/edit_profile{{ consent.urls }}">
+	                     	<a href="{% url 'edit_profile' %}">
 		                      <button class="waves-effect waves-light btn-large grey darken-2 grey-text text-lighten-5 hoverable" id="create_account_button" type="submit">Edit Profile</button>
 		                  </a>
-		                </center>      
+		                </center>
 		            </div>
 
 
-	                    	
+
 		</div>
 {% endblock %}
 
@@ -393,3 +393,4 @@
 {% block custom_js %}
 	<script type="text/javascript" src="/static/js/consent/create_account.js"></script>
 {% endblock %}
+

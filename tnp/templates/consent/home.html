@@ -7,11 +7,21 @@
 {% endblock %}
 
 
-{% block body_block %} 
+{% block body_block %}
 
 <div id="content" style="min-height: calc(100vh - 120px);">
   <div class="section"> </div>
-        
+  <div class="section"> </div>
+        <div class="section" id="form_errors">
+        {% if messages %}
+          <ul class="collection green-text center">
+            {% for message in messages %}
+              <li class="collection-item">{{ message }} </li>
+              {% endfor %}
+                </ul>
+                {% endif %}
+      </div>
+
       <div class="container">
         {% if companies_list %}
             {% for three_companies in companies_list %}
@@ -33,27 +43,27 @@
                               {% endif %}
                           </div>
                           <table class="bordered centered responsive-table grey lighten-5">
-                            <tr> 
+                            <tr>
                               <td> <strong> CTC </strong> </td>
-                              {% if company.ctc %} 
+                              {% if company.ctc %}
                                   <td> {{ company.ctc }} LPA </td>
                               {% else %}
                                   <td> NA </td>
                               {% endif%}
                             </tr>
 
-                            <tr> 
+                            <tr>
                               <td> <strong> Deadline </strong> </td>
                               <td> {{ company.deadline|date:'g:i A, j M, D' }} </td>
                             </tr>
                           </table>
 
-                        
-                          <div class="card-action grey lighten-5"> 
+
+                          <div class="card-action grey lighten-5">
                             <div class="grey-text text-darken-2 " value="More Detils">
                               <strong> MORE DETAILS </strong>
                                 <i class="material-icons right">arrow_drop_down_circle</i>
-                            </div> 
+                            </div>
                           </div>
                         </a>
                       </div>

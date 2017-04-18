@@ -583,7 +583,7 @@ def edit_profile(request):
             semester_var[semesters.semester] = semesters.cgpa
 
         return render(request, 'consent/edit_profile.html', {
-            'user_form': usercreation,
+            'user_form': user_form,
             'user_creation_form': user_creation_form,
             'personal_detail_form': personal_detail_form,
             'education_detail_form': education_detail_form,
