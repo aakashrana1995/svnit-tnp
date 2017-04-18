@@ -471,8 +471,6 @@ def view_profile(request):
     education_detail = EducationDetail.objects.get(user=request.user)
     cgpa = CGPA.objects.filter(person=education_detail)
 
-    education_detail = EducationDetail.objects.get(user=request.user)
-    cgpa = CGPA.objects.filter(person=education_detail)
     semester_var = {}
     for semesters in cgpa:
         semester_var[semesters.semester] = semesters.cgpa
@@ -500,7 +498,6 @@ def edit_profile(request):
 
         if (personal_detail_form.is_valid() and education_detail_form.is_valid()):
             user = User.objects.get(username=request.user)
-            personal_detail = PersonalDetail.objects.get(user=request.user)
             education_detail = EducationDetail.objects.get(user=request.user)
             cgpa = CGPA.objects.filter(person=education_detail)
 
@@ -526,7 +523,7 @@ def edit_profile(request):
                         cgpa_edit.cgpa = cgpa
                         cgpa_edit.save()
                         sem += 1
-                    except Exception, e:
+                    except:
                         CGPA.objects.create(
                             person=education_detail, semester=sem, cgpa=cgpa)
                         sem += 1
