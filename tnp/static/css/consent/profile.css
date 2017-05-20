@@ -1,0 +1,14 @@
+.address {
+  height: 150px;
+  overflow: auto;
+}
+
+.board {
+  height: 180px;
+  overflow: auto;
+}
+
+.cgpa {
+  height: 530px;
+  overflow: auto;
+}

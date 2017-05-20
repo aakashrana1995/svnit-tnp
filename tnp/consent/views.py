@@ -518,20 +518,19 @@ def edit_profile(request):
             sem = 1
             for cgpa in cgpas:
                 if(cgpa):
-                    print(sem)
-                    try:
-                        cgpa_edit = CGPA.objects.get(
-                            person=education_detail, semester=sem)
-                        cgpa_edit.cgpa = cgpa
-                        cgpa_edit.save()
-                        sem += 1
-                    except:
-                        CGPA.objects.create(
-                            person=education_detail, semester=sem, cgpa=cgpa)
-                        sem += 1
-                    print('cgpa')
+                    cgpa_qs = CGPA.objects.filter(person=education_detail, semester=sem) #qs: Query Set
+                    if (cgpa_qs.count() > 0):
+                        cgpa_obj = cgpa_qs[0]
+                        cgpa_obj.cgpa = cgpa
+                        cgpa_obj.save()
+                    else:
+                        CGPA.objects.create(person=education_detail, semester=sem, cgpa=cgpa)
+                    
+                    sem += 1
                 else:
                     break
+                messages.success(request, 'Your profile was successfully updated!')
+                return HttpResponseRedirect('/consent/profile/view')
 
         else:
             error_list = []
