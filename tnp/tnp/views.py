@@ -7,3 +7,6 @@ def index(request):
 		return HttpResponseRedirect('/consent/home')
 	else:
 		return HttpResponseRedirect('/consent/login')
+
+def about(request):
+	return render(request, 'about.html', {})

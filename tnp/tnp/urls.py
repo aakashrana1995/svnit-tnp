@@ -21,10 +21,12 @@ from django.contrib import admin
 
 from . import views
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
     url(r'^consent/', include('consent.urls')),
     url(r'^company/', include('company.urls')),
+    url(r'^about/', views.about, name='about'),
     url(r'^$', views.index, name='index'),
 ]
 

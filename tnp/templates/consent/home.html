@@ -10,19 +10,17 @@
 {% block body_block %}
 
 <div id="content" style="min-height: calc(100vh - 120px);">
-  <div class="section"> </div>
-  <div class="section"> </div>
-        <div class="section" id="form_errors">
-        {% if messages %}
-          <ul class="collection green-text center">
-            {% for message in messages %}
-              <li class="collection-item">{{ message }} </li>
-              {% endfor %}
-                </ul>
-                {% endif %}
-      </div>
-
       <div class="container">
+        {% if messages %}
+          <div class="section" id="messages">
+            <ul class="collection green-text center">
+              {% for message in messages %}
+                <li class="collection-item"> {{ message }} </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
         {% if companies_list %}
             {% for three_companies in companies_list %}
               <div class="row">
@@ -60,7 +58,7 @@
 
 
                           <div class="card-action grey lighten-5">
-                            <div class="grey-text text-darken-2 " value="More Detils">
+                            <div class="grey-text text-darken-2 " value="More Details">
                               <strong> MORE DETAILS </strong>
                                 <i class="material-icons right">arrow_drop_down_circle</i>
                             </div>

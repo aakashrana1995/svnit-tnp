@@ -20,16 +20,30 @@
         <nav class="grey lighten-5">
           <div class="nav-wrapper container">
             <a href="/" class="waves-effect brand-logo grey-text text-darken-2"> Training and Placement, SVNIT </a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+            
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               {% if user.is_authenticated %}
                   <li><a href="/consent/home" class="waves-effect grey-text text-darken-2">Welcome {{ user.first_name }}</a></li>
+                  <li><a class="waves-effect grey-text text-darken-2" href="{% url 'profile'%}">Profile</a></li>
                   <li><a href="/consent/logout" class="waves-effect grey-text text-darken-2">Logout</a></li>
               {% else %}
                   <li><a href="#" class="waves-effect grey-text text-darken-2">Welcome</a></li>
                   <li><a href="/consent/login" class="waves-effect grey-text text-darken-2">Login</a></li>
               {% endif %}
-              <li><a href="#" class="waves-effect grey-text text-darken-2">About</a></li>
             </ul>
+            
+            <ul id="mobile-demo" class="side-nav">
+              {% if user.is_authenticated %}
+                  <li><a href="/consent/home" class="waves-effect grey-text text-darken-2">Home</a></li>
+                  <li><a class="waves-effect grey-text text-darken-2" href="{% url 'profile'%}">Profile</a></li>
+                  <li><a href="/consent/logout" class="waves-effect grey-text text-darken-2">Logout</a></li>
+              {% else %}
+                  <li><a href="#" class="waves-effect grey-text text-darken-2">Welcome</a></li>
+                  <li><a href="/consent/login" class="waves-effect grey-text text-darken-2">Login</a></li>
+              {% endif %}
+            </ul>
+
           </div>
         </nav>
             
@@ -44,7 +58,7 @@
           <div class="footer-copyright grey-text text-darken-2 grey lighten-3 z-depth-5" style="height: 120px">
             <div class="container">
               <p> © 2017 Copyright SVNIT
-                <a class="grey-text text-darken-2 right" href="#!">More Links</a>
+                <a class="grey-text text-darken-2 right" href="{% url 'about' %}">About</a>
               </p>
             </div>
           </div>
@@ -53,7 +67,8 @@
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
       <script type="text/javascript" src="/static/js/materialize.min.js"></script>
-      
+      <script type="text/javascript" src="/static/js/base.js"></script>
+
       {% block custom_js %} {% endblock %}
     </body>
   </html>
