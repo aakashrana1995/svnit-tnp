@@ -74,6 +74,21 @@
               </div>
             </div>
 
+            <div class="col s12 m6">
+              <div class="card hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                  <div class="card-content">
+                    <span class="card-title"> Resume </span>
+                    {% if education_detail.resume %}
+                      <p> <a href="{{ education_detail.resume.url }}"> 
+                        {{ usercreation.first_name }}_{{ usercreation.last_name}}_NITSurat_Resume 
+                      </a> </p>
+                    {% else %}
+                      <p> <a href="{% url 'edit_profile' %}">  Upload your Resume </a> </p>
+                    {% endif %}
+                  </div>
+              </div>
+            </div>
+
 	        </div>
 	      </div>
 	    </div>
@@ -126,7 +141,11 @@
               <div class="card address hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
                   <div class="card-content">
                     <span class="card-title"> Current Address </span>
-                    <p> {{ personaldetail.current_address }} </p>
+                    {% if personaldetail.current_address %}
+                      <p> {{ personaldetail.current_address }} </p>
+                    {% else %}
+                      <p> <a href="{% url 'edit_profile' %}"> Add your current address </a> </p>
+                    {% endif %}
                   </div>
               </div>
             </div>
@@ -135,7 +154,11 @@
               <div class="card address hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
                   <div class="card-content">
                     <span class="card-title"> Permanent Address </span>
-                    <p> {{ personaldetail.permanent_address }} </p>
+                    {% if personaldetail.permanent_address %}
+                      <p> {{ personaldetail.permanent_address }} </p>
+                    {% else %}
+                      <p> <a href="{% url 'edit_profile' %}"> Add your permanent address </a> </p>
+                    {% endif %}
                   </div>
               </div>
             </div>
@@ -144,7 +167,20 @@
               <div class="card hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
                   <div class="card-content">
                     <span class="card-title"> Current City, State </span>
-                    <p> {{ personaldetail.current_residence_city }}, {{ personaldetail.current_residence_state }} </p>
+                    <p>
+                      {% if personaldetail.current_residence_city %}
+                        {{ personaldetail.current_residence_city }}{% if personaldetail.current_residence_state %}, {{ personaldetail.current_residence_state }}
+                        {% endif %}
+                      {% elif personaldetail.current_residence_state %}
+                        {{ personaldetail.current_residence_state }}
+                      {% else %}
+                        <a href="{% url 'edit_profile' %}"> Add current city/state </a>
+                      {% endif %}
+
+                      {% if personaldetail.current_pincode %}
+                        [{{ personaldetail.current_pincode }}]
+                      {% endif %}
+                    </p>
                   </div>
               </div>
             </div>
@@ -153,7 +189,20 @@
               <div class="card hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
                   <div class="card-content">
                     <span class="card-title"> Permanent City, State </span>
-                    <p> {{ personaldetail.permanent_residence_city }}, {{ personaldetail.permanent_residence_state }} </p>
+                    <p>
+                      {% if personaldetail.permanent_residence_city %}
+                        {{ personaldetail.permanent_residence_city }}{% if personaldetail.permanent_residence_state %}, {{ personaldetail.permanent_residence_state }}
+                        {% endif %}
+                      {% elif personaldetail.permanent_residence_state %}
+                        {{ personaldetail.permanent_residence_state }}
+                      {% else %}
+                        <a href="{% url 'edit_profile' %}"> Add permanent city/state </a>
+                      {% endif %}
+
+                      {% if personaldetail.permanent_pincode %}
+                        [{{ personaldetail.permanent_pincode }}]
+                      {% endif %}
+                    </p>
                   </div>
               </div>
             </div>
@@ -171,23 +220,57 @@
 	          </div>
 	          
 	          <div class="col s12 m6">
-              <div class="card board hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+              <div class="card board-exam hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
                   <div class="card-content">
                     <span class="card-title"> SSC (Standard X) </span>
-                    <p> <strong> Aggregate Marks: </strong> {{ education_detail.ssc }} {{ education_detail.get_ssc_result_type_display }} </p>
-                    <p> <strong> Passing Year: </strong> {{ education_detail.ssc_passing_year }} </p>
-                    <p> <strong> Board: </strong> {{ education_detail.ssc_board_name }} </p>
+                    <table class="striped">
+                      <col class="board-exam-fields">
+                      <col class="board-exam-content">
+                      <tbody>
+                        <tr>
+                          <td> <strong> Marks </strong> </td>
+                          <td> {{ education_detail.ssc }} {{ education_detail.get_ssc_result_type_display }} </td>
+                        </tr>
+
+                        <tr>
+                          <td> <strong> Passing Year </strong> </td>
+                          <td> {{ education_detail.ssc_passing_year }} </td>
+                        </tr>
+
+                        <tr>
+                          <td> <strong> Board </strong> </td>
+                          <td> {{ education_detail.ssc_board_name }} </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
               </div>
             </div>
 
             <div class="col s12 m6">
-              <div class="card board hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+              <div class="card board-exam hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
                   <div class="card-content">
-                    <span class="card-title"> HSC (Standard XII) </span>
-                    <p> <strong> Aggregate Marks: </strong> {{ education_detail.hsc }} {{ education_detail.get_hsc_result_type_display }} </p>
-                    <p> <strong> Passing Year: </strong> {{ education_detail.hsc_passing_year }} </p>
-                    <p> <strong> Board: </strong> {{ education_detail.hsc_board_name }} </p>
+                    <span class="card-title"> HSC (Standard X) </span>
+                    <table class="striped">
+                      <col class="board-exam-fields">
+                      <col class="board-exam-content">
+                      <tbody>
+                        <tr>
+                          <td> <strong> Marks </strong> </td>
+                          <td> {{ education_detail.hsc }} {{ education_detail.get_hsc_result_type_display }} </td>
+                        </tr>
+
+                        <tr>
+                          <td> <strong> Passing Year </strong> </td>
+                          <td> {{ education_detail.hsc_passing_year }} </td>
+                        </tr>
+
+                        <tr>
+                          <td> <strong> Board </strong> </td>
+                          <td> {{ education_detail.hsc_board_name }} </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
               </div>
             </div>
