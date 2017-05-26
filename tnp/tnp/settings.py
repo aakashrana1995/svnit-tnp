@@ -147,6 +147,7 @@ DATE_INPUT_FORMATS =   [
     '%B %d, %Y',     # 'October 25, 2006'
     '%d %B %Y',      # '25 October 2006'
     '%d %B, %Y',     # '25 October, 2006'
+    '%Y-%m-%d',      # '2006-10-25'
 ]
 
 TIME_INPUT_FORMATS = [

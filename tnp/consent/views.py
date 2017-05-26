@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 from company.models import Company, Job, JobLocation, Attachment, Branch, month_list
 from consent.models import PersonalDetail, EducationDetail, CGPA, UserConsent, ConsentDeadline, FieldOrder
 from company.views import create_branch_map, job as job_view
+from tnp.settings import MEDIA_ROOT
 
 from consent.forms import UserForm, PersonalDetailForm, EducationDetailForm
 # my import @abhishek981996
@@ -415,13 +416,13 @@ def export_resumes(request):
         ' - ' + degree + ' ' + branch_map[branch_name]
     zipname = zip_subdir + '.zip'
 
-    resume_dir_path = os.path.join('media', 'uploads', 'resumes')
+    resume_dir_path = os.path.join(MEDIA_ROOT, 'uploads', 'resumes')
 
     filepaths = []
     for consent in consents:
         education_detail = EducationDetail.objects.get(
             user=consent.user, branch=branch)
-        resume_fp = os.path.join('media', education_detail.resume.name)
+        resume_fp = os.path.join(MEDIA_ROOT, education_detail.resume.name)
         if (os.path.isfile(resume_fp)):
             filepaths.append(resume_fp)
 
@@ -488,31 +489,37 @@ def view_profile(request):
 
 @login_required
 def edit_profile(request):
-    user = User.objects.get(username=request.user)
     personal_detail = PersonalDetail.objects.get(user=request.user)
     education_detail = EducationDetail.objects.get(user=request.user)
     cgpa = CGPA.objects.filter(person=education_detail)
 
     if (request.method == 'POST'):
         personal_detail_form = PersonalDetailForm(
-            prefix='personal_detail_form', data=request.POST, instance=personal_detail)
+            prefix='personal_detail_form',
+            data=request.POST,
+            instance=personal_detail,
+        )
         education_detail_form = EducationDetailForm(
-            prefix='education_detail_form', data=request.POST, files=request.FILES)
+            prefix='education_detail_form',
+            data=request.POST,
+            files=request.FILES,
+            instance=education_detail,
+        )
 
+        user_form = UserForm(
+            prefix='user_form',
+            data=request.POST,
+            instance=request.user,
+        )
+
+        print (user_form.errors.as_data())
         print (personal_detail_form.errors.as_data())
         print (education_detail_form.errors.as_data())
 
-        if (personal_detail_form.is_valid() and education_detail_form.is_valid()):
-            personal_detail_form = PersonalDetailForm(
-                prefix='personal_detail_form', data=request.POST, instance=personal_detail)
-            education_detail_form = EducationDetailForm(
-                prefix='education_detail_form', data=request.POST, instance=education_detail)
-
-            personal_detail = personal_detail_form.save(commit=False)
-            personal_detail.save()
-
-            education_detail = education_detail_form.save(commit=False)
-            education_detail.save()
+        if (user_form.is_valid() and personal_detail_form.is_valid() and education_detail_form.is_valid()):
+            user_obj = user_form.save()
+            personal_detail = personal_detail_form.save()
+            education_detail = education_detail_form.save()
 
             cgpas = request.POST.getlist('cgpa')
             sem = 1
@@ -555,13 +562,8 @@ def edit_profile(request):
             for semesters in cgpa:
                 semester_var[semesters.semester] = semesters.cgpa
 
-            user_form = UserForm(prefix='user_form', instance=user)
-            user_creation_form = UserCreationForm(
-                prefix='user_creation_form', instance=user)
-
             return render(request, 'consent/edit_profile.html', {
                 'user_form': user_form,
-                'user_creation_form': user_creation_form,
                 'personal_detail_form': personal_detail_form,
                 'education_detail_form': education_detail_form,
                 'error_list': error_list,
@@ -572,13 +574,18 @@ def edit_profile(request):
         return HttpResponseRedirect('/consent/home')
 
     else:
-        user_form = UserForm(prefix='user_form', instance=user)
-        user_creation_form = UserCreationForm(
-            prefix='user_creation_form', instance=user)
+        user_form = UserForm(prefix='user_form', instance=request.user)
+        
         personal_detail_form = PersonalDetailForm(
-            prefix='personal_detail_form', instance=personal_detail)
+            prefix='personal_detail_form',
+            instance=personal_detail
+        )
+        
         education_detail_form = EducationDetailForm(
-            prefix='education_detail_form', instance=education_detail)
+            prefix='education_detail_form',
+            instance=education_detail
+        )
+        
         semester_var = {}
 
         for semesters in cgpa:
@@ -586,7 +593,6 @@ def edit_profile(request):
 
         return render(request, 'consent/edit_profile.html', {
             'user_form': user_form,
-            'user_creation_form': user_creation_form,
             'personal_detail_form': personal_detail_form,
             'education_detail_form': education_detail_form,
             'cgpa': cgpa,

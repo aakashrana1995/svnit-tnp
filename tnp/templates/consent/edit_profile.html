@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Create Account {% endblock %}
+{% block title %} Edit Profile {% endblock %}
 
 {% block custom_css %}
 	<link type="text/css" rel="stylesheet" href="/static/css/datepicker.css" media="screen,projection" />
@@ -13,15 +13,15 @@
 {% block body_block %} 
 	<div id="content" style="min-height: calc(100vh - 120px);">
 		<div class="container">
-			<div class="section" id="form_errors"> 
-				{% if error_list %}
+			{% if error_list %}
+				<div class="section" id="form_errors"> 
 					<ul class="collection red-text">
 						{% for error in error_list %}
 							<li class="collection-item"> {{error}} </li>
 						{% endfor %}
 					</ul>
-				{% endif %}
-			</div>
+				</div>
+			{% endif %}
 
 				<div class="row">
 					<form method="post" id="create_account_form" enctype="multipart/form-data">
@@ -32,21 +32,13 @@
 	                    	</div>
 
 	                    	<div class="section"> </div>
-							<div class="row">
-		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
-		                            {{ user_form.username }}
-		                        </div>
-		                    </div>
 
 	                    	<div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
 		                            {{ user_form.first_name }}
-
-		                            <label for="{{ user_form.first_name.id_for_label }}" value="{{ user_form.first_name }}" > 
+		                            <label for="{{ user_form.first_name.id_for_label }}"> 
 		                            	{{ user_form.first_name.label }}
-
 		                            </label>
-
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
 		                            {{ user_form.last_name }}
@@ -55,6 +47,7 @@
 		                            </label>
 		                        </div>
 		                    </div>
+
 
 		                    <div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
@@ -88,11 +81,10 @@
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
+		                            {{ personal_detail_form.date_of_birth }}
 		                            <label for="{{ personal_detail_form.date_of_birth.id_for_label }}"> 
 		                            	{{ personal_detail_form.date_of_birth.label }}
 		                            </label>
-		                         {{ personal_detail_form.date_of_birth }}
-
 		                        </div>
 		                    </div>
 
@@ -127,16 +119,29 @@
 		                    </div>
 
 		                    <div class="row">
-		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
+		                        <div class="input-field col s5 offset-s2 m3 offset-m1">
 		                        	{{ personal_detail_form.current_residence_city }}
 		                            <label for="{{ personal_detail_form.current_residence_city.id_for_label }}"> 
 		                            	{{ personal_detail_form.current_residence_city.label }}
 		                            </label>
 		                        </div>
-		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
+		                        <div class="input-field col s3 m1">
+		                        	{{ personal_detail_form.current_pincode }}
+		                            <label for="{{ personal_detail_form.current_pincode.id_for_label }}"> 
+		                            	{{ personal_detail_form.current_pincode.label }}
+		                            </label>
+		                        </div>
+
+		                        <div class="input-field col s5 offset-s2 m3 offset-m2">
 		                            {{ personal_detail_form.permanent_residence_city }}
 		                            <label for="{{ personal_detail_form.permanent_residence_city.id_for_label }}"> 
 		                            	{{ personal_detail_form.permanent_residence_city.label }}
+		                            </label>
+		                        </div>
+		                        <div class="input-field col s3 m1">
+		                        	{{ personal_detail_form.permanent_pincode }}
+		                            <label for="{{ personal_detail_form.permanent_pincode.id_for_label }}"> 
+		                            	{{ personal_detail_form.permanent_pincode.label }}
 		                            </label>
 		                        </div>
 		                    </div>
@@ -192,6 +197,7 @@
 		                            </label>
 		                        </div>
 		                    </div>
+
 		                    <div class="row">
 		                        <div class="input-field col s6 offset-s2 m3 offset-m1">
 		                        	{{ education_detail_form.ssc_board_name }}
@@ -220,6 +226,7 @@
 		                            </label>
 		                        </div>
 		                    </div>
+
 		                    <div class="row">
 		                        <div class="input-field col s5 offset-s2 m2 offset-m1">
 		                        	{{ education_detail_form.entrance_exam_score }}
@@ -297,8 +304,6 @@
 		                    	</div>
 		                    </div>
 		                    
-
-
 		                    <div class="row">
 		                    	<div class="input-field col s2 offset-s1">
 		                    		{{ education_detail_form.current_backlogs }}
@@ -313,17 +318,23 @@
 		                            </label>
 		                    	</div>
 
-		                    	<div class="col s5 offset-s1">
+		                    	<div class="col s1 offset-s1">
+		                    		<div class="chip grey lighten-2 grey-text text-darken-3"> Resume </div>
+		                    	</div>
+		                    	
+		                    	<div class="col s4" id="resume_upload">
+		                    			{{ education_detail_form.resume }}
+		                    			<!--
                                         <i class="material-icons grey-text text-darken-2 left" style="margin-top: 25px;">attach_file</i>
                                         <div class="file-field input-field">
                                              <div class="waves-effect waves-light btn grey darken-2 grey-text text-lighten-5">
                                                 Attach Resume 
-                                                <span class="filename">
-                                                		{{ education_detail_form.resume }}
-                                           		</span>
                                             </div>
+                                            <span class="filename">
+                                       		</span>
                                             <span class="col s4" class="truncate" style="padding-top: 12px;"> No file chosen </span>
                                         </div>
+                                       	-->
                                 </div>
 		                    </div>
 
@@ -355,10 +366,7 @@
 {% endblock %}
 
 
-
-
-
-
 {% block custom_js %}
-	<script type="text/javascript" src="/static/js/consent/create_account.js"></script>
+	<script type="text/javascript" src="/static/js/consent/common.js"></script>
+	<script type="text/javascript" src="/static/js/consent/edit_profile.js"></script>
 {% endblock %}

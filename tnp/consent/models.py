@@ -2,7 +2,8 @@ import os
 
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.core.files.storage import FileSystemStorage
+from tnp.settings import MEDIA_ROOT
 
 CASTE_CATEGORIES = (
     ('OBC', 'OBC'),
@@ -88,16 +89,29 @@ class CGPA(models.Model):
         )
 
 
+class OverwriteStorage(FileSystemStorage):
+    '''
+    Extends File Storage class to overwrite files uploaded with same name.
+    Used to replace updated resume files.
+    '''
+    def get_available_name(self, name, max_length):
+        if self.exists(name):
+            os.remove(os.path.join(MEDIA_ROOT, name))
+        return name
+
 def resume_file_path(instance, filename):
     dir_path = os.path.join('uploads', 'resumes', instance.college_passout_year,
                             instance.branch.degree + '_' + instance.branch.name)
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
+    path = os.path.join(MEDIA_ROOT, dir_path)
+
+    if not os.path.exists(path):
+        os.makedirs(path)
 
     extension = filename.split('.')[-1]
     filename = '_'.join([instance.user.first_name, instance.user.last_name,
                          'NITSurat', 'Resume']) + '.' + extension
     file_path = os.path.join(dir_path, filename)
+
     return file_path
 
 
@@ -124,13 +138,16 @@ class EducationDetail(models.Model):
     branch = models.ForeignKey('company.Branch')
     college_passout_year = models.CharField(max_length=4)
     resume = models.FileField(
-        upload_to=resume_file_path, blank=True, null=True)
+        upload_to=resume_file_path, blank=True, null=True, storage=OverwriteStorage())
 
     current_backlogs = models.IntegerField(default=0)
     total_backlogs = models.IntegerField(default=0)
 
     created_at = models.DateTimeField('date created', auto_now_add=True)
     updated_at = models.DateTimeField('date updated', auto_now=True)
+
+    def resume_filename(self):
+        return os.path.basename(self.resume.name)
 
     def __str__(self):
         cgpa_obj = self.cgpa.all().order_by('-semester')

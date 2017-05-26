@@ -18,7 +18,8 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        exclude = ['username', 'password', 'date_joined']
+        fields = ['first_name', 'last_name', 'email']
+        #exclude = ['username', 'password', 'date_joined']
 
 
 class PersonalDetailForm(forms.ModelForm):
