@@ -79,8 +79,8 @@
                   <div class="card-content">
                     <span class="card-title"> Resume </span>
                     {% if education_detail.resume %}
-                      <p> <a href="{{ education_detail.resume.url }}"> 
-                        {{ usercreation.first_name }}_{{ usercreation.last_name}}_NITSurat_Resume 
+                      <p> <a href="{{ education_detail.resume.url }}" class="truncate"> 
+                        {{ education_detail.resume_filename }}
                       </a> </p>
                     {% else %}
                       <p> <a href="{% url 'edit_profile' %}">  Upload your Resume </a> </p>
