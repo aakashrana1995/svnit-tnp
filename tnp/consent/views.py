@@ -15,7 +15,8 @@ from django.contrib.auth.models import User
 from company.models import Company, Job, JobLocation, Attachment, Branch, month_list
 from consent.models import PersonalDetail, EducationDetail, CGPA, UserConsent, ConsentDeadline, FieldOrder
 from company.views import create_branch_map, job as job_view
-from tnp.settings import MEDIA_ROOT
+#from tnp.settings import MEDIA_ROOT
+from tnp.settings.base import MEDIA_ROOT
 
 from consent.forms import UserForm, PersonalDetailForm, EducationDetailForm
 # my import @abhishek981996

@@ -4,7 +4,8 @@ from django.db import models
 
 from django.template.defaultfilters import slugify
 from django.utils.timezone import now
-from tnp.settings import MEDIA_ROOT
+#from tnp.settings import MEDIA_ROOT
+from tnp.settings.base import MEDIA_ROOT
 
 JOB_DOMAINS = (
         ('C', 'Core'),

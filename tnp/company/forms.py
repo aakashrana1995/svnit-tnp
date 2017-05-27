@@ -2,7 +2,8 @@ from django import forms
 
 from django.utils.translation import ugettext_lazy as _
 
-from tnp.settings import TIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+#from tnp.settings import TIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+from tnp.settings.base import TIME_INPUT_FORMATS, DATE_INPUT_FORMATS
 
 from company.models import Company, Job, JobLocation, Attachment 
 from consent.models import ConsentDeadline

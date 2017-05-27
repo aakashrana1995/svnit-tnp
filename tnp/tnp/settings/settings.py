@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
+    #'rest_framework',
     'consent',
     'company',
 ]
@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'tnp',
         'USER': 'root',
-        'PASSWORD': 'abhishek',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': 3306,
     }
