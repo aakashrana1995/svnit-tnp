@@ -4,7 +4,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = [] #Put server's IP address here
+ALLOWED_HOSTS = [] #Put domain name here
 
 
 #Set up database settings here
@@ -27,8 +27,6 @@ MEDIA_URL = '/media/'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True
-
-SESSION_COOKIE_SECURE = True #Check this once
 
 CSRF_COOKIE_SECURE = True
 
