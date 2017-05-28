@@ -1,11 +1,12 @@
 from tnp.settings.base import *
+from .keys import *
+
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = [] #Put domain name here
-
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split()
 
 #Set up database settings here
 DATABASES = {
@@ -18,9 +19,6 @@ DATABASES = {
         'PORT': 3306,
     }
 }
-
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
 
 #Following settings accordings to manage.py check --deploy
 

@@ -1,5 +1,6 @@
 from tnp.settings.base import *
 
+
 SECRET_KEY = '@$fa*2agx6!&1xkwwyn3o0$on(f2+3z%8abu)s$*2virx-4lyi'
 
 DEBUG = True
@@ -16,7 +17,3 @@ DATABASES = {
         'PORT': 3306,
     }
 }
-
-STATIC_URL = '/static/'
-
-MEDIA_URL = '/media/'

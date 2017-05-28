@@ -29,12 +29,13 @@ PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 #ALLOWED_HOSTS = []
 
 TEMPLATE_PATH = os.path.join(PROJECT_DIR, 'templates')
-STATIC_PATH = os.path.join(PROJECT_DIR, 'static')
+#STATIC_PATH = os.path.join(PROJECT_DIR, 'static')
 #MEDIA_PATH = os.path.join(PROJECT_DIR, 'media')
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
 STATICFILES_DIRS = (
-    STATIC_PATH,
+    #STATIC_PATH,
 )
 
 
@@ -47,7 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'rest_framework',
     'consent',
     'company',
 ]
@@ -135,9 +135,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-#STATIC_URL = '/static/'
-#MEDIA_URL = '/media/'
+STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
 
 LOGIN_URL = '/consent/login'
 
