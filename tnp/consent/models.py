@@ -80,7 +80,7 @@ class PersonalDetail(models.Model):
 class CGPA(models.Model):
     person = models.ForeignKey('EducationDetail', related_name='cgpa')
     semester = models.CharField(max_length=2, choices=SEMESTERS)
-    cgpa = models.DecimalField(max_digits=4, decimal_places=2)
+    cgpa = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
         return "{}, {}, {}".format(
@@ -151,7 +151,7 @@ class EducationDetail(models.Model):
         return os.path.basename(self.resume.name)
 
     def __str__(self):
-        cgpa_obj = self.cgpa.all().order_by('-semester')
+        cgpa_obj = self.cgpa.all().order_by('-pk').exclude(cgpa=None)
         if(cgpa_obj):
             cgpa_str = str(cgpa_obj[0].cgpa) + ', Sem ' + cgpa_obj[0].semester
         else:

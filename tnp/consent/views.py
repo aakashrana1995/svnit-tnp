@@ -523,22 +523,22 @@ def edit_profile(request):
             education_detail = education_detail_form.save()
 
             cgpas = request.POST.getlist('cgpa')
+
             sem = 1
             for cgpa in cgpas:
-                if(cgpa):
-                    cgpa_qs = CGPA.objects.filter(person=education_detail, semester=sem) #qs: Query Set
-                    if (cgpa_qs.count() > 0):
-                        cgpa_obj = cgpa_qs[0]
-                        cgpa_obj.cgpa = cgpa
-                        cgpa_obj.save()
-                    else:
-                        CGPA.objects.create(person=education_detail, semester=sem, cgpa=cgpa)
-                    
-                    sem += 1
-                else:
-                    break
-                messages.success(request, 'Your profile was successfully updated!')
-                return HttpResponseRedirect('/consent/profile/view')
+                new_cgpa = None
+                if (cgpa):
+                    new_cgpa = cgpa
+
+                cgpa_qs = CGPA.objects.update_or_create(
+                    person=education_detail,
+                    semester=sem, 
+                    defaults={'cgpa': new_cgpa},
+                )
+                sem += 1
+
+            messages.success(request, 'Your profile was successfully updated!')
+            return HttpResponseRedirect('/consent/profile/view')
 
         else:
             error_list = []
