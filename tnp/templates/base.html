@@ -5,7 +5,7 @@
         {% block title %} {% endblock %}
       </title>
       <!--Import Google Icon Font-->
-      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
       <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
       <link type="text/css" rel="stylesheet" href="/static/css/base.css" media="screen,projection" />
@@ -56,15 +56,17 @@
           
         {% block body_block %}{% endblock %}
 
-
-          <div class="footer-copyright grey-text text-darken-2 grey lighten-3 z-depth-5" style="height: 120px">
+        <footer class="page-footer grey-text text-darken-4 grey lighten-3">
+          <div class="footer-copyright grey-text text-darken-2 grey lighten-3 z-depth-5" style="height: 50px">
+            
             <div class="container">
-              <p> © 2017 Copyright SVNIT
-                <a class="grey-text text-darken-2 right" href="{% url 'about' %}">About</a>
+              <p class="grey-text text-darken-2"> <strong> © 2017 Copyright SVNIT </strong>
+                <a class="grey-text text-darken-2 right" href="{% url 'about' %}">  <strong> About </strong> </a>
               </p>
             </div>
+            
           </div>
-
+        </footer>
 
       <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
