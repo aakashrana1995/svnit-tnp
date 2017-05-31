@@ -28,6 +28,7 @@ $(document).ready(function() {
             "Indian Certificate for Secondary Education (ICSE)": null,
             "Board of Higher Secondary Education, Delhi":null,
             "Andhra Pradesh Board of Secondary Education": null,
+            "Board of Intermediate Education, Andhra Pradesh (BIEAP)": null,
             "Board of Secondary Education, Assam": null,
             "Assam Higher Secondary Education Council": null,
             "Bihar School Examination Board (BSEB)": null,
