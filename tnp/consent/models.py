@@ -12,7 +12,7 @@ CASTE_CATEGORIES = (
     ('SC', 'SC'),
     ('ST', 'ST'),
     ('OBC-PH', 'OBC Physically Handicapped'),
-    ('General-PH', 'General Physically Handicapped'),
+    ('GEN-PH', 'General Physically Handicapped'),
     ('SC-PH', 'SC Physically Handicapped'),
     ('ST-PH', 'ST Physically Handicapped'),
 )
@@ -52,7 +52,7 @@ class PersonalDetail(models.Model):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     date_of_birth = models.DateField()
     caste_category = models.CharField(
-        max_length=3, choices=CASTE_CATEGORIES, default='GEN')
+        max_length=6, choices=CASTE_CATEGORIES, default='GEN')
     phone_number = models.CharField(max_length=10, unique=True)
     current_address = models.TextField(max_length=5000, blank=True, null=True)
     hometown = models.CharField(max_length=255, blank=True, null=True)
