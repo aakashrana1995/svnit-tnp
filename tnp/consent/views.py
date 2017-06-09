@@ -675,6 +675,8 @@ def merit_list(request):
         return render(request, 'consent/merit_list.html', {
             'merit_list': merit_list,
             'semesters': semesters,
+            'branch': branch,
+            'batch': batch,
         })
 
     else:
