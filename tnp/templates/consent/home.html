@@ -46,23 +46,19 @@
                               {% if company.ctc %}
                                   <td> {{ company.ctc }} LPA </td>
                               {% else %}
-                                  <td> NA </td>
+                                  <td> N/A </td>
                               {% endif%}
                             </tr>
 
                             <tr>
                               <td> <strong> Deadline </strong> </td>
-                              <td> {{ company.deadline|date:'g:i A, j M, D' }} </td>
+                              {% if company.deadline %}
+                                  <td> {{ company.deadline|date:'g:i A, j M, D' }} </td>
+                              {% else %}
+                                  <td> N/A </td>
+                              {% endif %}
                             </tr>
                           </table>
-
-
-                          <div class="card-action grey lighten-5">
-                            <div class="grey-text text-darken-2 " value="More Details">
-                              <strong> MORE DETAILS </strong>
-                                <i class="material-icons right">arrow_drop_down_circle</i>
-                            </div>
-                          </div>
                         </a>
                       </div>
                     </div>
