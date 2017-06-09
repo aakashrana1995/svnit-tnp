@@ -79,7 +79,7 @@
                   <div class="card-content">
                     <span class="card-title"> Resume </span>
                     {% if education_detail.resume %}
-                      <p> <a href="{{ education_detail.resume.url }}" class="truncate"> 
+                      <p> <a href="{{ education_detail.resume.url }}" target="_blank" class="truncate"> 
                         {{ education_detail.resume_filename }}
                       </a> </p>
                     {% else %}
@@ -275,7 +275,7 @@
               </div>
             </div>
 
-						<div class="col s6 m6">
+						<div class="col s12 m6">
               <div class="card cgpa hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
                   <div class="card-content">
                   	<div class="card-title"> College Results </div>
@@ -397,13 +397,14 @@
 
 	        </div>
 	      </div>
+        
+        <center>
+          <a href="{% url 'edit_profile' %}">
+            <button class="waves-effect waves-light btn-large grey darken-2 grey-text text-lighten-5 hoverable" id="create_account_button" type="submit">Edit Profile</button>
+          </a>
+        </center>
+        
 	    </div>
-	  	
-	  	<center>
-       	<a href="{% url 'edit_profile' %}">
-          <button class="waves-effect waves-light btn-large grey darken-2 grey-text text-lighten-5 hoverable" id="create_account_button" type="submit">Edit Profile</button>
-      	</a>
-    	</center>
 
 	  </div>
 	</div>

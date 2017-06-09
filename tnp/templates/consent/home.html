@@ -25,7 +25,7 @@
             {% for three_companies in companies_list %}
               <div class="row">
                   {% for company in three_companies %}
-                    <div class="col s12 m4 l4">
+                    <div class="col s10 offset-s1 m4 l4">
                       <div class="card z-depth-2 hoverable">
                         <a href="/company/{{ company.url }}" class="colorless">
                           <div class="card-content grey-text text-lighten-5 grey darken-2 z-depth-1">
@@ -40,7 +40,7 @@
                                 <p> &nbsp; </p>
                               {% endif %}
                           </div>
-                          <table class="bordered centered responsive-table grey lighten-5">
+                          <table class="bordered centered grey lighten-5">
                             <tr>
                               <td> <strong> CTC </strong> </td>
                               {% if company.ctc %}
