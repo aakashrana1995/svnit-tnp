@@ -3,18 +3,17 @@ import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
-#from tnp.settings import MEDIA_ROOT
 from tnp.settings.base import MEDIA_ROOT
 
 CASTE_CATEGORIES = (
     ('OBC', 'OBC'),
-    ('GEN', 'General/Open'),
+    ('GEN', 'General'),
     ('SC', 'SC'),
     ('ST', 'ST'),
-    ('OBC-PH', 'OBC Physically Handicapped'),
-    ('GEN-PH', 'General Physically Handicapped'),
-    ('SC-PH', 'SC Physically Handicapped'),
-    ('ST-PH', 'ST Physically Handicapped'),
+    ('OBC-PH', 'OBC-PH'),
+    ('GEN-PH', 'General-PH'),
+    ('SC-PH', 'SC-PH'),
+    ('ST-PH', 'ST-PH'),
 )
 
 RESULT_TYPES = (
@@ -25,7 +24,6 @@ RESULT_TYPES = (
 GENDER_CHOICES = (
     ('M', 'Male'),
     ('F', 'Female'),
-    ('O', 'Other'),
 )
 
 ENTRANCE_EXAM_TYPES = (
