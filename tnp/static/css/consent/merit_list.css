@@ -1,0 +1,8 @@
+.horizontal-scroll {
+	overflow: auto;
+	display: block;
+}
+
+.no-wrap {
+	white-space: nowrap;
+}

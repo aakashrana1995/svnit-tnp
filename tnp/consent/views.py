@@ -243,9 +243,9 @@ def make_consent_dictionary(personal_detail, education_detail):
         [str(dob.day).zfill(2), str(dob.month).zfill(2), str(dob.year)])
     consent_dict['caste_category'] = personal_detail.get_caste_category_display()
     consent_dict['hometown'] = personal_detail.hometown
-    consent_dict['ssc'] = education_detail.ssc
+    consent_dict['ssc'] = str(education_detail.ssc)
     consent_dict['ssc_passing_year'] = education_detail.ssc_passing_year
-    consent_dict['hsc'] = education_detail.hsc
+    consent_dict['hsc'] = str(education_detail.hsc)
     consent_dict['hsc_passing_year'] = education_detail.hsc_passing_year
     consent_dict['entrance_exam'] = education_detail.get_entrance_exam_display()
     consent_dict['entrance_exam_score'] = education_detail.entrance_exam_score
@@ -344,7 +344,7 @@ def export_consent(request):
         cgpa_list = []
         if (cgpa_type == 'cgpa_upto_semester'):
             cgpa_list = [str(obj.cgpa) for obj in education_detail.cgpa.order_by(
-                'semester')][:optional]
+                'pk')][:optional]
         elif (cgpa_type == 'cgpa_of_semester'):
             cgpa_list = [
                 str(education_detail.cgpa.filter(semester=optional)[0].cgpa)]
@@ -615,3 +615,67 @@ def change_password(request):
     return render(request, 'consent/change_password.html', {
         'form': form
     })
+
+
+@login_required
+def merit_list(request):
+    if request.user.groups.filter(name='Coordinator').exists():
+        branch = request.user.education_detail.branch
+        batch = request.user.education_detail.college_passout_year
+
+        education_details = EducationDetail.objects.filter(
+            branch=branch,
+            college_passout_year=batch
+        ).order_by('roll_number')
+
+        merit_list = []
+        sem_cnt = 6
+
+        for sr_no, ed in enumerate(education_details):
+            pd = PersonalDetail.objects.get(user=ed.user)
+            
+            cgpa_list = [str(obj.cgpa) for obj in 
+                ed.cgpa.exclude(cgpa=None).order_by('pk')[:sem_cnt]]
+            
+            rem = max(sem_cnt - len(cgpa_list), 0)
+            none_list = [None for i in range(rem)]
+            cgpa_list.extend(none_list)
+
+            data = make_consent_dictionary(pd, ed)
+            student_detail = []
+            student_detail.append(str(sr_no+1))
+            student_detail.append(data['roll_number'])
+            student_detail.append(data['name'])
+            student_detail.append(data['date_of_birth'])
+            student_detail.append(data['caste_category'])
+            student_detail.append(data['hometown'])
+            
+            if (ed.ssc_result_type == 'PERCENTAGE'):
+                data['ssc'] += ' %'
+            elif (ed.ssc_result_type == 'CGPA'):
+                data['ssc'] += ' CGPA'
+            
+            student_detail.append(data['ssc'])
+            
+            if (ed.hsc_result_type == 'PERCENTAGE'):
+                data['hsc'] += ' %'
+            elif (ed.ssc_result_type == 'CGPA'):
+                data['hsc'] += ' CGPA'
+            
+            student_detail.append(data['hsc'])
+
+            student_detail.extend(cgpa_list)
+            student_detail.append(data['email'])
+            student_detail.append(data['phone_number'])
+
+            merit_list.append(student_detail)
+
+        semesters = [i for i in range(1,sem_cnt+1)]
+        
+        return render(request, 'consent/merit_list.html', {
+            'merit_list': merit_list,
+            'semesters': semesters,
+        })
+
+    else:
+        return HttpResponseRedirect('/consent/home')
