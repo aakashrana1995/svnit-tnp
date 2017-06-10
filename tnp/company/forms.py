@@ -2,8 +2,7 @@ from django import forms
 
 from django.utils.translation import ugettext_lazy as _
 
-#from tnp.settings import TIME_INPUT_FORMATS, DATE_INPUT_FORMATS
-from tnp.settings.base import TIME_INPUT_FORMATS, DATE_INPUT_FORMATS
+from tnp.settings import TIME_INPUT_FORMATS, DATE_INPUT_FORMATS
 
 from company.models import Company, Job, JobLocation, Attachment 
 from consent.models import ConsentDeadline
@@ -64,23 +63,3 @@ class ConsentDeadlineForm(forms.Form):
         'deadline_time': _('Time'),
         'slack_time': _('Slack Time (in hours)'),
     }
-
-
-"""
-# Need to be a formset
-class JobLocationForm(forms.ModelForm):
-    class Meta:
-        model = JobLocation
-        fields = ['location']
-
-        labels = {
-            'location': _('Job Location')
-        }
-
-
-class AttachmentForm(forms.ModelForm):
-    class Meta:
-        model = Attachment
-        fields = ['file']
-
-"""

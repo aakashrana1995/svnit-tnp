@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils import timezone
+from django.contrib import messages
 
 from company.models import Company, Job, JobLocation, Attachment, Branch
 from consent.models import UserConsent, UserDataFields, ConsentDeadline, FieldOrder
@@ -25,7 +26,6 @@ def add(request):
 
         if company_form.is_valid() and job_form.is_valid() and attachment_form.is_valid() and consent_deadline_form.is_valid():
             company = company_form.save()
-            #company = Company.objects.all().order_by('-created_at')[0]
             job = job_form.save(commit=False)
             job.company = company
             job.save()
@@ -40,7 +40,6 @@ def add(request):
 
             locations = request.POST.getlist('location');
             for loc in locations:
-                print (loc)
                 if(len(loc)>0):
                     JobLocation.objects.create(job=job, location=loc)
             
@@ -62,7 +61,6 @@ def add(request):
             
             position = 1
             for slug in consent_format:
-                print (slug)
                 if (slug in ['cgpa_of_semester', 'cgpa_upto_semester']):
                     cgpa_type = slug
                 else:
@@ -74,6 +72,7 @@ def add(request):
                         FieldOrder.objects.create(job=job, field=field, position=position)
                     position += 1
 
+        messages.success(request, 'The company was successfully added!')
         return HttpResponseRedirect('/consent/home')
     else:
         if request.user.groups.filter(name='Coordinator').exists():

@@ -1,12 +1,12 @@
 $(document).ready(function() {
-	  $('textarea').addClass('materialize-textarea');
-	  $('#down_left').css('margin-top', '75px');
+	$('textarea').addClass('materialize-textarea');
+	$('#down_left').css('margin-top', '75px');
 	
     $('select[required]').removeAttr('required');
 
   	crpdate = $('#id_company_form-crpdate')[0];
-	  crpdate.type = "date";
-	  crpdate.className = "datepicker";
+    crpdate.type = "date";
+    crpdate.className = "datepicker";
   
     deadline_date = $('#id_consent_deadline_form-deadline_date')[0];
     deadline_date.type = "date";
@@ -23,16 +23,15 @@ $(document).ready(function() {
   	});
 
     $('.timepicker').pickatime({
-    autoclose: false,
-    twelvehour: true,
-    default: 'now',
-  });
+        autoclose: false,
+        twelvehour: true,
+        default: 'now',
+    });
     
 
 	elems = document.getElementsByTagName('textarea');
-	for (i=0; i<elems.length; i++) {
+	for (i=0; i<elems.length; i++)
 		elems[i].style.height = "70px";
-	}
 	
     $('select').material_select();
 
@@ -41,11 +40,45 @@ $(document).ready(function() {
 });
 
 
+$('#add_company_form').submit(function(event) {
+    form_errors = $('#form_errors');
+    form_errors.html('');
+    var errors = [];
+
+    job_type = $('#id_job_form-job_type').val();
+    if(job_type=="") errors.push("Please select a job type. Select 'Other' if no category matches.");
+
+    eligible_branches = $('#id_job_form-eligible_branches').val();
+    if(eligible_branches=="") errors.push("Please select eligible branches.");
+
+    consent_deadline = $('#id_consent_deadline_form-deadline_date').val();
+    if(consent_deadline=="") errors.push('Please select a consent deadline date.');
+
+    for (i=0; i<errors.length; i++)
+        console.log(errors[i]);
+
+    var html_str = '';
+    if(errors.length > 0) {
+        $('body').scrollTop(0);
+        html_str += '<ul class="collection red-text">';
+        for(i=0; i<errors.length; i++)
+            html_str += '<li class="collection-item">' + errors[i] + '</li>';
+
+        html_str += '</ul>';
+        form_errors.append(html_str);
+
+        alert("Please remove these form errors");
+        event.preventDefault();
+    }
+});
+
+
 $('#add_more').click(function() {
     var form_idx = $('#id_job_location-TOTAL_FORMS').val();
     $('#job_location_formset').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
     $('#id_job_location-TOTAL_FORMS').val(parseInt(form_idx) + 1);
 });
+
 
 $('#job_location_formset').on("click", ".remove", function(e) {
   var elem = e.target.closest('.element');
