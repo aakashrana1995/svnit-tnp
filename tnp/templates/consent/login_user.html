@@ -35,6 +35,8 @@
                       <form id="login_form" method="post" role="form" action="/consent/login/">
                           {% csrf_token %}
 
+                          <input type="hidden" name="next" value="{{ request.GET.next }}" />
+
                           <div class="row">
                             <div class="input-field col s12">
                               <input id="username" name="username" type="text" class="validate">

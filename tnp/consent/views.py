@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.utils import http
 
 from company.models import Company, Job, JobLocation, Attachment, Branch, month_list
 from consent.models import PersonalDetail, EducationDetail, CGPA, UserConsent, ConsentDeadline, FieldOrder
@@ -59,13 +60,18 @@ def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username').upper()
         password = request.POST.get('password')
-
+        
         user = authenticate(username=username, password=password)
 
         if user:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('/consent/home')
+                next_url = request.POST.get('next')
+                next_url = (next_url 
+                    if http.is_safe_url(next_url, request.get_host()) 
+                    else '/consent/home'
+                )
+                return HttpResponseRedirect(next_url)
             else:
                 message = "Your TnP account is disabled!"
         else:
