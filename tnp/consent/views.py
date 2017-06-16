@@ -220,6 +220,11 @@ def home(request):
         job_dict['ctc'] = job.ctc
         job_dict['url'] = job.slug
         job_dict['deadline'] = deadline
+        job_dict['ctc_unit'] = job.get_ctc_unit_display()
+        job_dict['salary_type'] = 'CTC'
+        if (job.hiring_for == 'IN'):
+            job_dict['salary_type'] = 'Stipend'
+
         if(job.created_at >= request.user.last_login):
             job_dict['badge'] = 'NEW'
         if(job.updated_at >= request.user.last_login):

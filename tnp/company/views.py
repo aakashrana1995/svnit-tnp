@@ -125,29 +125,30 @@ def job(request, job_slug):
     except Job.DoesNotExist:
         raise Http404("This company page doesn't exist!")
 
-    print (job)
     job_dict['title'] = job.company.name + ', ' + job.designation
     job_dict['company'] = job.company.name
     job_dict['company_slug'] = job_slug
     job_dict['designation'] = job.designation
-    if(job.company.website):
-        job_dict['website'] = job.company.website
-    
+        
+    job_dict['about_company'] = job.company.about
+    job_dict['job_description'] = job.description
+    job_dict['job_requirements'] = job.requirements
+    job_dict['ctc'] = str(job.ctc)
+    job_dict['ctc_unit'] = job.get_ctc_unit_display()
+    job_dict['ctc_details'] = job.ctc_details
+    job_dict['eligibility_criteria'] = job.eligibility_criteria
+
+    job_tags = []
+    if(job.hiring_for):
+        job_tags.append(job.get_hiring_for_display())
+    if (job.job_type):
+        job_tags.append(job.job_type.get_job_domain_display() + ' | ' + job.job_type.job_type)
+    if (job.resumes_required):
+        job_tags.append('Resumes required')
+    job_dict['job_tags'] = job_tags 
+
     if(job.category):
         job_dict['job_category'] = job.category.name + ' Category'
-    if(job.company.about):
-        job_dict['about_company'] = job.company.about
-    if(job.description):
-        job_dict['job_description'] = job.description
-    if(job.requirements):
-        job_dict['job_requirements'] = job.requirements
-    if(job.ctc):
-        job_dict['ctc'] = str(job.ctc)
-    if(job.ctc_details):
-        job_dict['ctc_details'] = job.ctc_details
-
-    if(job.eligibility_criteria):
-        job_dict['eligibility_criteria'] = job.eligibility_criteria
     
     notifications = []
     if (job.resumes_required):
@@ -162,14 +163,12 @@ def job(request, job_slug):
     for branch in eb:
         if(branch[1] == 'BTECH'):
             eligible_branches.append('BTech, ' + branch_map[branch[0]])
-            #eb_cnt += 1
         elif(branch[1] == 'MTECH'):
             eligible_branches.append('MTech, ' + branch_map[branch[0]])
         elif(branch[1] == 'MSC'):
             eligible_branches.append('MSc, ' + branch_map[branch[0]])
     eligible_branches.sort()
     job_dict['eligible_branches'] = eligible_branches
-
 
     locations = list(job.job_location.values_list('location', flat=True))
     
@@ -224,8 +223,6 @@ def job(request, job_slug):
             job_dict['button_id'] = 'disabled_not_applied'
     
     job_dict['display_deadline'] = display_deadline
-
-    print (job_dict)
     
     return render(request, 'company/job.html', job_dict)
 

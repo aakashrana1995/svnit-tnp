@@ -79,8 +79,23 @@
 
                 <div class="card grey lighten-5 z-depth-2 hoverable">
                     <div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
-                      <span class="card-title">Job Information</span>
+                        <div class="row">
+                            <div class="input-field col s5 m5 card-title"> Job Information </div>
+                            <div class="input-field col s4 m3 offset-m3">
+                                {{ job_form.hiring_for }}
+                                <label for="{{ job_form.hiring_for.id_for_label }}"> 
+                                    {{ job_form.hiring_for.label }}
+                                </label>
+                            </div>
+                            <div class="input-field col s3 m1">
+                                {{ job_form.for_batch }}
+                                <label for="{{ job_form.hiring_for.id_for_label }}"> 
+                                    {{ job_form.for_batch.label }}
+                                </label>
+                            </div>
+                        </div>
                     </div>
+                    
                     <div class="section"> </div>
                     <div class="row">
                         <div class="input-field col s8 offset-s2 m4 offset-m1">
@@ -88,9 +103,12 @@
                             <label for="{{ job_form.designation.id_for_label }}" data-error="{{ job_form.designation.errors }}"> {{ job_form.designation.label }}</label>
                         </div>
 
-                        <div class="input-field col s8 offset-s2 m4 offset-m2">
+                        <div class="input-field col s6 offset-s2 m3 offset-m2">
                             {{ job_form.ctc }}
                             <label for="{{ job_form.ctc.id_for_label }}" data-error="{{ job_form.ctc.errors }}"> {{ job_form.ctc.label }}</label>
+                        </div>
+                        <div class="input-field col s2 m1">
+                            {{ job_form.ctc_unit }}
                         </div>
                     </div>
 
@@ -132,10 +150,6 @@
                                         {{ job_form.perks }}
                                         <label for="{{ job_form.perks.id_for_label }}" data-error="{{ job_form.perks.errors }}"> {{ job_form.perks.label }}</label>
                                     </div>
-                                    <div class="input-field col s8 offset-s2 m4 offset-m2">
-                                        {{ job_form.ctc_details }}
-                                        <label for="{{ job_form.ctc_details.id_for_label }}" data-error="{{ job_form.ctc_details.errors }}"> {{ job_form.ctc_details.label }}</label>
-                                    </div>
                                 </div>
                             </div> 
                         </li>
@@ -149,8 +163,8 @@
                         </div>
 
                         <div class="input-field col s8 offset-s2 m4 offset-m2">
-                            {{ job_form.other }}
-                            <label for="{{ job_form.other.id_for_label }}" data-error="{{ job_form.other.errors }}"> {{ job_form.other.label }}</label>
+                            {{ job_form.ctc_details }}
+                            <label for="{{ job_form.ctc_details.id_for_label }}" data-error="{{ job_form.ctc_details.errors }}"> {{ job_form.ctc_details.label }}</label>
                         </div>
                     </div>
 
@@ -259,7 +273,7 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s6 offset-s1 m6 offset-m1">
-                                <label for="{{ job_form.other.id_for_label }}"> Company Specific Notification </label>
+                                <label for="{{ job_form.other.id_for_label }}"> {{ job_form.other.label }} </label>
                                 {{ job_form.other }}
                             </div>
 

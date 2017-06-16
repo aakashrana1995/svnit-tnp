@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from datetime import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -158,3 +159,9 @@ TIME_INPUT_FORMATS = [
     '%H:%M',        # '14:30'
     '%I:%M%p'       # '14:30PM'
 ]
+
+curr_date = datetime.now()
+CURRENT_FINAL_YEAR_BATCH = curr_date.year
+if(curr_date.month >= 6):
+    CURRENT_FINAL_YEAR_BATCH += 1
+CURRENT_FINAL_YEAR_BATCH = str(CURRENT_FINAL_YEAR_BATCH)

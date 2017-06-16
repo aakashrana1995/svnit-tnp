@@ -4,13 +4,14 @@ from django.db import models
 
 from django.template.defaultfilters import slugify
 from django.utils.timezone import now
-#from tnp.settings import MEDIA_ROOT
-from tnp.settings.base import MEDIA_ROOT
+from tnp.settings import MEDIA_ROOT, CURRENT_FINAL_YEAR_BATCH
+
 
 JOB_DOMAINS = (
         ('C', 'Core'),
         ('N', 'Non-Core'),
 )
+
 
 BRANCHES = (
     ('CO', 'Computer Engineering'),
@@ -25,18 +26,26 @@ BRANCHES = (
     ('ALL', 'All Branches'),
 )
 
+
 DEGREES = (
     ('BTECH', 'BTech'),
     ('MTECH', 'MTech'),
     ('MSC', 'MSc'),
 )
 
-WEEK_NUMBER = (
-    ('F', 'First'),
-    ('S', 'Second'),
-    ('T', 'Third'),
-    ('L', 'Last'),
+
+CTC_UNIT = (
+    ('LPA', 'lpa'),
+    ('PM', 'pm'),
+    ('PA', 'pa'),
 )
+
+
+HIRING_FOR = (
+    ('FT', 'Full Time'),
+    ('IN', 'Internship'),
+)
+
 
 month_list = [
     'January',
@@ -125,6 +134,7 @@ class Attachment(models.Model):
         file_name = arr[-1]
         return "{}, {}".format(self.job.company, file_name)
 
+
 class JobLocation(models.Model):
     job = models.ForeignKey('Job', related_name='job_location')
     location = models.CharField(max_length=255)
@@ -135,11 +145,13 @@ class JobLocation(models.Model):
     def __str__(self):
         return "{}, {}, {}".format(self.job.company, self.job.designation, self.location)
 
+
 class SelectionProcedure(models.Model):
     procedure = models.CharField(max_length=255)
 
     def __str__(self):
         return self.procedure
+
 
 class Job(models.Model):
     company = models.ForeignKey('Company', related_name='job')
@@ -152,8 +164,11 @@ class Job(models.Model):
     job_type = models.ForeignKey('JobType', related_name='job', blank=True, null=True) #Core (Dev, PSU, Automobile), Non-Core (BA, Sales, Operations)
     eligible_branches = models.ManyToManyField('Branch')
     eligibility_criteria = models.TextField(max_length=5000, blank=True, null=True)
-    ctc = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
-    ctc_details = models.TextField(max_length=5000, blank=True, null=True) 
+    ctc = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    ctc_unit = models.CharField(max_length=3, choices=CTC_UNIT, default='LPA')
+    ctc_details = models.TextField(max_length=5000, blank=True, null=True)
+    hiring_for = models.CharField(max_length=2, choices=HIRING_FOR, default='FT')
+    for_batch = models.CharField(max_length=4, default=CURRENT_FINAL_YEAR_BATCH)
     bond_details = models.CharField(max_length=255, blank=True, null=True)
     selection_procedure = models.ManyToManyField('SelectionProcedure', blank=True)
     number_of_selections = models.IntegerField(blank=True, null=True)

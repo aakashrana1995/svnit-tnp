@@ -101,6 +101,23 @@ $('#id_attachment_form-file').on("change", function(e) {
 });
 
 
+$('#id_job_form-hiring_for').on("change", function(e) {
+    date = new Date();
+    month = date.getMonth() + 1;
+    year = date.getFullYear();
+
+    current_final_year_batch = year;
+    if(month >= 6)
+        current_final_year_batch += 1;
+
+    elem = $('#id_job_form-for_batch');
+    if(e.target.value == 'IN')
+        batch = current_final_year_batch + 1;
+    else if (e.target.value == 'FT')
+        batch = current_final_year_batch;
+    
+    elem.val(batch.toString());
+});
 
 Sortable.create(A, {
   group: "sorting",

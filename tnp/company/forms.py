@@ -34,18 +34,21 @@ class JobForm(forms.ModelForm):
         labels = {
             'designation': _('Job Profile'),
             'description': _('Job Description'),
-            'requirements': _('Job Requirements / Skills'),
+            'requirements': _('Job Requirements | Skills'),
             'perks': _('Job Perks'),
             'category': _('Job Category'),
             'job_type': _('Job Type'),
             'eligible_branches': _('Eligible Branches'),
             'eligibility_criteria': _('Eligibility Criteria'),
-            'ctc': _('CTC (in lpa)'),
-            'ctc_details': _('CTC Details / Breakup'),
+            'ctc': _('CTC | Stipend'),
+            'ctc_unit': _('Unit'),
+            'ctc_details': _('CTC Details | Breakup'),
+            'hiring_for': _('Hiring For'),
+            'for_batch': _('Batch'),
             'bond_details': _('Bond Details (if any)'),
             'selection_procedure': _('Selection Procedure'),
             'number_of_selections': _('Expected Number of Selections'),
-            'other': _('Other details (if any)'),
+            'other': _('Company Specific Notifications'),
         }
 
 

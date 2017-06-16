@@ -18,7 +18,7 @@
                     <div class="card-content grey-text text-lighten-5 grey darken-2 z-depth-1">
                         <span class="card-title"> {{ company }} 
                           {% if ctc %}
-                              <span class="right card-title"> {{ ctc }} LPA </span>
+                              <span class="right card-title"> {{ ctc }} {{ ctc_unit }} </span>
                           {% endif %}
                         </span>
                         
@@ -29,6 +29,17 @@
                         <p class="center"> <strong>{{ display_deadline|date:'g:i A, D'}} {{ display_deadline|date:'j M'}} </strong> </p>
                     </div>
 
+                    <div class="col s12 m12">
+                      <div class="card hoverable grey-text text-darken-2 grey lighten-5 z-depth-2">
+                        <div class="card-content">
+                          {% if job_tags %}
+                            {% for tag in job_tags %}
+                              <div class="chip"> {{ tag }}  </div>
+                            {% endfor %}
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
 
                     {% if about_company %}
                       <div class="col s12 m12">

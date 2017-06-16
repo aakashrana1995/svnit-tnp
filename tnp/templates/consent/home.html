@@ -42,9 +42,9 @@
                           </div>
                           <table class="bordered centered grey lighten-5">
                             <tr>
-                              <td> <strong> CTC </strong> </td>
+                              <td> <strong> {{ company.salary_type }} </strong> </td>
                               {% if company.ctc %}
-                                  <td> {{ company.ctc }} LPA </td>
+                                  <td> {{ company.ctc }} {{ company.ctc_unit }} </td>
                               {% else %}
                                   <td> N/A </td>
                               {% endif%}
