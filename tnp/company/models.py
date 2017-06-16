@@ -186,4 +186,4 @@ class Job(models.Model):
         super(Job, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "{}, {}, {} LPA".format(self.company, self.designation, self.ctc)
+        return "{}, {}, {} {}".format(self.company, self.designation, self.ctc, self.get_ctc_unit_display())
