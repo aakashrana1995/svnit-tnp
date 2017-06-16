@@ -133,10 +133,13 @@ def job(request, job_slug):
     job_dict['about_company'] = job.company.about
     job_dict['job_description'] = job.description
     job_dict['job_requirements'] = job.requirements
-    job_dict['ctc'] = str(job.ctc)
+    job_dict['ctc'] = ('%f' % job.ctc).rstrip('0').rstrip('.')
     job_dict['ctc_unit'] = job.get_ctc_unit_display()
     job_dict['ctc_details'] = job.ctc_details
     job_dict['eligibility_criteria'] = job.eligibility_criteria
+    job_dict['salary_type'] = 'CTC'
+    if (job.hiring_for == 'IN'):
+        job_dict['salary_type'] = 'Stipend'
 
     job_tags = []
     if(job.hiring_for):

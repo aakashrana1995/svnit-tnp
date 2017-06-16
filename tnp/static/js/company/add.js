@@ -110,14 +110,22 @@ $('#id_job_form-hiring_for').on("change", function(e) {
     if(month >= 6)
         current_final_year_batch += 1;
 
-    elem = $('#id_job_form-for_batch');
-    if(e.target.value == 'IN')
+    if(e.target.value == 'IN') {
         batch = current_final_year_batch + 1;
-    else if (e.target.value == 'FT')
+        ctc_unit = 'PM';
+    } else if (e.target.value == 'FT') {
         batch = current_final_year_batch;
-    
-    elem.val(batch.toString());
+        ctc_unit = 'LPA';
+    }
+
+    batch_elem = $('#id_job_form-for_batch');
+    batch_elem.val(batch.toString());
+
+    ctc_unit_elem = $('#id_job_form-ctc_unit');
+    ctc_unit_elem.val(ctc_unit);
+    ctc_unit_elem.material_select();
 });
+
 
 Sortable.create(A, {
   group: "sorting",
