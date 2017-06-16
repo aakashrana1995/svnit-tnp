@@ -193,11 +193,13 @@ def grouper(n, iterable):
 
 @login_required
 def home(request):
-    branch = EducationDetail.objects.get(user=request.user).branch
+    ed = EducationDetail.objects.get(user=request.user)
+    branch = ed.branch
+    batch = ed.college_passout_year
     request.session['branch_name'] = branch.name
     request.session['branch_degree'] = branch.degree
 
-    jobs = Job.objects.filter(eligible_branches=branch).order_by('-updated_at')
+    jobs = Job.objects.filter(eligible_branches=branch, for_batch=batch).order_by('-updated_at')
 
     print (jobs)
     companies_list = []
@@ -217,7 +219,7 @@ def home(request):
 
         job_dict['company'] = job.company.name
         job_dict['designation'] = job.designation
-        job_dict['ctc'] = job.ctc
+        job_dict['ctc'] = ('%f' % job.ctc).rstrip('0').rstrip('.')
         job_dict['url'] = job.slug
         job_dict['deadline'] = deadline
         job_dict['ctc_unit'] = job.get_ctc_unit_display()
