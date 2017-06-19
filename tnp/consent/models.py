@@ -3,7 +3,7 @@ import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
-from tnp.settings.base import MEDIA_ROOT
+from tnp.settings import MEDIA_ROOT
 
 CASTE_CATEGORIES = (
     ('OBC', 'OBC'),

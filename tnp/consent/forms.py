@@ -2,8 +2,7 @@ from django import forms
 
 from django.utils.translation import ugettext_lazy as _
 
-#from tnp.settings import MEDIA_ROOT
-from tnp.settings.base import MEDIA_ROOT, DATE_INPUT_FORMATS
+from tnp.settings import MEDIA_ROOT, DATE_INPUT_FORMATS
 
 from django.contrib.auth.models import User
 from consent.models import PersonalDetail, EducationDetail, CGPA
