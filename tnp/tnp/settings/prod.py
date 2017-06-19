@@ -1,4 +1,4 @@
-from tnp.settings.base import *
+from .base import *
 from .keys import *
 
 
@@ -7,6 +7,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split()
+
+# Settings for static files
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 #Set up database settings here
 DATABASES = {

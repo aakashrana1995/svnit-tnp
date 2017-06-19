@@ -1,5 +1,5 @@
-from tnp.settings.base import *
-from .keys import *
+from .base import *
+#from .keys import *
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')

@@ -30,15 +30,7 @@ PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 #ALLOWED_HOSTS = []
 
 TEMPLATE_PATH = os.path.join(PROJECT_DIR, 'templates')
-#STATIC_PATH = os.path.join(PROJECT_DIR, 'static')
-#MEDIA_PATH = os.path.join(PROJECT_DIR, 'media')
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
-
-STATICFILES_DIRS = (
-    #STATIC_PATH,
-)
-
 
 # Application definition
 
