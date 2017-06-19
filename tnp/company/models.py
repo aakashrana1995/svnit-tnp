@@ -1,6 +1,7 @@
 import os
 
 from django.db import models
+from django.contrib.auth.models import User
 
 from django.template.defaultfilters import slugify
 from django.utils.timezone import now
@@ -174,6 +175,7 @@ class Job(models.Model):
     number_of_selections = models.IntegerField(blank=True, null=True)
     other = models.TextField(max_length=5000, blank=True, null=True)
     resumes_required = models.BooleanField(default=False)
+    added_by = models.ForeignKey(User, related_name='jobs_added', blank=True, null=True)
     created_at = models.DateTimeField('date created', auto_now_add=True)
     updated_at = models.DateTimeField('date updated', auto_now=True)
 
