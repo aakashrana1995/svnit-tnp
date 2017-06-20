@@ -204,8 +204,11 @@ def home(request):
     request.session['branch_name'] = branch.name
     request.session['branch_degree'] = branch.degree
 
-    jobs = Job.objects.filter(eligible_branches=branch, for_batch=batch).order_by('-updated_at')
-
+    if request.user.groups.filter(name='Coordinator').exists():
+        jobs = Job.objects.filter(eligible_branches=branch).order_by('-updated_at')
+    else:
+        jobs = Job.objects.filter(eligible_branches=branch, for_batch=batch).order_by('-updated_at')
+    
     print (jobs)
     companies_list = []
     for job in jobs:
