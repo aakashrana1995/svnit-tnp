@@ -1,9 +1,12 @@
 import os
+import string
+import random
 
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from tnp.settings import MEDIA_ROOT
+
 
 CASTE_CATEGORIES = (
     ('OBC', 'OBC'),
@@ -98,7 +101,22 @@ class OverwriteStorage(FileSystemStorage):
             os.remove(os.path.join(MEDIA_ROOT, name))
         return name
 
+
+def get_random_string(N):
+    '''
+    Returns a random alpha-numeric string of N characters
+    '''
+    random_str = ''.join(random.SystemRandom().choice(
+                string.ascii_uppercase + string.digits + string.ascii_lowercase
+            ) for _ in range(N))
+    return random_str
+
+
 def resume_file_path(instance, filename):
+    ed_obj = EducationDetail.objects.get(pk=instance.pk)
+    if(ed_obj.resume):
+        os.remove(ed_obj.resume.path)
+
     dir_path = os.path.join('uploads', 'resumes', instance.college_passout_year,
                             instance.branch.degree + '_' + instance.branch.name)
     path = os.path.join(MEDIA_ROOT, dir_path)
@@ -106,9 +124,11 @@ def resume_file_path(instance, filename):
     if not os.path.exists(path):
         os.makedirs(path)
 
+    # Append a random string of 6 characters at the end of resume file name
+    random_string = get_random_string(6)
     extension = filename.split('.')[-1]
     filename = '_'.join([instance.user.first_name, instance.user.last_name,
-                         'NITSurat', 'Resume']) + '.' + extension
+                         'NITSurat', 'Resume', random_string]) + '.' + extension
     file_path = os.path.join(dir_path, filename)
 
     return file_path
