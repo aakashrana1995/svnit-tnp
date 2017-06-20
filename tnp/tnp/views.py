@@ -6,7 +6,7 @@ def index(request):
 	if(request.user.is_authenticated):
 		return HttpResponseRedirect('/consent/home')
 	else:
-		return HttpResponseRedirect('/consent/login')
+		return render(request, 'index.html', {})
 
 def about(request):
 	return render(request, 'about.html', {})

@@ -6,16 +6,16 @@
   <link type="text/css" rel="stylesheet" href="/static/css/form.css" media="screen,projection" />
 {% endblock %}
 
-{% block body_block %} 
+{% block body_block %}
 
 <div id="content" class="" style="min-height: calc(100vh - 165px);">
   <div class="section"> </div>
   <div class="valign-wrapper">
     <div class="valign" style="width:100%;">
         <div class="container">
-            
+
             {% if message %}
-              <div class="row" id="form_errors"> 
+              <div class="row" id="form_errors">
                   <div class="col s12 m6 offset-m3">
                      <ul class="collection center red-text">
                         <li class="collection-item"> {{message}} </li>
@@ -23,12 +23,12 @@
                   </div>
               </div>
             {% endif %}
-  
+
            <div class="row">
               <div class="col s12 m6 offset-m3">
                  <div class="card z-depth-4">
-                    <div class="card-content grey-text text-lighten-5 grey darken-2 z-depth-1">
-                       <span class="card-title">Sign In</span>
+                    <div class="card-content grey-text text-lighten-5  blue darken-1 z-depth-1">
+                       <span class="card-title center">Sign In</span>
                     </div>
 
                     <div class="card-content grey lighten-5">
@@ -49,15 +49,14 @@
                               <label for="password" class="grey-text text-darken-2">Password</label>
                             </div>
                           </div>
-                          
-                          <button type="submit" class="btn grey darken-2 waves-effect grey-text text-lighten-5" value="Sign In">
-                            Sign In <i class="material-icons right">account_circle</i>
-                          </button>
-
-                          <a class="btn grey darken-2 waves-effect grey-text text-lighten-5" value="Create Account" href="/consent/create">
-                            Create Account <i class="material-icons right">create</i>
-                          </a>
-                          
+                          <div class="row center">
+                            <button style="width: 200px;" type="submit" class="btn  blue darken-1 waves-effect grey-text text-lighten-5" value="Sign In">
+                              Sign In <i class="material-icons right">account_circle</i>
+                            </button>
+                            <a style="width: 200px;" class="btn  blue darken-1 waves-effect grey-text text-lighten-5" value="Create Account" href="/consent/create">
+                              Create Account <i class="material-icons right">create</i>
+                            </a>
+                          </div>
                       </form>
                     </div>
                  </div>
