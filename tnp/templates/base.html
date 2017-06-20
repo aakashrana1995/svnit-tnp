@@ -18,25 +18,25 @@
 
     <body id="main_body">
       <div class="navbar-fixed">
-        <nav class="grey lighten-5 z-depth-3">
+        <nav class="blue z-depth-3">
           <div class="nav-wrapper container">
-            <a href="/" class="waves-effect brand-logo grey-text text-darken-2"> Training and Placement, SVNIT </a>
+            <a href="/" class="waves-effect brand-logo white-text text-darken-2"> Training and Placement, SVNIT </a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-            
+
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               {% if user.is_authenticated %}
-                  <li><a href="/consent/home" class="waves-effect grey-text text-darken-2">Welcome {{ user.first_name }}</a></li>
-                  <li><a class="waves-effect grey-text text-darken-2" href="{% url 'profile'%}">Profile</a></li>
-                  <li><a href="/consent/logout" class="waves-effect grey-text text-darken-2">Logout</a></li>
+                  <li><a href="/consent/home" class="waves-effect white-text text-darken-2">Welcome {{ user.first_name }}</a></li>
+                  <li><a class="waves-effect white-text text-darken-2" href="{% url 'profile'%}">Profile</a></li>
+                  <li><a href="/consent/logout" class="waves-effect white-text text-darken-2">Logout</a></li>
               {% else %}
-                  <li><a href="#" class="waves-effect grey-text text-darken-2">Welcome</a></li>
-                  <li><a href="/consent/login" class="waves-effect grey-text text-darken-2">Login</a></li>
+                  <li><a href="#" class="waves-effect white-text text-darken-2">Welcome</a></li>
+                  <li><a href="/consent/login" class="waves-effect white-text text-darken-2">Login</a></li>
               {% endif %}
             </ul>
           </div>
         </nav>
       </div>
-      
+
       <ul id="mobile-demo" class="side-nav">
         {% if user.is_authenticated %}
             <li><a href="/consent/home" class="waves-effect grey-text text-darken-2">Home</a></li>
@@ -47,25 +47,25 @@
             <li><a href="/consent/login" class="waves-effect grey-text text-darken-2">Login</a></li>
         {% endif %}
       </ul>
-            
+
       {% load consent_extras %}
       {% if request.user|is_coordinator %}
           {% include 'coordinator_tabs.html' %}
       {% else %}
           <div class="container"> <div class="section"> </div> </div>
       {% endif %}
-        
+
       {% block body_block %}{% endblock %}
 
-      <footer class="page-footer grey-text text-darken-4 grey lighten-3">
-        <div class="footer-copyright grey-text text-darken-2 grey lighten-3 z-depth-5" style="height: 50px">
-          
+      <footer class="page-footer white-text text-darken-4 blue">
+        <div class="footer-copyright white-text text-darken-2 blue " style="height: 50px">
+
           <div class="container">
-            <p class="grey-text text-darken-2"> <strong> © 2017 Copyright SVNIT </strong>
-              <a class="grey-text text-darken-2 right" href="{% url 'about' %}">  <strong> About </strong> </a>
+            <p class="white-text text-darken-2"> <strong> © 2017 Copyright SVNIT </strong>
+              <a class="white-text text-darken-2 right" href="{% url 'about' %}">  <strong> About </strong> </a>
             </p>
           </div>
-          
+
         </div>
       </footer>
 

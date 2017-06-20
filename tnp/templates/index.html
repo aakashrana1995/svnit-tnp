@@ -1,30 +1,28 @@
-<!DOCTYPE html>
-  <html>
-    <head>
-      <!--Import Google Icon Font-->
-      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!--Import materialize.css-->
-      <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
-
-      <!--Let browser know website is optimized for mobile-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
+{% extends 'base.html' %}
 
 
-    <body>
-        <nav class="green">
-        <div class="nav-wrapper">
-          <a href="/" class="brand-logo">Training and Placement, SVNIT</a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="#">Sass</a></li>
-            <li><a href="#">Components</a></li>
-            <li><a href="">About</a></li>
-          </ul>
+{% block title %} TnP {% endblock %}
+
+{% block custom_css %}
+<link type="text/css" rel="stylesheet" href="/static/css/index.css"/>
+{% endblock %}
+
+{% block body_block %}
+    <div id="content" style="height: calc(80vh);">
+
+        <div class="container">
+            <div class="row center">
+                <img src="static/images/nit_logo.svg" width="350px" height="350px">
+            </div>
+            <div class="container" style="height: calc(5vh)">
+
+            </div>
+            <div class="row">
+                <ul>
+                    <li> <h4 class="col s12 center white-text text-darken-3"> Sardar Vallabhbhai National Institute of Technology, Surat </h4> </li>
+                </ul>
+            </div>
         </div>
-      </nav>
-      
-      <!--Import jQuery before materialize.js-->
-      <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-      <script type="text/javascript" src="/static/js/materialize.min.js"></script>
-    </body>
-  </html>
+
+    </div>
+{% endblock %}
