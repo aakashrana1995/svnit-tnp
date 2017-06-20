@@ -10,10 +10,10 @@
 
 
 
-{% block body_block %} 
+{% block body_block %}
 	<div id="content" style="min-height: calc(100vh - 120px);">
 		<div class="container">
-			<div class="section" id="form_errors"> 
+			<div class="section" id="form_errors">
 				{% if error_list %}
 					<ul class="collection red-text">
 						{% for error in error_list %}
@@ -27,28 +27,28 @@
 					<form method="post" id="create_account_form" enctype="multipart/form-data">
 						{% csrf_token %}
 						<div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
-	                    	<div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
+	                    	<div class="card-content blue grey-text text-lighten-5 z-depth-2">
 	                      		<span class="card-title"> Preliminary Details </span>
 	                    	</div>
 
 	                    	<div class="section"> </div>
 							<div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
-		                            <label for="{{ user_creation_form.username.id_for_label }}"> 
-		                            	Username (same as Admission Number) 
+		                            <label for="{{ user_creation_form.username.id_for_label }}">
+		                            	Username (same as Admission Number)
 		                            </label>
 		                            {{ user_creation_form.username }}
 		                        </div>
 		                        <div class="input-field col s4 offset-s2 m2 offset-m2">
 		                            {{ user_creation_form.password1 }}
-		                            <label for="{{ user_creation_form.password1.id_for_label }}"> 
+		                            <label for="{{ user_creation_form.password1.id_for_label }}">
 		                            	{{ user_creation_form.password1.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s4 m2">
 		                            {{ user_creation_form.password2 }}
-		                            <label for="{{ user_creation_form.password2.id_for_label }}"> 
-		                            	Password again 
+		                            <label for="{{ user_creation_form.password2.id_for_label }}">
+		                            	Password again
 		                            </label>
 		                        </div>
 		                    </div>
@@ -56,13 +56,13 @@
 	                    	<div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
 		                            {{ user_form.first_name }}
-		                            <label for="{{ user_form.first_name.id_for_label }}"> 
+		                            <label for="{{ user_form.first_name.id_for_label }}">
 		                            	{{ user_form.first_name.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
 		                            {{ user_form.last_name }}
-		                            <label for="{{ user_form.last_name.id_for_label }}"> 
+		                            <label for="{{ user_form.last_name.id_for_label }}">
 		                            	{{ user_form.last_name.label }}
 		                            </label>
 		                        </div>
@@ -71,7 +71,7 @@
 		                    <div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
 		                            {{ user_form.email }}
-		                            <label for="{{ user_form.email.id_for_label }}"> 
+		                            <label for="{{ user_form.email.id_for_label }}">
 		                            	{{ user_form.email.label }}
 		                            </label>
 		                        </div>
@@ -86,7 +86,7 @@
 	                    </div>
 
 	                    <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
-	                    	<div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
+	                    	<div class="card-content blue grey-text text-lighten-5 z-depth-2">
 	                      		<span class="card-title"> Personal Details </span>
 	                    	</div>
 
@@ -95,13 +95,13 @@
 	                    	<div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
 		                        	{{ personal_detail_form.gender }}
-		                            <label for="{{ personal_detail_form.gender.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.gender.id_for_label }}">
 		                            	{{ personal_detail_form.gender.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
 		                            {{ personal_detail_form.date_of_birth }}
-		                            <label for="{{ personal_detail_form.date_of_birth.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.date_of_birth.id_for_label }}">
 		                            	{{ personal_detail_form.date_of_birth.label }}
 		                            </label>
 		                        </div>
@@ -110,13 +110,13 @@
 		                    <div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
 		                        	{{ personal_detail_form.caste_category }}
-		                            <label for="{{ personal_detail_form.caste_category.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.caste_category.id_for_label }}">
 		                            	{{ personal_detail_form.caste_category.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
 		                            {{ personal_detail_form.hometown }}
-		                            <label for="{{ personal_detail_form.hometown.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.hometown.id_for_label }}">
 		                            	{{ personal_detail_form.hometown.label }}
 		                            </label>
 		                        </div>
@@ -125,13 +125,13 @@
 							<div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
 		                        	{{ personal_detail_form.current_address }}
-		                            <label for="{{ personal_detail_form.current_address.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.current_address.id_for_label }}">
 		                            	{{ personal_detail_form.current_address.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
 		                            {{ personal_detail_form.permanent_address }}
-		                            <label for="{{ personal_detail_form.permanent_address.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.permanent_address.id_for_label }}">
 		                            	{{ personal_detail_form.permanent_address.label }}
 		                            </label>
 		                        </div>
@@ -140,26 +140,26 @@
 		                    <div class="row">
 		                        <div class="input-field col s5 offset-s2 m3 offset-m1">
 		                        	{{ personal_detail_form.current_residence_city }}
-		                            <label for="{{ personal_detail_form.current_residence_city.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.current_residence_city.id_for_label }}">
 		                            	{{ personal_detail_form.current_residence_city.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s3 m1">
 		                        	{{ personal_detail_form.current_pincode }}
-		                            <label for="{{ personal_detail_form.current_pincode.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.current_pincode.id_for_label }}">
 		                            	{{ personal_detail_form.current_pincode.label }}
 		                            </label>
 		                        </div>
 
 		                        <div class="input-field col s5 offset-s2 m3 offset-m2">
 		                            {{ personal_detail_form.permanent_residence_city }}
-		                            <label for="{{ personal_detail_form.permanent_residence_city.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.permanent_residence_city.id_for_label }}">
 		                            	{{ personal_detail_form.permanent_residence_city.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s3 m1">
 		                        	{{ personal_detail_form.permanent_pincode }}
-		                            <label for="{{ personal_detail_form.permanent_pincode.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.permanent_pincode.id_for_label }}">
 		                            	{{ personal_detail_form.permanent_pincode.label }}
 		                            </label>
 		                        </div>
@@ -168,13 +168,13 @@
 		                    <div class="row">
 		                        <div class="input-field col s8 offset-s2 m4 offset-m1">
 		                        	{{ personal_detail_form.current_residence_state }}
-		                            <label for="{{ personal_detail_form.current_residence_state.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.current_residence_state.id_for_label }}">
 		                            	{{ personal_detail_form.current_residence_state.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
 		                            {{ personal_detail_form.permanent_residence_state }}
-		                            <label for="{{ personal_detail_form.permanent_residence_state.id_for_label }}"> 
+		                            <label for="{{ personal_detail_form.permanent_residence_state.id_for_label }}">
 		                            	{{ personal_detail_form.permanent_residence_state.label }}
 		                            </label>
 		                        </div>
@@ -182,7 +182,7 @@
 	                    </div>
 
 	                    <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
-	                    	<div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
+	                    	<div class="card-content blue grey-text text-lighten-5 z-depth-2">
 	                      		<span class="card-title"> Educational Details </span>
 	                    	</div>
 
@@ -191,13 +191,13 @@
 	                    	<div class="row">
 		                        <div class="input-field col s6 offset-s2 m3 offset-m1">
 		                        	{{ education_detail_form.ssc }}
-		                            <label for="{{ education_detail_form.ssc.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.ssc.id_for_label }}">
 		                            	{{ education_detail_form.ssc.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s2 offset-s1 m1">
 		                            {{ education_detail_form.ssc_result_type }}
-		                            <label for="{{ education_detail_form.ssc_result_type.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.ssc_result_type.id_for_label }}">
 		                            	{{ education_detail_form.ssc_result_type.label }}
 		                            </label>
 		                        </div>
@@ -205,13 +205,13 @@
 
 		                        <div class="input-field col s6 offset-s2 m3 offset-m2">
 		                        	{{ education_detail_form.hsc }}
-		                            <label for="{{ education_detail_form.hsc.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.hsc.id_for_label }}">
 		                            	{{ education_detail_form.hsc.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s2 offset-s1 m1">
 		                            {{ education_detail_form.hsc_result_type }}
-		                            <label for="{{ education_detail_form.hsc_result_type.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.hsc_result_type.id_for_label }}">
 		                            	{{ education_detail_form.hsc_result_type.label }}
 		                            </label>
 		                        </div>
@@ -219,13 +219,13 @@
 		                    <div class="row">
 		                        <div class="input-field col s6 offset-s2 m3 offset-m1">
 		                        	{{ education_detail_form.ssc_board_name }}
-		                            <label for="{{ education_detail_form.ssc_board_name.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.ssc_board_name.id_for_label }}">
 		                            	{{ education_detail_form.ssc_board_name.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s2 offset-s1 m1">
 		                            {{ education_detail_form.ssc_passing_year }}
-		                            <label for="{{ education_detail_form.ssc_passing_year.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.ssc_passing_year.id_for_label }}">
 		                            	{{ education_detail_form.ssc_passing_year.label }}
 		                            </label>
 		                        </div>
@@ -233,13 +233,13 @@
 
 		                        <div class="input-field col s6 offset-s2 m3 offset-m2">
 		                        	{{ education_detail_form.hsc_board_name }}
-		                            <label for="{{ education_detail_form.hsc_board_name.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.hsc_board_name.id_for_label }}">
 		                            	{{ education_detail_form.hsc_board_name.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s2 offset-s1 m1">
 		                            {{ education_detail_form.hsc_passing_year }}
-		                            <label for="{{ education_detail_form.hsc_passing_year.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.hsc_passing_year.id_for_label }}">
 		                            	{{ education_detail_form.hsc_passing_year.label }}
 		                            </label>
 		                        </div>
@@ -247,25 +247,25 @@
 		                    <div class="row">
 		                        <div class="input-field col s5 offset-s2 m2 offset-m1">
 		                        	{{ education_detail_form.entrance_exam_score }}
-		                            <label for="{{ education_detail_form.entrance_exam_score.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.entrance_exam_score.id_for_label }}">
 		                            	{{ education_detail_form.entrance_exam_score.label }}
 		                            </label>
 		                        </div>
 		                        <div class="input-field col s4 offset-s2 m2">
 		                            {{ education_detail_form.entrance_exam }}
-		                            <label for="{{ education_detail_form.entrance_exam.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.entrance_exam.id_for_label }}">
 		                            	{{ education_detail_form.entrance_exam.label }}
 		                            </label>
 		                        </div>
 
 		                        <div class="input-field col s8 offset-s2 m4 offset-m2">
 		                            {{ education_detail_form.branch }}
-		                            <label for="{{ education_detail_form.branch.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.branch.id_for_label }}">
 		                            	{{ education_detail_form.branch.label }}
 		                            </label>
 		                        </div>
 		                    </div>
-		                    
+
 		                    <div class="container">
 			                    <div class="row">
 						            <center class="card-content z-depth-2 teal-text text-darken-2">
@@ -323,13 +323,13 @@
 		                    <div class="row">
 		                    	<div class="input-field col s2 offset-s1">
 		                    		{{ education_detail_form.current_backlogs }}
-		                            <label for="{{ education_detail_form.current_backlogs.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.current_backlogs.id_for_label }}">
 		                            	{{ education_detail_form.current_backlogs.label }}
 		                            </label>
 		                    	</div>
 		                    	<div class="input-field col s2">
 		                    		{{ education_detail_form.total_backlogs }}
-		                            <label for="{{ education_detail_form.total_backlogs.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.total_backlogs.id_for_label }}">
 		                            	{{ education_detail_form.total_backlogs.label }}
 		                            </label>
 		                    	</div>
@@ -337,8 +337,8 @@
 		                    	<div class="col s5 offset-s1">
                                         <i class="material-icons grey-text text-darken-2 left" style="margin-top: 25px;">attach_file</i>
                                         <div class="file-field input-field">
-                                             <div class="waves-effect waves-light btn grey darken-2 grey-text text-lighten-5">
-                                                Attach Resume 
+                                             <div class="waves-effect waves-light btn blue darken-3 grey-text text-lighten-5">
+                                                Attach Resume
                                                 <span class="filename">
                                                 		{{ education_detail_form.resume }}
                                            		</span>
@@ -351,7 +351,7 @@
 		                    <div class="row">
 		                    	<div class="input-field col s4 offset-s1">
 		                    		{{ education_detail_form.college_passout_year }}
-		                            <label for="{{ education_detail_form.college_passout_year.id_for_label }}"> 
+		                            <label for="{{ education_detail_form.college_passout_year.id_for_label }}">
 		                            	{{ education_detail_form.college_passout_year.label }}
 		                            </label>
 		                    	</div>
@@ -366,11 +366,11 @@
 	                    </div>
 
 	                    <center>
-		                    <button class="waves-effect waves-light btn-large grey darken-2 grey-text text-lighten-5 hoverable" id="create_account_button" type="submit"> Create Account </button>
+		                    <button class="waves-effect waves-light btn-large blue darken-3 grey-text text-lighten-5 hoverable" id="create_account_button" type="submit"> Create Account </button>
 		                </center>
 					</form>
 				</div>
-			
+
 		</div>
 	</div>
 {% endblock %}
