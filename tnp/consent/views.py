@@ -167,7 +167,11 @@ def create_account(request):
                 'error_list': error_list,
             })
 
-        return HttpResponseRedirect('/consent/home')
+        messages.success(
+            request,
+            'Your account was successfully created!'
+        )
+        return HttpResponseRedirect('/consent/login')
         # return HttpResponse('Form successfully submitted.')
 
     else:
@@ -235,6 +239,7 @@ def home(request):
         if (job.hiring_for == 'IN'):
             job_dict['salary_type'] = 'Stipend'
 
+        job_dict['badge'] = ''
         if(job.created_at >= request.user.last_login):
             job_dict['badge'] = 'NEW'
         if(job.updated_at >= request.user.last_login):

@@ -13,7 +13,18 @@
   <div class="valign-wrapper">
     <div class="valign" style="width:100%;">
         <div class="container">
-            
+            {% if messages %}
+              <div class="row" id="messages"> 
+                <div class="col s12 m6 offset-m3">
+                  <ul class="collection green-text center">
+                    {% for msg in messages %}
+                      <li class="collection-item"> {{ msg }} </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            {% endif %}
+
             {% if message %}
               <div class="row" id="form_errors"> 
                   <div class="col s12 m6 offset-m3">
