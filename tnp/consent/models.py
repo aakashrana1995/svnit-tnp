@@ -113,9 +113,10 @@ def get_random_string(N):
 
 
 def resume_file_path(instance, filename):
-    ed_obj = EducationDetail.objects.get(pk=instance.pk)
-    if(ed_obj.resume):
-        os.remove(ed_obj.resume.path)
+    ed_obj = EducationDetail.objects.filter(roll_number=instance.roll_number)
+    if(len(ed_obj)>0 and ed_obj[0].resume):
+        path = ed_obj[0].resume.path
+        os.remove(path)
 
     dir_path = os.path.join('uploads', 'resumes', instance.college_passout_year,
                             instance.branch.degree + '_' + instance.branch.name)
