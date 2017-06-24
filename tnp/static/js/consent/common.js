@@ -40,7 +40,7 @@ $(document).ready(function() {
             "Central Board of Education Ajmer New Delhi": null,
             "Central Board of Secondary Education": null,
             "Goa Board of Secondary & Higher Secondary Education": null,
-            "Gujarat Secondary Education Board (GSEB)": null,
+            "Gujarat Secondary and Higher Secondary Education Board (GSHSEB | GSEB)": null,
             "Haryana Board of School Education": null,
             "Himachal Pradesh Board of School Education": null,
             "Jharkhand Academic Council": null,
