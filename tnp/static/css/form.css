@@ -4,22 +4,22 @@
  }
  /* label underline focus color */
  .row .input-field input:focus {
-   border-bottom: 1px solid #0d47a1 !important;
-   box-shadow: 0 1px 0 0 #0d47a1 !important
+   border-bottom: 1px solid #90a4ae !important;
+   box-shadow: 0 1px 0 0 #90a4ae !important
  }
 
 
  .input-field textarea:focus + label {
-   color: #0d47a1 !important;
+   color: #90a4ae !important;
  }
  /* label underline focus color */
  .row .input-field textarea:focus {
-   border-bottom: 1px solid #0d47a1 !important;
-   box-shadow: 0 1px 0 0 #0d47a1 !important
+   border-bottom: 1px solid #90a4ae !important;
+   box-shadow: 0 1px 0 0 #90a4ae !important
  }
 
  .input-field input[type=text] {
-     color: #0d47a1;
+     color: #90a4ae;
  }
 
 ul.dropdown-content.select-dropdown li span {

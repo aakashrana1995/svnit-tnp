@@ -10,7 +10,7 @@
 {% endblock %}
 
 
-{% block body_block %} 
+{% block body_block %}
 
 <div id="content" style="min-height: calc(100vh - 120px);">
     <div class="container">
@@ -21,10 +21,10 @@
             <form action="" id="add_company_form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
-                    <div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
+                    <div class="card-content red lighten-3 grey-text text-lighten-5 z-depth-2">
                       <span class="card-title">Company Information</span>
                     </div>
-                    
+
                     <div class="section"> </div>
                     <div class="row">
                         <div class="input-field col s8 offset-s2 m4 offset-m1">
@@ -37,8 +37,8 @@
                         </div>
                     </div>
 
-                    <ul class="collapsible popout" data-collapsible="accordion"> 
-                        <li>  
+                    <ul class="collapsible popout" data-collapsible="accordion">
+                        <li>
                             <div class="collapsible-header grey lighten-5 grey-text text-darken-2 waves-effect hoverable">
                                 <span class="col offset-m5">
                                     <i class="material-icons right">expand_more</i>
@@ -46,7 +46,7 @@
                                 </span>
                             </div>
 
-                            <div class="collapsible-body z-depth-1"> 
+                            <div class="collapsible-body z-depth-1">
                                 <div class="row">
                                     <div class="input-field col s8 offset-s2 m4 offset-m1">
                                         {{ company_form.about }}
@@ -70,32 +70,32 @@
                                         <label for="{{ company_form.other.id_for_label }}" data-error="{{ company_form.other.errors }}"> {{ company_form.other.label }}</label>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </li>
-                    </ul>        
+                    </ul>
                 </div>
 
                 <div class="section"> </div>
 
                 <div class="card grey lighten-5 z-depth-2 hoverable">
-                    <div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
+                    <div class="card-content red lighten-3 grey-text text-lighten-5 z-depth-2">
                         <div class="row">
                             <div class="input-field col s5 m5 card-title"> Job Information </div>
-                            <div class="input-field col s4 m3 offset-m3">
+                            <div class="input-field col s4 m3 offset-m3 black-text">
                                 {{ job_form.hiring_for }}
-                                <label for="{{ job_form.hiring_for.id_for_label }}"> 
+                                <label for="{{ job_form.hiring_for.id_for_label }}">
                                     {{ job_form.hiring_for.label }}
                                 </label>
                             </div>
                             <div class="input-field col s3 m1">
                                 {{ job_form.for_batch }}
-                                <label for="{{ job_form.hiring_for.id_for_label }}"> 
+                                <label for="{{ job_form.hiring_for.id_for_label }}">
                                     {{ job_form.for_batch.label }}
                                 </label>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="section"> </div>
                     <div class="row">
                         <div class="input-field col s8 offset-s2 m4 offset-m1">
@@ -123,16 +123,16 @@
                             <label for="{{ job_form.category.id_for_label }}" data-error="{{ job_form.category.errors }}"> {{ job_form.category.label }}</label>
                         </div>
                     </div>
-                    
-                    <ul class="collapsible popout" data-collapsible="accordion"> 
-                        <li>  
+
+                    <ul class="collapsible popout" data-collapsible="accordion">
+                        <li>
                             <div class="collapsible-header grey lighten-5 grey-text text-darken-2 waves-effect hoverable">
                                 <span class="col offset-m5">
                                     <i class="material-icons right">expand_more</i>
                                     <strong> ADD MORE DETAILS </strong>
                                 </span>
                             </div>
-                            <div class="collapsible-body"> 
+                            <div class="collapsible-body">
                                 <div class="row">
                                     <div class="input-field col s8 offset-s2 m4 offset-m1">
                                         {{ job_form.description }}
@@ -151,9 +151,9 @@
                                         <label for="{{ job_form.perks.id_for_label }}" data-error="{{ job_form.perks.errors }}"> {{ job_form.perks.label }}</label>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                         </li>
-                    </ul> 
+                    </ul>
 
 
                     <div class="row">
@@ -217,7 +217,7 @@
 
                             <span class="right">
                                 <span style="font-size: 12px;"> Add more locations &nbsp; &nbsp;</span>
-                                <a id="add_more" class="btn-floating btn waves-effect waves-light grey darken-2">
+                                <a id="add_more" class="btn-floating btn waves-effect waves-light blue-grey lighten-2">
                                     <i class="material-icons">add</i>
                                 </a>
                             </span>
@@ -228,7 +228,7 @@
                                       </div>
                                   </div>
                               </div>
-                              
+
                               <div class="col s8 offset-s2 m4 offset-m2">
                                   <div class="row">
                                       <div class="col s12">
@@ -245,7 +245,7 @@
                                     <div class="col s12 element">
                                         <i class="material-icons grey-text text-darken-2 left" style="margin-top: 25px;">attach_file</i>
                                         <div class="file-field input-field">
-                                             <div class="waves-effect waves-light btn grey darken-2 grey-text text-lighten-5">
+                                             <div class="waves-effect waves-light btn blue-grey lighten-2 grey-text text-lighten-5">
                                                 Attach Files <span class="filename">
                                                 {{ attachment_form.file }}
                                            </span>
@@ -262,7 +262,7 @@
                                       </div>
                                   </div>
                               </div>
-                              
+
                               <div class="col s8 offset-s2 m4 offset-m2">
                                   <div class="row">
                                       <div class="col s12">
@@ -279,7 +279,7 @@
 
                             <div class="input-field col s4 m4">
                                 {{ job_form.resumes_required }}
-                                <label for="{{ job_form.resumes_required.id_for_label }}" class="teal-text text-darken-2"> 
+                                <label for="{{ job_form.resumes_required.id_for_label }}" class="teal-text text-darken-2">
                                     Resumes Required?
                                 </label>
                             </div>
@@ -290,7 +290,7 @@
                 <div class="section"> </div>
 
                 <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
-                    <div class="card-content grey darken-2 grey-text text-lighten-5 z-depth-2">
+                    <div class="card-content red lighten-3 grey-text text-lighten-5 z-depth-2">
                       <span class="card-title">Consent Information</span>
                     </div>
                     <div class="section"> </div>
@@ -299,7 +299,7 @@
                             <label for="{{ consent_deadline_form.deadline_date.id_for_label }}">Consent Deadline</label>
                             {{ consent_deadline_form.deadline_date }}
                         </div>
-                        
+
                         <div class="input-field col s4 offset-s1 m2 offset-m1">
                             <label for="{{ consent_deadline_form.deadline_time.id_for_label }}">{{ consent_deadline_form.deadline_time.label }}</label>
                             {{ consent_deadline_form.deadline_time }}
@@ -310,7 +310,7 @@
                             {{ consent_deadline_form.slack_time }}
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col s8 offset-s2 m4 offset-m1">
                             <div class="row">
@@ -326,7 +326,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col s8 offset-s2 m5 offset-m1">
                             <div class="row">
                                 <center><h5>Available Fields</h5></center>
@@ -364,7 +364,7 @@
 
                 </div>
                 <center>
-                    <button class="waves-effect waves-light btn-large grey darken-2 grey-text text-lighten-5" type="submit"> Add Company </button>
+                    <button class="waves-effect waves-light btn-large blue-grey lighten-2 grey-text text-lighten-5" type="submit"> Add Company </button>
                 </center>
             </form>
         </div>
