@@ -17,6 +17,12 @@
         <div id="form_errors">  </div>
 
         <div class="row">
+            <ul class="collection">
+                <li class="collection-item"> 
+                    <center> Coordinators, <a style="text-decoration: underline;" target="_blank" href="https://github.com/aakashrana1995/svnit-tnp/wiki/Guidelines-for-Placement-Coordinators">read these guidelines</a> carefully before adding a company! </center>
+                </li>
+            </ul>
+            
             <h4> {{ company_form.non_field_errors }} </h4>
             <form action="" id="add_company_form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
