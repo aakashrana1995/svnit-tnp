@@ -19,6 +19,8 @@
                         <span class="card-title"> {{ company }} 
                           {% if ctc %}
                               <span class="right card-title"> {{ ctc }} {{ ctc_unit }} </span>
+                          {% else %}
+                              <span class="right card-title"> {{ salary_type }} N/A </span>
                           {% endif %}
                         </span>
                         

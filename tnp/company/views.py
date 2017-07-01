@@ -134,7 +134,11 @@ def job(request, job_slug):
     job_dict['about_company'] = job.company.about
     job_dict['job_description'] = job.description
     job_dict['job_requirements'] = job.requirements
-    job_dict['ctc'] = ('%f' % job.ctc).rstrip('0').rstrip('.')
+    
+    job_dict['ctc'] = ''
+    if(job.ctc):
+        job_dict['ctc'] = ('%f' % job.ctc).rstrip('0').rstrip('.')
+    
     job_dict['ctc_unit'] = job.get_ctc_unit_display()
     job_dict['ctc_details'] = job.ctc_details
     job_dict['eligibility_criteria'] = job.eligibility_criteria
@@ -151,6 +155,7 @@ def job(request, job_slug):
         job_tags.append('Resumes required')
     job_dict['job_tags'] = job_tags 
 
+    job_dict['job_category'] = ''
     if(job.category):
         job_dict['job_category'] = job.category.name + ' Category'
     
@@ -175,10 +180,10 @@ def job(request, job_slug):
     job_dict['eligible_branches'] = eligible_branches
 
     locations = list(job.job_location.values_list('location', flat=True))
-    
     if(len(locations)>0):
         job_dict['locations'] = locations
     
+    job_dict['number_of_selections'] = ''
     if(job.number_of_selections):
         job_dict['number_of_selections'] = str(job.number_of_selections)
 
@@ -196,8 +201,7 @@ def job(request, job_slug):
         attachment = (file_name, file_location)
         attachments.append(attachment)
 
-    if(len(attachments)>0):
-        job_dict['attachments'] = attachments
+    job_dict['attachments'] = attachments
 
     consent_deadline_obj = ConsentDeadline.objects.filter(job=job)
     curr_time = timezone.now()

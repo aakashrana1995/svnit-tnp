@@ -231,7 +231,11 @@ def home(request):
 
         job_dict['company'] = job.company.name
         job_dict['designation'] = job.designation
-        job_dict['ctc'] = ('%f' % job.ctc).rstrip('0').rstrip('.')
+
+        job_dict['ctc'] = ''
+        if(job.ctc):
+            job_dict['ctc'] = ('%f' % job.ctc).rstrip('0').rstrip('.')
+
         job_dict['url'] = job.slug
         job_dict['deadline'] = deadline
         job_dict['ctc_unit'] = job.get_ctc_unit_display()
