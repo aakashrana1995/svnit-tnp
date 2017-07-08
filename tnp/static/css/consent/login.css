@@ -1,0 +1,8 @@
+.card {
+  border-radius: 25px !important;
+}
+
+.upper_round {
+  border-top-left-radius: 25px !important;
+	border-top-right-radius: 25px !important; 
+}

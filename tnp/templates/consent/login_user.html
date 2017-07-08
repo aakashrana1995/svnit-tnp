@@ -4,6 +4,7 @@
 
 {% block custom_css %}
   <link type="text/css" rel="stylesheet" href="/static/css/form.css" media="screen,projection" />
+  <link type="text/css" rel="stylesheet" href="/static/css/consent/login.css" media="screen,projection" />
 {% endblock %}
 
 {% block body_block %}
@@ -27,11 +28,11 @@
            <div class="row">
               <div class="col s12 m6 offset-m3">
                  <div class="card z-depth-4">
-                    <div class="card-content grey-text text-lighten-5 red lighten-3 z-depth-1">
+                    <div class="card-content grey-text text-lighten-5 red lighten-3 z-depth-2 upper_round">
                        <span class="card-title center">Sign In</span>
                     </div>
 
-                    <div class="card-content grey lighten-5">
+                    <div class="card-content">
                       <form id="login_form" method="post" role="form" action="/consent/login/">
                           {% csrf_token %}
 
