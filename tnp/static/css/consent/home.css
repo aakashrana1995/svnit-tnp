@@ -2,3 +2,17 @@
 .colorless {
 	color: inherit;
 }
+
+.card {
+  border-radius: 15px !important;
+}
+
+.upper_round {
+  border-top-left-radius: 15px !important;
+	border-top-right-radius: 15px !important;
+}
+
+tr {
+	background: #FFFFFF !important;
+	border-radius: 15px !important;
+}
