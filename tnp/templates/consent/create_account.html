@@ -5,6 +5,7 @@
 {% block custom_css %}
 	<link type="text/css" rel="stylesheet" href="/static/css/datepicker.css" media="screen,projection" />
 	<link type="text/css" rel="stylesheet" href="/static/css/form.css" media="screen,projection" />
+	<link type="text/css" rel="stylesheet" href="/static/css/consent/edit_profile.css" media="screen,projection" />
 {% endblock %}
 
 
@@ -27,8 +28,8 @@
 					<form method="post" id="create_account_form" enctype="multipart/form-data">
 						{% csrf_token %}
 						<div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
-	                    	<div class="card-content orange lighten-2 grey-text text-lighten-5 z-depth-2">
-	                      		<span class="card-title"> Preliminary Details </span>
+	                    	<div class="card-content upper_round red lighten-3 grey-text text-lighten-5 z-depth-2">
+	                      		<span class="card-title center"> Preliminary Details </span>
 	                    	</div>
 
 	                    	<div class="section"> </div>
@@ -86,8 +87,8 @@
 	                    </div>
 
 	                    <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
-	                    	<div class="card-content orange lighten-2 grey-text text-lighten-5 z-depth-2">
-	                      		<span class="card-title"> Personal Details </span>
+	                    	<div class="card-content upper_round red lighten-3 grey-text text-lighten-5 z-depth-2">
+	                      		<span class="card-title center"> Personal Details </span>
 	                    	</div>
 
 	                    	<div class="section"> </div>
@@ -182,8 +183,8 @@
 	                    </div>
 
 	                    <div class="card grey lighten-5 grey-text text-darken-2 z-depth-2 hoverable">
-	                    	<div class="card-content orange lighten-2 grey-text text-lighten-5 z-depth-2">
-	                      		<span class="card-title"> Educational Details </span>
+	                    	<div class="card-content upper_round red lighten-3 grey-text text-lighten-5 z-depth-2">
+	                      		<span class="card-title center"> Educational Details </span>
 	                    	</div>
 
 	                    	<div class="section"> </div>
@@ -337,7 +338,7 @@
 		                    	<div class="col s5 offset-s1">
                                         <i class="material-icons grey-text text-darken-2 left" style="margin-top: 25px;">attach_file</i>
                                         <div class="file-field input-field">
-                                             <div class="waves-effect waves-light btn orange grey-text text-lighten-5">
+                                             <div class="waves-effect waves-light btn red lighten-3 grey-text text-lighten-5">
                                                 Attach Resume
                                                 <span class="filename">
                                                 		{{ education_detail_form.resume }}
@@ -366,7 +367,7 @@
 	                    </div>
 
 	                    <center>
-		                    <button class="waves-effect waves-light btn-large orange grey-text text-lighten-5 hoverable" id="create_account_button" type="submit"> Create Account </button>
+		                    <button class="waves-effect waves-light btn-large red lighten-2 grey-text text-lighten-5 hoverable" id="create_account_button" type="submit"> Create Account </button>
 		                </center>
 					</form>
 				</div>
