@@ -8,7 +8,7 @@
 }
 
 .clockpicker-span-am-pm {
-  color: #fafafa; 
+  color: #fafafa;
 }
 
 .clockpicker-display-column {
@@ -16,10 +16,78 @@
 }
 
 .btn-floating.btn-flat.active {
-  background-color: #e0e0e0; 
+  background-color: #e0e0e0;
 }
 
 .clockpicker-tick.active, .clockpicker-tick:hover {
-    background-color: #e0e0e0; 
+    background-color: #e0e0e0;
 }
 
+/* label focus color */
+ .input-field input:focus + label {
+   color: #ffffff !important;
+ }
+ /* label underline focus color */
+ .row .input-field input:focus {
+   border-bottom: 1px solid #ffffff !important;
+   box-shadow: 0 1px 0 0 #ffffff !important
+ }
+
+
+ .input-field textarea:focus + label {
+   color: #ffffff !important;
+ }
+ /* label underline focus color */
+ .row .input-field textarea:focus {
+   border-bottom: 1px solid #ffffff !important;
+   box-shadow: 0 1px 0 0 #ffffff !important
+ }
+
+.card-content .input-field input[type=text] {
+     color: #ffffff !important;
+ }
+
+ .input-field input[type=text] {
+     color: #aaaaaa !important;
+ }
+
+ul.dropdown-content.select-dropdown li span {
+    color: #000 !important;  /* no need for !important :) */
+}
+
+.dropdown-content {
+  max-height: 300px;
+}
+
+.dropdown-content li {
+  min-height: 25px;
+  line-height: 1rem;
+}
+
+.dropdown-content li > a, .dropdown-content li > span {
+  font-size: 15px;
+  line-height: 16px;
+  color: #000 !important;
+  padding: 12px 14px;
+}
+
+
+[type="checkbox"]:checked + label:before {
+  border-right: 2px solid #ffffff !important;
+  border-bottom: 2px solid #ffffff !important;
+}
+
+[type="checkbox"]:indeterminate + label:before {
+  border-left: none;
+  border-right: 2px solid #ffffff !important;
+}
+
+[type="checkbox"].filled-in:checked + label:after {
+  border: 2px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+[type="checkbox"].filled-in.tabbed:checked:focus + label:after {
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+}

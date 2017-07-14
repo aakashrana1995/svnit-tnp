@@ -1,6 +1,6 @@
 /* label focus color */
  .input-field input:focus + label {
-   color: #0d47a1 !important;
+   color: #90a4ae !important;
  }
  /* label underline focus color */
  .row .input-field input:focus {
@@ -23,7 +23,7 @@
  }
 
 ul.dropdown-content.select-dropdown li span {
-    color: #3f51b5; /* no need for !important :) */
+    color: #90a4ae !important; /* no need for !important :) */
 }
 
 .dropdown-content {
@@ -38,27 +38,27 @@ ul.dropdown-content.select-dropdown li span {
 .dropdown-content li > a, .dropdown-content li > span {
   font-size: 15px;
   line-height: 16px;
-  color: #3f51b5;
+  color: #90a4ae !important;
   padding: 12px 14px;
 }
 
 
 [type="checkbox"]:checked + label:before {
-  border-right: 2px solid #3f51b5;
-  border-bottom: 2px solid #3f51b5;
+  border-right: 2px solid #90a4ae;
+  border-bottom: 2px solid #90a4ae;
 }
 
 [type="checkbox"]:indeterminate + label:before {
   border-left: none;
-  border-right: 2px solid #3f51b5;
+  border-right: 2px solid #90a4ae;
 }
 
 [type="checkbox"].filled-in:checked + label:after {
-  border: 2px solid #3f51b5;
-  background-color: #3f51b5;
+  border: 2px solid #90a4ae;
+  background-color: #90a4ae;
 }
 
 [type="checkbox"].filled-in.tabbed:checked:focus + label:after {
-  background-color: #3f51b5;
-  border-color: #3f51b5;
+  background-color: #90a4ae;
+  border-color: #90a4ae;
 }
