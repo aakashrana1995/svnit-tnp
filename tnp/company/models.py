@@ -176,6 +176,7 @@ class Job(models.Model):
     other = models.TextField(max_length=5000, blank=True, null=True)
     resumes_required = models.BooleanField(default=False)
     added_by = models.ForeignKey(User, related_name='jobs_added', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField('date created', auto_now_add=True)
     updated_at = models.DateTimeField('date updated', auto_now=True)
 

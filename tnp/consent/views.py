@@ -209,9 +209,9 @@ def home(request):
     request.session['branch_degree'] = branch.degree
 
     if request.user.groups.filter(name='Coordinator').exists():
-        jobs = Job.objects.filter(eligible_branches=branch).order_by('-updated_at')
+        jobs = Job.objects.filter(eligible_branches=branch, is_active=True).order_by('-updated_at')
     else:
-        jobs = Job.objects.filter(eligible_branches=branch, for_batch=batch).order_by('-updated_at')
+        jobs = Job.objects.filter(eligible_branches=branch, for_batch=batch, is_active=True).order_by('-updated_at')
     
     print (jobs)
     companies_list = []
