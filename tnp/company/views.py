@@ -29,6 +29,7 @@ def add(request):
             job = job_form.save(commit=False)
             job.company = company
             job.added_by = request.user
+            job.is_active = True
             job.save()
             job_form.save_m2m()
             
