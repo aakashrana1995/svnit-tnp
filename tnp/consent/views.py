@@ -208,12 +208,14 @@ def home(request):
     request.session['branch_name'] = branch.name
     request.session['branch_degree'] = branch.degree
 
-    if request.user.groups.filter(name='Coordinator').exists():
-        jobs = Job.objects.filter(eligible_branches=branch, is_active=True).order_by('-updated_at')
+    if request.user.is_superuser:
+        jobs = Job.objects.filter(eligible_branches=branch, is_active=True).order_by('-created_at')
+    elif request.user.groups.filter(name='Coordinator').exists():
+        jobs = Job.objects.filter(eligible_branches=branch, for_batch__gte=batch, is_active=True).order_by('-created_at')
     else:
-        jobs = Job.objects.filter(eligible_branches=branch, for_batch=batch, is_active=True).order_by('-updated_at')
+        jobs = Job.objects.filter(eligible_branches=branch, for_batch=batch, is_active=True).order_by('-created_at')
     
-    print (jobs)
+    #print (jobs)
     companies_list = []
     for job in jobs:
         job_dict = {}
@@ -252,7 +254,7 @@ def home(request):
         companies_list.append(job_dict)
 
     companies_list = list(grouper(3, companies_list))
-    print (companies_list)
+    #print (companies_list)
     return render(request, 'consent/home.html', {
         'companies_list': companies_list,
     })
