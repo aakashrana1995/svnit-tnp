@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from company.models import Company, Job, JobLocation, Attachment, Branch
 from consent.models import UserConsent, UserDataFields, ConsentDeadline, FieldOrder
@@ -23,59 +24,70 @@ def add(request):
         print (attachment_form.errors.as_data())
         print (consent_deadline_form.errors.as_data())
 
+        company = None
+        company_name = company_form['name'].value().strip()
+        # print (company_name)
+        
+        if Company.objects.filter(name=company_name).count() == 1:
+            company = Company.objects.get(name=company_name)
 
-        if company_form.is_valid() and job_form.is_valid() and attachment_form.is_valid() and consent_deadline_form.is_valid():
-            company = company_form.save()
-            job = job_form.save(commit=False)
-            job.company = company
-            job.added_by = request.user
-            job.is_active = True
-            job.save()
-            job_form.save_m2m()
-            
-            eb = job.eligible_branches.filter(name='ALL')
-            for all_type_branch in eb:
-                all_branches = Branch.objects.filter(degree=all_type_branch.degree).exclude(name='ALL')
-                for branch in all_branches:
-                    job.eligible_branches.add(branch)
-                job.eligible_branches.remove(all_type_branch)
+        if company is not None or (company is None and company_form.is_valid()):
+            if job_form.is_valid() and attachment_form.is_valid() and consent_deadline_form.is_valid():
+                if company is None:
+                    company = company_form.save()
+                job = job_form.save(commit=False)
+                job.company = company
+                job.added_by = request.user
+                job.is_active = True
+                job.save()
+                job_form.save_m2m()
+                
+                eb = job.eligible_branches.filter(name='ALL')
+                for all_type_branch in eb:
+                    all_branches = Branch.objects.filter(degree=all_type_branch.degree).exclude(name='ALL')
+                    for branch in all_branches:
+                        job.eligible_branches.add(branch)
+                    job.eligible_branches.remove(all_type_branch)
 
-            locations = request.POST.getlist('location');
-            for loc in locations:
-                if(len(loc)>0):
-                    JobLocation.objects.create(job=job, location=loc)
-            
-            files = request.FILES.getlist('attachment_form-file')
-            for f in files:
-                instance = Attachment(file=f)
-                instance.job = job
-                instance.save()
-            
-            deadline_date = consent_deadline_form.cleaned_data['deadline_date']
-            deadline_time = consent_deadline_form.cleaned_data['deadline_time']
-            slack_time = consent_deadline_form.cleaned_data['slack_time']
-            
-            deadline = datetime.combine(deadline_date, deadline_time)
-            ConsentDeadline.objects.create(job=job, deadline=deadline, slack_time=slack_time)
-            
-            consent_format = request.POST.getlist('A');
-            cgpa_type = 'cgpa_upto_semester'
-            
-            position = 1
-            for slug in consent_format:
-                if (slug in ['cgpa_of_semester', 'cgpa_upto_semester']):
-                    cgpa_type = slug
-                else:
-                    if (len(slug)<=2):
-                        field = UserDataFields.objects.get(slug=cgpa_type)
-                        FieldOrder.objects.create(job=job, field=field, optional=int(slug), position=position)
+                locations = request.POST.getlist('location');
+                for loc in locations:
+                    if(len(loc)>0):
+                        JobLocation.objects.create(job=job, location=loc)
+                
+                files = request.FILES.getlist('attachment_form-file')
+                for f in files:
+                    instance = Attachment(file=f)
+                    instance.job = job
+                    instance.save()
+                
+                deadline_date = consent_deadline_form.cleaned_data['deadline_date']
+                deadline_time = consent_deadline_form.cleaned_data['deadline_time']
+                slack_time = consent_deadline_form.cleaned_data['slack_time']
+                
+                deadline = datetime.combine(deadline_date, deadline_time)
+                ConsentDeadline.objects.create(job=job, deadline=deadline, slack_time=slack_time)
+                
+                consent_format = request.POST.getlist('A');
+                cgpa_type = 'cgpa_upto_semester'
+                
+                position = 1
+                for slug in consent_format:
+                    if (slug in ['cgpa_of_semester', 'cgpa_upto_semester']):
+                        cgpa_type = slug
                     else:
-                        field = UserDataFields.objects.get(slug=slug)
-                        FieldOrder.objects.create(job=job, field=field, position=position)
-                    position += 1
+                        if (len(slug)<=2):
+                            field = UserDataFields.objects.get(slug=cgpa_type)
+                            FieldOrder.objects.create(job=job, field=field, optional=int(slug), position=position)
+                        else:
+                            field = UserDataFields.objects.get(slug=slug)
+                            FieldOrder.objects.create(job=job, field=field, position=position)
+                        position += 1
 
-        messages.success(request, 'The company was successfully added!')
-        return HttpResponseRedirect('/consent/home')
+            messages.success(request, 'The company was successfully added!')
+            return HttpResponseRedirect('/consent/home')
+        else:
+            print ('Invalid state reached!!!')
+
     else:
         if request.user.groups.filter(name='Coordinator').exists():
             company_form = CompanyForm(prefix='company_form', label_suffix='')
@@ -235,3 +247,22 @@ def job(request, job_slug):
     
     return render(request, 'company/job.html', job_dict)
 
+
+@login_required
+def companies_list(request):
+    companies_list = Company.objects.all().values_list('name', flat=True).order_by('name')
+    json_dict = {}
+    for company in companies_list:
+        json_dict[company] = None
+    json_text = json.dumps(json_dict)
+    return HttpResponse(json_text)
+
+
+@login_required
+def profiles_list(request):
+    profiles_list = Job.objects.all().values_list('designation', flat=True).order_by('designation')
+    json_dict = {}
+    for profile in profiles_list:
+        json_dict[profile] = None
+    json_text = json.dumps(json_dict)
+    return HttpResponse(json_text)

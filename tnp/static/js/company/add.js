@@ -37,6 +37,43 @@ $(document).ready(function() {
 
     $('#cgpa_upto_semester')[0].innerHTML = 'CGPA Upto Semester <input type="hidden" value="cgpa_upto_semester" name="A"> <div class="input-field inline"> <input type="number" min="-10" max="-1" value="-3" name="A" style="width: 30px; text-align: center;"> </div>';
     $('#cgpa_of_semester')[0].innerHTML = 'CGPA Of Semester <input type="hidden" value="cgpa_of_semester" name="C"> <div class="input-field inline"> <input type="number" min="-10" max="-1" value="-3" name="C" style="width: 30px; text-align: center;"> </div>';
+
+    $.ajax({
+        type: 'GET',
+        url: '/company/companies',
+        contentType: 'application/json; charset=utf-8',
+        success: function(result) {
+            var companies_dict = JSON.parse(result);
+
+            $('#id_company_form-name').addClass('autocomplete');
+            $('#id_company_form-name').attr('autocomplete', 'off');
+
+            $('#id_company_form-name').autocomplete({    
+                data: companies_dict,
+                limit: 5,
+                minLength: 1,
+            });
+        },
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '/company/profiles',
+        contentType: 'application/json; charset=utf-8',
+        success: function(result) {
+            var profiles_dict = JSON.parse(result);
+
+            $('#id_job_form-designation').addClass('autocomplete');
+            $('#id_job_form-designation').attr('autocomplete', 'off');
+
+            $('#id_job_form-designation').autocomplete({    
+                data: profiles_dict,
+                limit: 5,
+                minLength: 1,
+            });
+        },
+    });
+
 });
 
 
