@@ -7,6 +7,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split()
+#ALLOWED_HOSTS = ['www.tnpnitsurat.me']
 
 # Settings for static files
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
@@ -29,8 +30,10 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True
 
-CSRF_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
 
 CSRF_COOKIE_HTTPONLY = True
 
 X_FRAME_OPTIONS = 'DENY'
+
+SECURE_SSL_REDIRECT = True
