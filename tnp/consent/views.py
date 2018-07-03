@@ -371,9 +371,14 @@ def export_consent(request):
         if (cgpa_type == 'cgpa_upto_semester'):
             cgpa_list = [str(obj.cgpa) for obj in education_detail.cgpa.order_by(
                 'pk')][:optional]
+            while len(cgpa_list) < optional:
+                cgpa_list.append('0')
         elif (cgpa_type == 'cgpa_of_semester'):
-            cgpa_list = [
-                str(education_detail.cgpa.filter(semester=optional)[0].cgpa)]
+            cgpa_list = education_detail.cgpa.filter(semester=optional)
+            if(len(cgpa_list) > 0):
+                cgpa_list = [str(cgpa_list[0].cgpa)]
+            else:
+                cgpa_list = ['0']
 
         row = []
         for field in field_order:
