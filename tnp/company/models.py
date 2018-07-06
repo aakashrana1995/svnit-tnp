@@ -184,7 +184,7 @@ class Job(models.Model):
     def save(self, *args, **kwargs):
         # uncomment if you don't want the slug to change every time the name changes
         if self.id is None:
-            slug_str = self.company.name + ' ' + self.designation
+            slug_str = ' '.join([self.company.name, self.designation, self.hiring_for, self.for_batch])
             self.slug = slugify(slug_str)
         super(Job, self).save(*args, **kwargs)
 
